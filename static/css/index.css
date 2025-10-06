@@ -1,0 +1,510 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.navbar-dropdown {
+  font-size: 1em;
+}
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: #76B900 !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
+
+
+
+
+
+/*------ ADDED CSS ---------*/
+.slider:after
+{
+ content:'';
+ color: black;
+ display: block;
+ position: absolute;
+ transform: translate(-20%,-50%);
+ top: 50%;
+ left: 50%;
+ font-size: 16px;
+ font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider:after
+{  
+  content:'';
+  transform: translate(80%,-50%);
+}
+
+/*--------- END --------*/
+
+.switch-container-wrapper {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+}
+
+.switch-container {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  
+}
+
+.switch-label {
+  color: black;
+  font-size: 16px;
+  margin-right: 5px; /* Adjust the margin as needed */
+  margin-left: 5px; /* Adjust the margin as needed */
+}
+
+.video-container {
+  position: relative;
+  max-width: 100%;
+  margin: 0.5em;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%; /* Adjust the top position as needed */
+  left: 50%; /* Adjust the left position as needed */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  color: black;
+  font-size: 16px;
+}
+
+.thumbnail-img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9;
+  /* IE8 */
+}
+
+.pill {
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.active-pill {
+  /* background-color: #b4b4b4; */
+  /* Adjust the color as needed */
+  font-weight: bold;
+}
+
+.nav-pills {
+  cursor: pointer;
+}
+
+.center-pills {
+  display: flex;
+  justify-content: center;
+}
+
+.scene-pills > .active {
+  background: #76B900;
+}
+
+.method-pills > .active {
+  background: #76B900;
+}
+
+
+/* .mode-pills > .active {
+  background: #1772d0;
+} */
+
+.button {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    font-family: 'Noto Sans', sans-serif;
+    font-style: inherit;
+    font-weight: inherit;
+    box-sizing: inherit;
+    text-decoration: none;
+    user-select: none;
+    -webkit-appearance: none;
+    align-items: center;
+    border: 1px solid transparent;
+    box-shadow: none;
+    display: inline-flex;
+    height: 2.5em;
+    line-height: 1.5;
+    position: relative;
+    vertical-align: top;
+    border-width: 1px;
+    cursor: pointer;
+    justify-content: center;
+    padding-bottom: calc(.5em - 1px);
+    padding-top: calc(.5em - 1px);
+    text-align: center;
+    white-space: nowrap;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #363636;
+    border-color: transparent;
+    color: #fff;
+    font-size: 1.4rem;
+    border-radius: 290486px;
+    padding-left: calc(1em + .25em);
+    padding-right: calc(1em + .25em);
+  }
+
+.button .icon {
+      -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    font-family: 'Noto Sans', sans-serif;
+    user-select: none;
+    line-height: 1.5;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 1.5em;
+    width: 1.5em;
+    margin-left: calc(-.5em - 1px);
+    margin-right: .25em;
+}
+
+.neon-text {
+  font-size: 3rem;
+  font-weight: bold;
+  color: transparent;
+  background-image: linear-gradient(to right, #60A5FA, #9333EA);
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-shadow: 
+    0 0 10px rgba(96, 165, 250, 0.5),
+    0 0 20px rgba(96, 165, 250, 0.3),
+    0 0 30px rgba(147, 51, 234, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes splatPulse {
+  0%, 100% {
+    background-size: 100% 100%;
+  }
+  50% {
+    background-size: 120% 120%;
+  }
+}
+
+.splat-text {
+  font-size: 3rem;
+  font-weight: bold;
+  color: transparent;
+
+  /* 兩層綠色系 radial-gradient + 底層 linear-gradient */
+  background: 
+    radial-gradient(
+      circle at 30% 30%, 
+      rgba(16, 185, 129, 0.5), /* #10B981 的半透明 */
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 70% 70%, 
+      rgba(34, 197, 94, 0.5),  /* #22C55E 的半透明 */
+      transparent 80%
+    ),
+    linear-gradient(to right, #10B981, #34D399); /* 底層線性漸層，亮綠至淺綠 */
+
+  background-blend-mode: screen; /* 或 lighten, overlay 等，視覺喜好調整 */
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  /* 綠色的陰影，模擬淡淡的霓虹光暈 */
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+
+  /* 保留原先的「脈動」動畫（假設已定義 splatPulse） */
+  animation: splatPulse 4s infinite;
+}
+
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.carousel-indicators {
+  top:50px
+}
+
+.carousel-caption {
+  top:0px;
+  color: black;
+}
+
+b {
+  color: black;
+}
+
+li {
+  /* color: lightgray; */
+  color: black;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: black;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+  color: black;
+  background-color: rgba(71, 63, 63, 0.5);
+}
+
+.b-dics__slider {
+  color: #f0f0f0;
+}
+.b-dics__slider:after {
+  width: 2px;
+}
+
+/* Method tabs NVIDIA green styling */
+.tabs ul li {
+  background-color: transparent !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.tabs ul li:hover {
+  background-color: transparent !important;
+  cursor: pointer;
+}
+
+.tabs ul li.is-active {
+  background-color: transparent !important;
+  color: #76B900 !important;
+  font-weight: bold;
+}
+
+.tabs ul li a {
+  color: inherit !important;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+}
+
+/* Override Bulma tabs active indicator color */
+.tabs ul li.is-active a {
+  border-bottom-color: #76B900 !important;
+}
+
+.tabs ul li.is-active {
+  border-bottom-color: #76B900 !important;
+}
+
+/* Override any other Bulma tab styling */
+.tabs.is-centered ul li.is-active a {
+  border-bottom-color: #76B900 !important;
+}
+
+/* Acknowledgements section links styling */
+.content a {
+  color: #76B900 !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.content a:hover {
+  color: #5a8f00 !important;
+  text-decoration: underline;
+}
+
+/* Footer template links styling */
+.footer .content a {
+  color: #76B900 !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .content a:hover {
+  color: #5a8f00 !important;
+  text-decoration: underline;
+}
+
+/* Mode pill buttons NVIDIA green styling - only change colors */
+.btn.btn-primary.mode-pill {
+  background-color: #76B900 !important;
+  border-color: #76B900 !important;
+}
+
+.btn.btn-primary.mode-pill:hover {
+  background-color: #5a8f00 !important;
+  border-color: #5a8f00 !important;
+}
+
+.btn.btn-primary.mode-pill.active {
+  background-color: #5a8f00 !important;
+  border-color: #5a8f00 !important;
+}
+
+/* Method pill buttons NVIDIA green styling - only change colors, preserve Bootstrap shape */
+.nav-pills > li > a {
+  color: #76B900 !important;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  background-color: #76B900 !important;
+  color: white !important;
+}

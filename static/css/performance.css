@@ -1,0 +1,120 @@
+/* 性能优化 CSS - 减少 INP 延迟 */
+
+/* 视频容器优化 */
+.video-container {
+  position: relative;
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0); /* 启用硬件加速 */
+}
+
+/* 视频元素优化 */
+.video {
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 懒加载占位符 */
+.video-placeholder {
+  background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+              linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  animation: placeholder-shimmer 1.5s infinite linear;
+}
+
+@keyframes placeholder-shimmer {
+  0% { background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
+  100% { background-position: 20px 20px, 20px 30px, 30px 10px, 10px 20px; }
+}
+
+/* 加载指示器优化 */
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: loading-fade-in 0.3s ease-out;
+}
+
+@keyframes loading-fade-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* 缩略图优化 */
+.thumbnail-img {
+  contain: layout style paint;
+  will-change: transform;
+  transition: transform 0.2s ease-out;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 按钮和交互元素优化 */
+.method-pill, .scene-pill, .mode-pill {
+  contain: layout style paint;
+  will-change: transform;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.method-pill:hover, .scene-pill:hover, .mode-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 减少重绘和回流 */
+.content, .columns, .column {
+  contain: layout style;
+}
+
+/* 优化字体渲染 */
+.title, .subtitle, p, span, a {
+  text-rendering: optimizeSpeed;
+  font-smooth: never;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* 媒体查询优化 */
+@media (prefers-reduced-motion: reduce) {
+  .video, .thumbnail-img, .method-pill, .scene-pill, .mode-pill {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .loading-indicator {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid white;
+  }
+}
+
+/* 打印样式优化 */
+@media print {
+  .video-container, .loading-indicator {
+    display: none !important;
+  }
+}

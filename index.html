@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
+  <meta name="keywords" content="Skyfall-GS, 3DGS">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery</title>
+  
+  <!-- Open Graph meta tags for social media previews -->
+  <meta property="og:title" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery">
+  <meta property="og:description" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
+  <meta property="og:image" content="./static/images/Skyfall-GS.gif">
+  <meta property="og:image:alt" content="Skyfall-GS 3D Gaussian Splatting Demo">
+  <meta property="og:url" content="https://linjohnss.github.io/Skyfall-GS/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Skyfall-GS">
+  
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery">
+  <meta name="twitter:description" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
+  <meta name="twitter:image" content="./static/images/Skyfall-GS.gif">
+  <meta name="twitter:image:alt" content="Skyfall-GS 3D Gaussian Splatting Demo">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro&display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Removed duplicate Font Awesome 4.4.0 - using 6.4.0 instead -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/carousel.css">
+  <link rel="stylesheet" href="./static/css/performance.css">
+  <!-- <link rel="stylesheet" href="./static/css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="./static/css/app.css"> -->
+  <link rel="icon" href="./static/images/skyfall_gs_logo.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script defer src="./static/js/bulma-carousel.min.js"></script>
+  <script defer src="./static/js/bulma-slider.min.js"></script>
+  <script defer src="./static/js/index.js"></script>
+  <script defer src="./static/js/video_comparison.js"></script>
+  <script defer src="./static/js/app.js"></script>
+  <script defer src="./static/js/carousel.js"></script>
+  <script defer src="./static/js/lazy-loading.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://jayinnn.dev">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://su-terry.github.io/BoostMVSNeRFs/">
+            BoostMVSNeRF
+          </a>
+          <a class="navbar-item" href="https://spf-web.pages.dev/">
+            See, Point, Fly
+          </a>
+          <a class="navbar-item" href="https://kkennethwu.github.io/aurafusion360/">
+            AuraFusion360
+          </a>
+          <a class="navbar-item" href="https://cdfan0627.github.io/spectromotion/">
+            SpectroMotion
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size: 4.5rem;"><img src="static/images/skyfall_gs_logo.png" alt="icon" style="height: 1.5em; vertical-align: middle;"> Skyfall-GS</h1>
+          <h2 class="subtitle is-2 publication-subtitle" style="font-size: 3rem;"><strong>Synthesizing Immersive 3D Urban Scenes from Satellite Imagery</strong></h2>
+          <!-- <div class="is-size-3 publication-authors" style="font-size: 3rem;">
+            <span class="author-block">
+              <a href="https://linjohnss.github.io/">Chin-Yang Lin</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://sunset1995.github.io/">Cheng Sun</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://fuenyang1127.github.io/">Fu-En Yang</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://minhungchen.netlify.app/">Min-Hung Chen</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://sites.google.com/site/yylinweb/">Yen-Yu Lin</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>1</sup></span>
+          </div> -->
+
+          <div class="is-size-3 publication-authors" style="font-size: 2rem;">
+            <span class="author-block"><sup>1</sup>National Yang Ming Chiao Tung University,</span>
+            <!-- <span class="author-block"><sup>2</sup>NVIDIA</span> -->
+          </div>
+          <!-- <h2 class="subtitle is-2 publication-subtitle"><strong>ICCV 2025</strong></h2> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2508.14041"
+                   class="external-link button is-normal is-rounded is-dark" style="font-size: 1.5rem;">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/NVlabs/Skyfall-GS"
+                   class="external-link button is-normal is-rounded is-dark" style="font-size: 1.5rem;">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Google Drive Link. -->
+              <!-- <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/1C0OqUSavUBwR_p_yNRBia90jvC-23hNN?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark">
+                   <span class="icon">
+                    <img src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" width="20" height="20" alt="Google Drive">
+                  </span>
+                  <span>Data (Google Drive)</span>
+                  </a>
+              </span> -->
+              <!-- Dataset HF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://huggingface.co/datasets/kkennethwu/360-USID"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" width="20" height="20" alt="HF">
+                  </span>
+                  <span>Data (HF)</span>
+                  </a>
+              </span> -->
+              <!-- Results Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/1b-QgNzWVpDaYkHQf3ycKORd7s5WekjGa?usp=drive_link"
+                   class="external-link button is-normal is-rounded is-dark" style="font-size: 1.5rem;">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Evaluation Results</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser" style="margin-bottom: 3rem;">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="col-md-12" style="display: flex; justify-content: center;">
+        <video id="teaser-video-ours" style="width: 100%; height: auto;" autoplay muted loop playsinline poster="static/images/teaser_lazy.png">
+          <source src="videos/teaser/teaser_video.mp4" type="video/mp4"/>
+        </video>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<!-- <section class="hero is-light is-small" >
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-forest1">
+            <div class="video-compare-container" id="forest1Div" style="width: 100%;">
+                <video class="video" id="forest1" loop playsinline muted src="./videos/hike_dataset/forest1_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest1_lazy.png" preload="none"></video>
+                <canvas height=0 class="videoMerge" id="forest1Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-forest2">
+            <div class="video-compare-container" id="forest2Div" style="width: 100%;">
+                <video class="video" id="forest2" loop playsinline muted preload="none" src="./videos/hike_dataset/forest2_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest2_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="forest2Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-forest3">
+            <div class="video-compare-container" id="forest3Div" style="width: 100%;">
+                <video class="video" id="forest3" loop playsinline muted preload="none" src="./videos/hike_dataset/forest3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest3_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="forest3Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-garden1">
+            <div class="video-compare-container" id="garden1Div" style="width: 100%;">
+                <video class="video" id="garden1" loop playsinline muted preload="none" src="./videos/hike_dataset/garden1_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="garden1Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-garden2">
+            <div class="video-compare-container" id="garden2Div" style="width: 100%;">
+                <video class="video" id="garden2" loop playsinline muted preload="none" src="./videos/hike_dataset/garden2_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="garden2Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-garden3">
+            <div class="video-compare-container" id="garden3Div" style="width: 100%;">
+                <video class="video" id="garden3" loop playsinline muted preload="none" src="./videos/hike_dataset/garden3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="garden3Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+          <div class="item item-university3">
+            <div class="video-compare-container" id="university3Div" style="width: 100%;">
+                <video class="video" id="university3" loop playsinline muted preload="none" src="./videos/hike_dataset/university3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="university3Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-university4">
+            <div class="video-compare-container" id="university4Div" style="width: 100%;">
+                <video class="video" id="university4" loop playsinline muted preload="none" src="./videos/hike_dataset/university4_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="university4Merge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-grass">
+              <div class="video-compare-container" id="grassDiv" style="width: 100%;">
+                  <video class="video" id="grass" loop playsinline muted preload="none" src="./videos/free_dataset/grass_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                  <canvas height=0 class="videoMerge" id="grassMerge" style="width: 100%;"></canvas>
+              </div>
+          </div>
+
+          <div class="item item-hydrant">
+              <div class="video-compare-container" id="hydrantDiv" style="width: 100%;">
+                  <video class="video" id="hydrant" loop playsinline muted preload="none" src="./videos/free_dataset/hydrant_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                  <canvas height=0 class="videoMerge" id="hydrantMerge" style="width: 100%;"></canvas>
+              </div>
+          </div>
+
+          <div class="item item-lab">
+              <div class="video-compare-container" id="labDiv" style="width: 100%;">
+                  <video class="video" id="lab" loop playsinline muted preload="none" src="./videos/free_dataset/lab_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                  <canvas height=0 class="videoMerge" id="labMerge" style="width: 100%;"></canvas>
+              </div>
+          </div>
+
+          <div class="item item-pillar">
+            <div class="video-compare-container" id="pillarDiv" style="width: 100%;">
+                <video class="video" id="pillar" loop playsinline muted preload="none" src="./videos/free_dataset/pillar_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="pillarMerge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+
+          <div class="item item-sky">
+            <div class="video-compare-container" id="skyDiv" style="width: 100%;">
+                <video class="video" id="sky" loop playsinline muted preload="none" src="./videos/free_dataset/sky_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="skyMerge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+
+          <div class="item item-stair">
+            <div class="video-compare-container" id="stairDiv" style="width: 100%;">
+                <video class="video" id="stair" loop playsinline muted preload="none" src="./videos/free_dataset/stair_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
+                <canvas height=0 class="videoMerge" id="stairMerge" style="width: 100%;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <h2 class="subtitle is-4 has-text-centered" style="margin-top: -1.2rem;">
+      Render novel view from casually captured long videos.
+    </h2>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">News</h2>
+        <h4>
+          <strong>[2025.2.10]</strong> <img src="static/images/favicon.svg" alt="icon" style="height: 1em; vertical-align: -0.5mm;"> Release project page, arXiv paper, dataset, and evaluation results!
+        </h4>
+      </div>
+    </div>   -->
+
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-2">Abstract</h2>
+          </div>
+        </div>
+        <hr class="hr">
+        <div class="content has-text-justified">
+          <p>
+            Synthesizing large-scale, explorable, and geometrically accurate 3D urban scenes is a challenging yet valuable task in providing immersive and embodied applications. The challenges lie in the lack of large-scale and high-quality real-world 3D scans for training generalizable generative models. In this paper, we take an alternative route to create large-scale 3D scenes by synergizing the readily available satellite imagery that supplies realistic coarse geometry and the open-domain diffusion model for creating high-quality close-up appearances. We propose Skyfall-GS, the first city-block scale 3D scene creation framework without costly 3D annotations, also featuring real-time, immersive 3D exploration. We tailor a curriculum-driven iterative refinement strategy to progressively enhance geometric completeness and photorealistic textures. Extensive experiments demonstrate that Skyfall-GS provides improved cross-view consistent geometry and more realistic textures compared to state-of-the-art approaches.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Pipeline Fig. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-2">Pipeline</h2>
+          </div>
+        </div>
+        <hr class="hr">
+        <div class="pipeline-figure">
+          <video id="pipeline-video-ours" style="width: 100%; height: auto;" autoplay muted poster="static/images/pipeline_lazy.png">
+            <source src="static/images/pipeline_video.mp4" type="video/mp4"/>
+          </video>
+        </div>
+        <script>
+          const video = document.getElementById('pipeline-video-ours');
+        
+          video.addEventListener('ended', () => {
+            // 當影片播放結束後，等待 5 秒再重新播放
+            setTimeout(() => {
+              video.play();
+            }, 5000); // 5000 毫秒 = 5 秒
+          });
+        </script>
+        <div class="content has-text-justified">
+          <p>
+            Given a casually captured long video without known poses, Skyfall-GS incrementally reconstructs the scene through tightly coupled pose estimation and 3D Gaussian Splatting. 
+            (a) Initialization converts MASt3R depth and correspondences into an octree-anchored 3DGS. 
+            (b) Global Optimization jointly refines all camera poses and Gaussians for global consistency.
+            (c) Frame Insertion estimates each new frame pose via correspondence-guided PnP, updates octree anchors using unprojected points, and applies photometric refinement. If PnP fails, a fallback triggers global re-optimization to recover.
+            (d) Incremental Optimization alternates between Local Optimization within a visibility-adapted window and periodic Global Optimization to propagate consistent updates across frames.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="tabs is-centered" style="font-size: 1.2rem;">
+          <ul>
+            <li class="is-active" id="tab1"><a>Octree Anchor Formation</a></li>
+            <li id="tab2"><a>Camera pose estimation</a></li>
+            <li id="tab3"><a>Visibility-Adapted Local Window</a></li>
+          </ul>
+        </div>
+        <div id="content1" class="tab-content" style="text-align: center;">
+          <img src="./static/images/octree_anchor_unprojection.png" alt="Octree Anchor Formation" style="width: 100%;"/>
+          <div class="content has-text-justified">
+            <br>
+            <p>
+              Given an initial sparse voxelized point cloud, we iteratively perform density-guided adaptive voxel splitting and pruning. Voxels with point cloud density (&rho;) exceeding a threshold are split, while those with density below the threshold are pruned. Repeated across multiple octree levels, this adaptive octree anchor design significantly reduces memory usage, allowing efficient representation and rendering of large-scale scenes.
+            </p>
+          </div>
+        </div>
+        <div id="content2" class="tab-content" style="display: none; text-align: center;">
+          <img src="./static/images/pose_estimation.png" alt="Camera pose estimation" style="width: 90%;"/>
+          <div class="content has-text-justified">
+            <br>
+            <p>
+              (a) PnP initialization: Given correspondences between the predicted 3D anchor points from frame T<sub>i-1</sub> and the 2D keypoints detected in frame T<sub>i</sub> we employ PnP with RANSAC to robustly estimate an initial camera pose. (b) Pose refinement: The estimated pose is further refined by rasterizing the 3DGS scene and iteratively minimizing reprojection error to enhance pose accuracy. (c) Anchor unprojection: Newly observed regions are detected via an occlusion mask, computed by forward-warping the previous frame's rendered depth. These regions are unprojected into 3D and converted into anchors via Octree Anchor Formation.
+            </p>
+          </div>
+        </div>
+        <div id="content3" class="tab-content" style="display: none; text-align: center;">
+          <img src="./static/images/visibiliry_adapted_local_window.png" alt="Visibility-Adapted Local Window" style="width: 80%;"/>
+          <div class="content has-text-justified">
+            <br>
+            <p>
+              To ensure balanced training of the 3D Gaussians, we dynamically define the optimization window based on anchor visibility overlap. Specifically, we compute the Intersection-over-Union (IoU) of visible anchors between consecutive views. Suppose the visibility IoU is below a certain threshold (a). In that case, the local optimization window is adjusted by removing the earliest frame, iteratively repeating until a suitable window with IoU above the threshold is found (b). This approach ensures balanced training coverage and enhances local reconstruction details during optimization (c).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll('.tabs ul li').forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tabs ul li').forEach(t => t.classList.remove('is-active'));
+          tab.classList.add('is-active');
+          document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+          document.getElementById(`content${index + 1}`).style.display = 'block';
+        });
+      });
+    </script>
+  </div>
+</section> -->
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+        <!-- Interactive 3DGS Viewer -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">Interactive 3DGS Viewer</h2>
+      </div>
+    </div>
+    <hr class="hr">
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="content has-text-justified">
+          <p>
+            Explore our 3D Gaussian Splatting results interactively. Click on the scene buttons below to switch between different urban scenes. Use your mouse to freely navigate within each scene, and use <strong>WASD</strong> keys for fly navigation. Click the information button <i class="fas fa-info-circle"></i> in the viewer for more controls.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+            <iframe id="gs-viewer" width="800" height="500" allow="fullscreen; xr-spatial-tracking"
+                    src="https://superspl.at/s?id=fb38bd10" style="border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </iframe>
+          </div>
+
+          <div class="pill-row scene-pills" id="gs-viewer-pills" style="justify-content: center;">
+            <span class="pill scene-pill active" data-gs-id="fb38bd10" data-scene-name="Residential (JAX_004)" onclick="selectGSScene(this)">
+              Residential (JAX_004)
+            </span>
+            <span class="pill scene-pill" data-gs-id="55c37922" data-scene-name="H Building (JAX_068)" onclick="selectGSScene(this)">
+              H Building (JAX_068)
+            </span>
+            <span class="pill scene-pill" data-gs-id="00799201" data-scene-name="Office Building (JAX_214)" onclick="selectGSScene(this)">
+              Office Building (JAX_214)
+            </span>
+            <span class="pill scene-pill" data-gs-id="e3e13e77" data-scene-name="Lake Side (JAX_260)" onclick="selectGSScene(this)">
+              Lake Side (JAX_260)
+            </span>
+            <br>
+            <span class="pill scene-pill" data-gs-id="d8d33e92" data-scene-name="City Hall (JAX_164)" onclick="selectGSScene(this)">
+              City Hall (JAX_164)
+            </span>
+            <span class="pill scene-pill" data-gs-id="f43506a5" data-scene-name="Villa (JAX_168)" onclick="selectGSScene(this)">
+              Villa (JAX_168)
+            </span>
+            <span class="pill scene-pill" data-gs-id="6905e63a" data-scene-name="Stadium (JAX_175)" onclick="selectGSScene(this)">
+              Stadium (JAX_175)
+            </span>
+            <span class="pill scene-pill" data-gs-id="292d340e" data-scene-name="Factory (JAX_264)" onclick="selectGSScene(this)">
+              Factory (JAX_264)
+            </span>
+          </div>
+        </div>
+
+        <script>
+          function selectGSScene(pill) {
+            // Remove active class from all pills
+            document.querySelectorAll('#gs-viewer-pills .scene-pill').forEach(p => p.classList.remove('active'));
+
+            // Add active class to clicked pill
+            pill.classList.add('active');
+
+            // Update iframe src
+            const gsId = pill.getAttribute('data-gs-id');
+            const viewer = document.getElementById('gs-viewer');
+            viewer.src = `https://superspl.at/s?id=${gsId}`;
+          }
+        </script>
+      </div>
+    </div>
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">Reconstruction Results</h2>
+      </div>
+    </div>
+    <!--/ Animation. -->
+    <hr class="hr">
+    <div class="content has-text-justified">
+      <p>
+        We visualize the reconstructed camera poses and pointmaps of Skyfall-GS.
+        Use the controls to switch between scenes.
+      </p>
+    </div>
+
+    <div id="Skyfall-GSReconResults" class="carousel slide" data-bs-ride="false">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="3"
+          aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="4"
+          aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="5"
+          aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="6"
+          aria-label="Slide 7"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="7"
+          aria-label="Slide 8"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="8"
+          aria-label="Slide 9"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="9"
+          aria-label="Slide 10"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="10"
+          aria-label="Slide 11"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="11"
+          aria-label="Slide 12"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="12"
+          aria-label="Slide 13"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="13"
+          aria-label="Slide 14"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="14"
+          aria-label="Slide 15"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="15"
+          aria-label="Slide 16"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="16"
+          aria-label="Slide 17"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="17"
+          aria-label="Slide 18"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="18"
+          aria-label="Slide 19"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="19"
+          aria-label="Slide 20"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="20"
+          aria-label="Slide 21"></button>
+        <button type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide-to="21"
+          aria-label="Slide 22"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <video class="w-100" autoplay loop muted poster="static/images/recon_lazy.png">
+            <source src="./videos/free_dataset/grass_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Grass</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/hydrant_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Hydrant</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/lab_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Lab</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/pillar_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Pillar</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/road_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Road</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/sky_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Sky</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/free_dataset/stair_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Free - Stair</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/forest1_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Forest1</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/forest2_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Forest2</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/forest3_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Forest3</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/garden1_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Garden1</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/garden2_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Garden2</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/garden3_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Garden3</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/indoor_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Indoor</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/playground_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - Playground</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/university1_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - University1</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/university2_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - University2</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/university3_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - University3</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/hike_dataset/university4_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Hike - University4</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/tank_dataset/barn_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Tanks and Temples - Barn</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/tank_dataset/family_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Tanks and Temples - Family</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <video class="w-100" autoplay loop muted>
+            <source src="./videos/tank_dataset/ignatius_nvs_recon.mp4" type="video/mp4">
+          </video>
+          <div class="carousel-caption">
+            <h5>Tanks and Temples - Ignatius</h5>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#Skyfall-GSReconResults" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <script>
+      // Reconstruction Results 视频性能优化
+      document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('Skyfall-GSReconResults');
+        const videos = carousel.querySelectorAll('video');
+        
+        // 为第一个视频（active）添加预加载
+        const firstVideo = videos[0];
+        if (firstVideo) {
+          firstVideo.preload = 'metadata';
+          // 延迟加载第一个视频，让页面先完成渲染
+          setTimeout(() => {
+            firstVideo.load();
+          }, 100);
+        }
+        
+        // 监听轮播切换事件，预加载下一个视频
+        carousel.addEventListener('slide.bs.carousel', function(event) {
+          const nextIndex = event.to;
+          const nextVideo = videos[nextIndex];
+          
+          if (nextVideo && nextVideo.preload !== 'metadata') {
+            // 预加载下一个视频
+            nextVideo.preload = 'metadata';
+            nextVideo.load();
+            
+            // 延迟预加载下下个视频
+            const nextNextIndex = (nextIndex + 1) % videos.length;
+            const nextNextVideo = videos[nextNextIndex];
+            if (nextNextVideo && nextNextVideo.preload !== 'metadata') {
+              setTimeout(() => {
+                nextNextVideo.preload = 'metadata';
+                nextNextVideo.load();
+              }, 500);
+            }
+          }
+        });
+        
+        // 优化视频播放性能
+        videos.forEach((video, index) => {
+          // 添加错误处理
+          video.addEventListener('error', function() {
+            console.warn('Video failed to load:', video.src);
+          });
+          
+          // 添加加载完成事件
+          video.addEventListener('loadedmetadata', function() {
+            console.log('Video metadata loaded:', video.src);
+          });
+          
+          // 优化播放性能
+          video.addEventListener('canplay', function() {
+            // 确保视频可以流畅播放
+            if (video.readyState >= 3) {
+              video.play().catch(e => {
+                console.log('Auto-play prevented, user interaction required');
+              });
+            }
+          });
+        });
+      });
+    </script>
+
+
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">Novel-view Synthesis Results</h2>
+      </div>
+    </div>
+    <!--/ Animation. -->
+    <hr class="hr">
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+          <div class="content has-text-justified">
+          <p>
+            We visualize the comparison results of Skyfall-GS with other methods. Skyfall-GS outperforms other methods.
+          </p>
+          </div>
+
+          <div class="text-center ">
+              <ul class="nav nav-pills center-pills">
+                  <li class="method-pill" data-value="nope-nerf"
+                      onclick="selectCompVideo(this, activeScenePill)"><a>NoPe-NeRF</a></li>
+                  <li class="method-pill active" data-value="localrf"
+                      onclick="selectCompVideo(this, activeScenePill)"><a>LocalRF</a></li>
+                  <li class="method-pill" data-value="cf3dgs"
+                      onclick="selectCompVideo(this, activeScenePill)"><a>CF-3DGS</a></li>
+                  <li class="method-pill" data-value="mast3r"
+                      onclick="selectCompVideo(this, activeScenePill)"><a>MASt3R + Scaffold-GS</a></li>
+                  <li class="method-pill" data-value="optimized-mast3r"
+                      onclick="selectCompVideo(this, activeScenePill)"><a>MASt3R + Scaffold-GS + Pose optimized</a></li>
+              </ul>
+          </div>
+
+          <script>
+              activeMethodPill = document.querySelector('.method-pill.active-pill');
+              activeScenePill = document.querySelector('.scene-pill.active-pill');
+              activeModePill = document.querySelector('.mode-pill.active-pill');
+
+              function updateMethodVisibility(mode) {
+                const methodPills = document.querySelectorAll('.method-pill');
+                const scenePills = document.querySelectorAll('.scene-pill');
+
+                scenePills.forEach(scene => {
+                  scene.addEventListener('click', () => {
+                    const sceneValue = scene.getAttribute('data-value');
+                    const activeMethod = document.querySelector('.method-pill.active');
+                    const activeMethodValue = activeMethod ? activeMethod.getAttribute('data-value') : null;
+                    
+                    // First, show all methods
+                    document.querySelectorAll('.method-pill').forEach(pill => {
+                      pill.style.display = 'inline-block';
+                    });
+
+                    // Handle Hike dataset
+                    if (sceneValue.startsWith('Hike_')) {
+                      document.querySelector('[data-value="nope-nerf"]').style.display = 'none';
+                      document.querySelector('[data-value="cf3dgs"]').style.display = 'none';
+                      
+                      // If current method is hidden, switch to a valid one
+                      if (activeMethodValue === 'nope-nerf' || activeMethodValue === 'cf3dgs') {
+                        document.querySelector('[data-value="localrf"]').click();
+                      }
+                    } 
+                    // Handle Tanks dataset
+                    else if (sceneValue.startsWith('Tanks_')) {
+                      document.querySelector('[data-value="localrf"]').style.display = 'none';
+                      document.querySelector('[data-value="mast3r"]').style.display = 'none';
+                      document.querySelector('[data-value="optimized-mast3r"]').style.display = 'none';
+                      
+                      // If current method is hidden, switch to a valid one
+                      if (activeMethodValue === 'localrf' || 
+                          activeMethodValue === 'mast3r' || 
+                          activeMethodValue === 'optimized-mast3r') {
+                        document.querySelector('[data-value="nope-nerf"]').click();
+                      }
+                    }
+                    // For other datasets, all methods are already shown
+                  });
+                });
+              }
+
+              updateMethodVisibility('rgb');
+          </script>
+          
+                        <div class="text-center">
+              <div class="video-container">
+                  <video class="video" style="height: 280px; max-width: 100%;" id="compVideo0" loop playsinline autoplay muted preload="none" poster="static/images/compare_lazy.png">
+                      <source src="./videos/comparison/Free_lab_localrf_vs_ours_rgb.mp4" />
+                  </video>
+                  <video class="video" style="height: 280px; max-width: 100%;" id="compVideo1" loop playsinline autoplay muted preload="none" hidden>
+                      <source src="./videos/comparison/Free_lab_localrf_vs_ours_rgb.mp4" />
+                  </video>
+              </div>
+
+
+              <div class="text-center" style="color: black;" id="mode-pills">
+                  <div class="btn-group btn-group-sm">
+                      <span class="btn btn-primary mode-pill active" data-value="rgb"
+                          onclick="updateMethodVisibility('rgb'); selectCompVideo(activeMethodPill, activeScenePill, null, this)">
+                          RGB
+                      </span>
+                      <span class="btn btn-primary mode-pill" data-value="depth"
+                          onclick="updateMethodVisibility('depth'); selectCompVideo(activeMethodPill, activeScenePill, null, this)">
+                          Depth
+                      </span>
+                  </div>
+              </div>
+
+
+              <br>
+              <p class="text-justify" style="text-align: center; display: none;">
+                Baseline method (left) vs Skyfall-GS (right). Scene trained on <span id="compVideoValue">3</span> views. Try selecting different methods and scenes!
+              </p>
+              <p class="text-justify" style="text-align: center;">
+                Try selecting different methods and scenes!
+              </p>
+              <script>
+                  video0 = document.getElementById("compVideo0");
+                  video1 = document.getElementById("compVideo1");
+                  video0.addEventListener('loadedmetadata', function() {
+                      if (activeVidID == 0 && select){
+                          video0.play();
+                          // print video size
+                          console.log(video0.videoWidth, video0.videoHeight);
+                          video0.hidden = false;
+                          video1.hidden = true;
+                      }
+                  });
+                  video1.addEventListener('loadedmetadata', function() {
+                      if (activeVidID == 1 && select){
+                          video1.play();
+                          // print video size
+                          console.log(video1.videoWidth, video1.videoHeight);
+                          video0.hidden = true;
+                          video1.hidden = false;
+                      }
+                  });
+              </script>
+
+              <div class="pill-row scene-pills" id="scene-pills">
+                  <span class="pill scene-pill" data-value="Free_grass" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_grass_thumbnail.png" alt="Free/grass" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Free_hydrant" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_hydrant_thumbnail.png" alt="Free/hydrant" width="64">
+                  </span>
+                  <span class="pill scene-pill active" data-value="Free_lab" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_lab_thumbnail.png" alt="Free/lab" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Free_pillar" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_pillar_thumbnail.png" alt="Free/pillar" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Free_road" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_road_thumbnail.png" alt="Free/road" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Free_sky" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_sky_thumbnail.png" alt="Free/sky" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Free_stair" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                      <img class="thumbnail-img" src="thumbnails/Free_stair_thumbnail.png" alt="Free/stair" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_forest1" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_forest1_thumbnail.png" alt="Hike/forest1" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_forest2" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_forest2_thumbnail.png" alt="Hike/forest2" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_forest3" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_forest3_thumbnail.png" alt="Hike/forest3" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_garden1" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_garden1_thumbnail.png" alt="Hike/garden1" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_garden2" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_garden2_thumbnail.png" alt="Hike/garden2" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_garden3" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_garden3_thumbnail.png" alt="Hike/garden3" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_indoor" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_indoor_thumbnail.png" alt="Hike/indoor" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_playground" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_playground_thumbnail.png" alt="Hike/playground" width="64">
+                  </span>
+                  <!-- <span class="pill scene-pill" data-value="Hike_university1" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_university1_thumbnail.png" alt="Hike/university1" width="64">
+                  </span> -->
+                  <span class="pill scene-pill" data-value="Hike_university2" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_university2_thumbnail.png" alt="Hike/university2" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_university3" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_university3_thumbnail.png" alt="Hike/university3" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Hike_university4" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Hike_university4_thumbnail.png" alt="Hike/university4" width="64">
+                  </span>
+                  <!-- <span class="pill scene-pill" data-value="Tanks_ballroom" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_ballroom_thumbnail.png" alt="Tanks/ballroom" width="64">
+                  </span> -->
+                  <span class="pill scene-pill" data-value="Tanks_Barn" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_barn_thumbnail.png" alt="Tanks/barn" width="64">
+                  </span>
+                  <!-- <span class="pill scene-pill" data-value="Tanks_church" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_church_thumbnail.png" alt="Tanks/church" width="64">
+                  </span> -->
+                  <!-- <span class="pill scene-pill" data-value="Tanks_family" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_family_thumbnail.png" alt="Tanks/family" width="64">
+                  </span> -->
+                  <span class="pill scene-pill" data-value="Tanks_Francis" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_francis_thumbnail.png" alt="Tanks/francis" width="64">
+                  </span>
+                  <!-- <span class="pill scene-pill" data-value="Tanks_horse" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_horse_thumbnail.png" alt="Tanks/horse" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Tanks_ignatius" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_ignatius_thumbnail.png" alt="Tanks/ignatius" width="64">
+                  </span>
+                  <span class="pill scene-pill" data-value="Tanks_museum" onclick="selectCompVideo(activeMethodPill, this, 3)">
+                    <img class="thumbnail-img" src="thumbnails/Tanks_museum_thumbnail.png" alt="Tanks/museum" width="64">
+                  </span> -->
+                  <br>
+              </div>
+
+              <script>
+                  activeMethodPill = document.querySelector('.method-pill.active-pill');
+                  activeScenePill = document.querySelector('.scene-pill.active-pill');
+                  activeModePill = document.querySelector('.mode-pill.active-pill');
+                  updateMethodVisibility('rgb')
+              </script>
+          </div>
+      </div>   
+    </div>
+
+
+
+
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">Pose estimation results</h2>
+        <hr class="hr">
+        <div class="content has-text-justified">
+          <p>
+            We visualize the pose estimation results of Skyfall-GS with other methods. Skyfall-GS achieves the best pose accuracy.
+          </p>
+        </div>
+
+        <div class="pipeline-figure">
+          <img src="./static/images/traj_vis_more.png" alt="traj_vis" style="width: 100%;"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citation -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+          <h2 class="title is-2">Citation</h2>
+          <hr class="hr">
+          <p class="text-justify">
+              <textarea id="bibtex" class="form-control" readonly>
+@inproceedings{lin2025Skyfall-GS,
+  title={Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery},
+  author={Chin-Yang Lin and Cheng Sun and Fu-En Yang and Min-Hung Chen and Yen-Yu Lin and Yu-Lun Liu},
+  booktitle={ICCV},
+  year={2025}
+}</textarea></p>
+      </div>
+    </div>
+    <!-- Citation -->
+
+    <!-- Acknowledgements -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-2">Acknowledgements</h2>
+        <hr class="hr">
+        <div class="content has-text-justified">
+          <p>
+            This work was supported by NVIDIA Taiwan AI Research & Development Center (TRDC). This research was funded by the National Science and Technology Council, Taiwan, under Grants NSTC 112-2222-E-A49-004-MY2 and 113-2628-E-A49-023-. Yu-Lun Liu acknowledges the Yushan Young Fellow Program by the MOE in Taiwan.
+          </p>
+          <p>
+            Special thanks to <a href="https://linjohnss.github.io/cookie/">Cookie</a>, who contributed to part of the code implementation🐱.
+          </p>
+          </p>
+        </div>
+      </div>
+      
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="http://arxiv.org/abs/2502.05176">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/kkennethwu/Skyfall-GS_official.git" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template borrowed from <a href="https://aibluefisher.github.io/ZeroGS/">ZeroGS</a>, <a href="https://nerfies.github.io/">NeRFies</a>, <a href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>, <a href="https://reconfusion.github.io/">ReconFusion</a> and <a href="https://nesf3d.github.io/">NeSF</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // activeVidID 和 select 已在 app.js 中声明，这里不需要重复声明
+  // let activeVidID = 0;
+  // let select = true;
+
+  // 视频缓存对象 - 优化版本：只缓存元数据和关键帧
+  const videoCache = new Map();
+  const videoMetadataCache = new Map();
+  
+  // 智能预加载策略：只预加载元数据和关键帧
+  function preloadVideoMetadata(src) {
+    if (videoMetadataCache.has(src)) {
+      return Promise.resolve(videoMetadataCache.get(src));
+    }
+    
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata'; // 只预加载元数据，不预加载完整视频
+      video.muted = true;
+      
+      // 监听元数据加载完成
+      video.addEventListener('loadedmetadata', () => {
+        const metadata = {
+          src: src,
+          duration: video.duration,
+          videoWidth: video.videoWidth,
+          videoHeight: video.videoHeight,
+          readyState: video.readyState
+        };
+        videoMetadataCache.set(src, metadata);
+        resolve(metadata);
+      });
+      
+      video.addEventListener('error', reject);
+      video.src = src;
+    });
+  }
+  
+  // 智能视频预加载：根据用户行为预测需要加载的视频
+  function smartPreloadVideos() {
+    const activeMethod = activeMethodPill?.getAttribute('data-value');
+    const activeScene = activeScenePill?.getAttribute('data-value');
+    const activeMode = activeModePill?.getAttribute('data-value');
+    
+    if (!activeMethod || !activeScene || !activeMode) return;
+    
+    // 预加载相邻场景的视频
+    const scenes = ['Free_grass', 'Free_hydrant', 'Free_lab', 'Free_pillar', 'Free_road', 'Free_sky', 'Free_stair'];
+    const currentIndex = scenes.indexOf(activeScene);
+    
+    // 预加载前后各2个场景
+    for (let i = Math.max(0, currentIndex - 2); i <= Math.min(scenes.length - 1, currentIndex + 2); i++) {
+      const scene = scenes[i];
+      const videoSrc = `./videos/comparison/${scene}_${activeMethod}_vs_ours_${activeMode}.mp4`;
+      
+      if (!videoMetadataCache.has(videoSrc)) {
+        preloadVideoMetadata(videoSrc).catch(() => {}); // 静默失败
+      }
+    }
+  }
+  
+  // 延迟加载视频内容：只在需要时加载
+  function loadVideoContent(videoElement, src) {
+    if (videoElement.src === src) return Promise.resolve();
+    
+    return new Promise((resolve, reject) => {
+      // 先设置元数据预加载
+      videoElement.preload = 'metadata';
+      
+      videoElement.addEventListener('loadedmetadata', () => {
+        // 元数据加载完成后，开始加载视频内容
+        videoElement.preload = 'auto';
+        videoElement.addEventListener('canplay', resolve, { once: true });
+        videoElement.addEventListener('error', reject, { once: true });
+      }, { once: true });
+      
+      videoElement.addEventListener('error', reject, { once: true });
+      videoElement.src = src;
+    });
+  }
+  
+  // 性能监控和优化
+  function monitorVideoPerformance() {
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        if (entry.entryType === 'navigation') {
+          console.log('Page load time:', entry.loadEventEnd - entry.loadEventStart);
+        }
+      }
+    });
+    
+    observer.observe({ entryTypes: ['navigation'] });
+    
+    // 监控视频加载性能
+    const videoElements = document.querySelectorAll('video');
+    videoElements.forEach(video => {
+      video.addEventListener('loadstart', () => {
+        console.log('Video loading started:', video.src);
+      });
+      
+      video.addEventListener('loadedmetadata', () => {
+        console.log('Video metadata loaded:', video.src);
+      });
+      
+      video.addEventListener('canplay', () => {
+        console.log('Video can play:', video.src);
+      });
+    });
+  }
+  
+  // 启动性能监控
+  if ('PerformanceObserver' in window) {
+    monitorVideoPerformance();
+  }
+
+  // 视频缓存对象 - 缓存完整视频元素
+  // const videoCache = new Map();
+  
+  // 预加载视频函数 - 预加载完整视频
+  // function preloadVideo(src) {
+  //   if (videoCache.has(src)) {
+  //     return Promise.resolve(videoCache.get(src));
+  //   }
+    
+  //   return new Promise((resolve, reject) => {
+  //     const video = document.createElement('video');
+  //     video.preload = 'auto'; // 预加载完整视频
+  //     video.muted = true;
+      
+  //     // 监听加载完成事件
+  //     video.addEventListener('canplaythrough', () => {
+  //       videoCache.set(src, video);
+  //       resolve(video);
+  //     });
+      
+  //     // 监听元数据加载完成（作为备选）
+  //     video.addEventListener('loadedmetadata', () => {
+  //       if (!videoCache.has(src)) {
+  //         videoCache.set(src, video);
+  //         resolve(video);
+  //       }
+  //     });
+      
+  //     video.addEventListener('error', reject);
+  //     video.src = src;
+  //   });
+  // }
+  
+
+  
+  // 智能视频切换函数 - 优化版本
+  function selectCompVideo(methodPill, scenePill, numViews, modePill) {
+    if (methodPill) {
+      document.querySelectorAll('.method-pill').forEach(pill => pill.classList.remove('active'));
+      methodPill.classList.add('active');
+      activeMethodPill = methodPill;
+    }
+    if (scenePill) {
+      document.querySelectorAll('.scene-pill').forEach(pill => pill.classList.remove('active'));
+      scenePill.classList.add('active');
+      activeScenePill = scenePill;
+    }
+    if (modePill) {
+      document.querySelectorAll('.mode-pill').forEach(pill => pill.classList.remove('active'));
+      modePill.classList.add('active');
+      activeModePill = modePill;
+    }
+
+    const method = activeMethodPill.getAttribute('data-value');
+    const scene = activeScenePill.getAttribute('data-value');
+    const mode = activeModePill.getAttribute('data-value');
+
+    const video0 = document.getElementById("compVideo0");
+    const video1 = document.getElementById("compVideo1");
+
+    const newSource = `./videos/comparison/${scene}_${method}_vs_ours_${mode}.mp4`;
+    
+    // 检查缓存 - 如果已缓存，立即切换
+    if (videoMetadataCache.has(newSource)) {
+      const metadata = videoMetadataCache.get(newSource);
+      if (activeVidID == 0) {
+        video1.src = metadata.src;
+        video1.hidden = false;
+        video0.hidden = true;
+        activeVidID = 1;
+        // 智能预加载相邻视频
+        setTimeout(smartPreloadVideos, 100);
+      } else {
+        video0.src = metadata.src;
+        video0.hidden = false;
+        video1.hidden = true;
+        activeVidID = 0;
+        // 智能预加载相邻视频
+        setTimeout(smartPreloadVideos, 100);
+      }
+      return; // 缓存命中，直接返回
+    }
+    
+    // 显示加载状态
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.innerHTML = 'Loading...';
+    loadingIndicator.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; z-index: 10;';
+    
+    if (activeVidID == 0) {
+      video1.parentNode.appendChild(loadingIndicator);
+      
+      // 预加载新视频元数据
+      preloadVideoMetadata(newSource).then(() => {
+        const metadata = videoMetadataCache.get(newSource);
+        video1.src = metadata.src;
+        video1.hidden = false;
+        video0.hidden = true;
+        activeVidID = 1;
+        loadingIndicator.remove();
+        // 智能预加载相邻视频
+        setTimeout(smartPreloadVideos, 100);
+      }).catch(error => {
+        console.error('Video loading failed:', error);
+        loadingIndicator.remove();
+      });
+    } else {
+      video0.parentNode.appendChild(loadingIndicator);
+      
+      preloadVideoMetadata(newSource).then(() => {
+        const metadata = videoMetadataCache.get(newSource);
+        video0.src = metadata.src;
+        video0.hidden = false;
+        video1.hidden = true;
+        activeVidID = 0;
+        loadingIndicator.remove();
+        // 智能预加载相邻视频
+        setTimeout(smartPreloadVideos, 100);
+      }).catch(error => {
+        console.error('Video loading failed:', error);
+        loadingIndicator.remove();
+      });
+    }
+
+    select = false;
+    setTimeout(() => {
+      select = true;
+    }, 100);
+  }
+
+  // Initialize the first video
+  if (activeMethodPill && activeScenePill && activeModePill) {
+    selectCompVideo(activeMethodPill, activeScenePill, null, activeModePill);
+  }
+  
+  // 页面加载完成后启动智能预加载
+  document.addEventListener('DOMContentLoaded', () => {
+    // 延迟启动预加载，避免阻塞页面渲染
+    setTimeout(() => {
+      smartPreloadVideos();
+    }, 1000);
+  });
+  
+  // 用户交互后启动预加载
+  document.addEventListener('click', () => {
+    // 延迟启动预加载，避免阻塞用户交互
+    setTimeout(smartPreloadVideos, 500);
+  }, { once: true });
+</script>
+
+<style>
+  .citation-block {
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0;
+  }
+  .citation-block code {
+    display: block;
+    white-space: pre;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+  }
+</style>
+
+</body>
+</html>
+
