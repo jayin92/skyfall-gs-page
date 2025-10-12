@@ -74,7 +74,7 @@ body {
 }
 
 .publication-authors a {
-   color: #76B900 !important;
+   color: #60A5FA !important;
 }
 
 .publication-authors a:hover {
@@ -251,11 +251,13 @@ input:checked + .slider:after
 }
 
 .scene-pills > .active {
-  background: #76B900;
+  background: #60A5FA;
+  color: white !important;
 }
 
 .method-pills > .active {
-  background: #76B900;
+  background: #60A5FA;
+  color: white !important;
 }
 
 
@@ -432,7 +434,7 @@ li {
 
 .tabs ul li.is-active {
   background-color: transparent !important;
-  color: #76B900 !important;
+  color: #60A5FA !important;
   font-weight: bold;
 }
 
@@ -445,66 +447,66 @@ li {
 
 /* Override Bulma tabs active indicator color */
 .tabs ul li.is-active a {
-  border-bottom-color: #76B900 !important;
+  border-bottom-color: #60A5FA !important;
 }
 
 .tabs ul li.is-active {
-  border-bottom-color: #76B900 !important;
+  border-bottom-color: #60A5FA !important;
 }
 
 /* Override any other Bulma tab styling */
 .tabs.is-centered ul li.is-active a {
-  border-bottom-color: #76B900 !important;
+  border-bottom-color: #60A5FA !important;
 }
 
 /* Acknowledgements section links styling */
 .content a {
-  color: #76B900 !important;
+  color: #60A5FA !important;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .content a:hover {
-  color: #5a8f00 !important;
+  color: #3B82F6 !important;
   text-decoration: underline;
 }
 
 /* Footer template links styling */
 .footer .content a {
-  color: #76B900 !important;
+  color: #60A5FA !important;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer .content a:hover {
-  color: #5a8f00 !important;
+  color: #3B82F6 !important;
   text-decoration: underline;
 }
 
-/* Mode pill buttons NVIDIA green styling - only change colors */
+/* Mode pill buttons blue styling - only change colors */
 .btn.btn-primary.mode-pill {
-  background-color: #76B900 !important;
-  border-color: #76B900 !important;
+  background-color: #60A5FA !important;
+  border-color: #60A5FA !important;
 }
 
 .btn.btn-primary.mode-pill:hover {
-  background-color: #5a8f00 !important;
-  border-color: #5a8f00 !important;
+  background-color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
 }
 
 .btn.btn-primary.mode-pill.active {
-  background-color: #5a8f00 !important;
-  border-color: #5a8f00 !important;
+  background-color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
 }
 
-/* Method pill buttons NVIDIA green styling - only change colors, preserve Bootstrap shape */
+/* Method pill buttons blue styling - only change colors, preserve Bootstrap shape */
 .nav-pills > li > a {
-  color: #76B900 !important;
+  color: #60A5FA !important;
 }
 
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  background-color: #76B900 !important;
+  background-color: #60A5FA !important;
   color: white !important;
 }
