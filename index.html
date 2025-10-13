@@ -1,151 +1,232 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="description"
-        content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
-  <meta name="keywords" content="Skyfall-GS, 3DGS">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery</title>
-  
-  <!-- Open Graph meta tags for social media previews -->
-  <meta property="og:title" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery">
-  <meta property="og:description" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
-  <meta property="og:image" content="./static/images/Skyfall-GS.gif">
-  <meta property="og:image:alt" content="Skyfall-GS 3D Gaussian Splatting Demo">
-  <meta property="og:url" content="https://linjohnss.github.io/Skyfall-GS/">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Skyfall-GS">
-  
-  <!-- Twitter Card meta tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery">
-  <meta name="twitter:description" content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery.">
-  <meta name="twitter:image" content="./static/images/Skyfall-GS.gif">
-  <meta name="twitter:image:alt" content="Skyfall-GS 3D Gaussian Splatting Demo">
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Skyfall-GS converts satellite images to explorable 3D urban scenes using diffusion models, with real-time rendering performance."
+    />
+    <meta name="keywords" content="Skyfall-GS, 3DGS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery
+    </title>
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+    <!-- Open Graph meta tags for social media previews -->
+    <meta
+      property="og:title"
+      content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery"
+    />
+    <meta
+      property="og:description"
+      content="Skyfall-GS converts satellite images to explorable 3D urban scenes using diffusion models, with real-time rendering performance."
+    />
+    <meta property="og:image" content="./static/images/skyfall_gs_logo.png" />
+    <meta property="og:url" content="https://skyfall-gs.jayinnn.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Skyfall-GS" />
 
-    gtag('js', new Date());
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery"
+    />
+    <meta
+      name="twitter:description"
+      content="Skyfall-GS converts satellite images to explorable 3D urban scenes using diffusion models, with real-time rendering performance."
+    />
+    <meta name="twitter:image" content="./static/images/skyfall_gs_logo.png" />
+    <meta name="twitter:image:alt" content="Skyfall-GS Icon" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-NM5BSS0HTY"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-    gtag('config', 'G-PYVRSFMDRL');
-  </script> -->
+      gtag("config", "G-NM5BSS0HTY");
+    </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Google+Sans:wght@400;600&family=Castoro&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Google+Sans:wght@400;600&family=Castoro&display=swap"
+      rel="stylesheet"
+    />
 
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="icon" href="./static/images/skyfall_gs_logo.png" />
 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons @1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/skyfall_gs_logo.png">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-  <script defer src="./static/js/bulma-carousel.min.js"></script>
-  <script defer src="./static/js/bulma-slider.min.js"></script>
-  <script defer src="./static/js/index.js"></script>
-  <script defer src="./static/js/video_comparison.js"></script>
-  <script defer src="./static/js/app.js"></script>
-  <script defer src="./static/js/carousel.js"></script>
-  <script defer src="./static/js/lazy-loading.js"></script>
-</head>
-<body>
-
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://jayinnn.dev">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      defer
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+    ></script>
+    <script defer src="./static/js/bulma-carousel.min.js"></script>
+    <script defer src="./static/js/bulma-slider.min.js"></script>
+    <script defer src="./static/js/index.js"></script>
+    <script defer src="./static/js/video_comparison.js"></script>
+    <script defer src="./static/js/app.js"></script>
+    <script defer src="./static/js/carousel.js"></script>
+    <script defer src="./static/js/lazy-loading.js"></script>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
         </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://su-terry.github.io/BoostMVSNeRFs/">
-            BoostMVSNeRF
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start" style="flex-grow: 1; justify-content: center">
+          <a class="navbar-item" href="https://jayinnn.dev">
+            <span class="icon">
+              <i class="fas fa-home"></i>
+            </span>
           </a>
-          <a class="navbar-item" href="https://spf-web.pages.dev/">
-            See, Point, Fly
-          </a>
-          <a class="navbar-item" href="https://kkennethwu.github.io/aurafusion360/">
-            AuraFusion360
-          </a>
-          <a class="navbar-item" href="https://cdfan0627.github.io/spectromotion/">
-            SpectroMotion
-          </a>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"> More Research </a>
+            <div class="navbar-dropdown">
+              <a
+                class="navbar-item"
+                href="https://su-terry.github.io/BoostMVSNeRFs/"
+              >
+                BoostMVSNeRF
+              </a>
+              <a class="navbar-item" href="https://spf-web.pages.dev/">
+                See, Point, Fly
+              </a>
+              <a
+                class="navbar-item"
+                href="https://kkennethwu.github.io/aurafusion360/"
+              >
+                AuraFusion360
+              </a>
+              <a
+                class="navbar-item"
+                href="https://cdfan0627.github.io/spectromotion/"
+              >
+                SpectroMotion
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
 
-  </div>
-</nav>
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-widescreen">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                <img
+                  src="static/images/skyfall_gs_logo.png"
+                  alt="icon"
+                  style="height: 1.5em; vertical-align: middle"
+                />
+                Skyfall-GS
+              </h1>
+              <h2 class="subtitle is-3 publication-title">
+                Synthesizing Immersive 3D Urban Scenes from Satellite Imagery
+              </h2>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://jayinnn.dev/">Jie-Ying Lee</a
+                  ><sup>1,2</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/yi-ruei-liu"
+                    >Yi-Ruei Liu</a
+                  ><sup>3</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/shr-ruei-tsai"
+                    >Shr-Ruei Tsai</a
+                  ><sup>1</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3"
+                    >Wei-Cheng Chang</a
+                  ><sup>1</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://kkennethwu.github.io/">Chung-Ho Wu</a
+                  ><sup>1</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://jiewenchan.github.io/">Jiewen Chan</a
+                  ><sup>1</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a
+                  ><sup>4</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://hubert0527.github.io/">Chieh Hubert Lin</a
+                  ><sup>5</sup></span
+                >
+                <span class="author-block">
+                  <a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a
+                  ><sup>1</sup></span
+                >
+              </div>
 
+              <div class="is-size-5 publication-authors">
+                <span class="author-block" style="margin-right: 1.5rem"
+                  ><sup>1</sup>National Yang Ming Chiao Tung University</span
+                >
+                <span class="author-block" style="margin-right: 1.5rem"
+                  ><sup>2</sup>Google</span
+                >
+                <span class="author-block" style="margin-right: 1.5rem"
+                  ><sup>3</sup>UIUC</span
+                >
+                <span class="author-block" style="margin-right: 1.5rem"
+                  ><sup>4</sup>University of Zaragoza</span
+                >
+                <span class="author-block"><sup>5</sup>UC Merced</span>
+              </div>
+              <!-- <h2 class="subtitle is-2 publication-subtitle"><strong>ICCV 2025</strong></h2> -->
 
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-widescreen">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title"><img src="static/images/skyfall_gs_logo.png" alt="icon" style="height: 1.5em; vertical-align: middle;"> Skyfall-GS</h1>
-          <h2 class="subtitle is-3 publication-title">Synthesizing Immersive 3D Urban Scenes from Satellite Imagery</h2>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://jayinnn.dev/">Jie-Ying Lee</a><sup>1,2</sup></span>
-            <span class="author-block">
-              <a href="https://www.linkedin.com/in/yi-ruei-liu">Yi-Ruei Liu</a><sup>3</sup></span>
-            <span class="author-block">
-              <a href="https://www.linkedin.com/in/shr-ruei-tsai">Shr-Ruei Tsai</a><sup>1</sup></span>
-            <span class="author-block">
-              <a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3">Wei-Cheng Chang</a><sup>1</sup></span>
-            <span class="author-block">
-              <a href="https://kkennethwu.github.io/">Chung-Ho Wu</a><sup>1</sup></span>
-            <span class="author-block">
-              <a href="https://jiewenchan.github.io/">Jiewen Chan</a><sup>1</sup></span>
-            <span class="author-block">
-              <a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a><sup>4</sup></span>
-            <span class="author-block">
-              <a href="https://hubert0527.github.io/">Chieh Hubert Lin</a><sup>5</sup></span>
-            <span class="author-block">
-              <a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>1</sup></span>
-          </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block" style="margin-right: 1.5rem;"><sup>1</sup>National Yang Ming Chiao Tung University</span>
-            <span class="author-block" style="margin-right: 1.5rem;"><sup>2</sup>Google</span>
-            <span class="author-block" style="margin-right: 1.5rem;"><sup>3</sup>UIUC</span>
-            <span class="author-block" style="margin-right: 1.5rem;"><sup>4</sup>University of Zaragoza</span>
-            <span class="author-block"><sup>5</sup>UC Merced</span>
-          </div>
-          <!-- <h2 class="subtitle is-2 publication-subtitle"><strong>ICCV 2025</strong></h2> -->
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <!-- <span class="link-block">
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- PDF Link. -->
+                  <!-- <span class="link-block">
                 <a href="https://arxiv.org/pdf/2011.12948"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -154,17 +235,19 @@
                   <span>Paper</span>
                 </a>
               </span> -->
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2508.14041"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2508.14041"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
                   </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <!-- <span class="link-block">
+                  <!-- Video Link. -->
+                  <!-- <span class="link-block">
                 <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -173,18 +256,20 @@
                   <span>Video</span>
                 </a>
               </span> -->
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/NVlabs/Skyfall-GS"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
+                  <!-- Code Link. -->
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/NVlabs/Skyfall-GS"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
                   </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Google Drive Link. -->
-              <!-- <span class="link-block">
+                  <!-- Dataset Google Drive Link. -->
+                  <!-- <span class="link-block">
                 <a href="https://drive.google.com/drive/folders/1C0OqUSavUBwR_p_yNRBia90jvC-23hNN?usp=sharing"
                    class="external-link button is-normal is-rounded is-dark">
                    <span class="icon">
@@ -193,8 +278,8 @@
                   <span>Data (Google Drive)</span>
                   </a>
               </span> -->
-              <!-- Dataset HF Link. -->
-              <!-- <span class="link-block">
+                  <!-- Dataset HF Link. -->
+                  <!-- <span class="link-block">
                 <a href="https://huggingface.co/datasets/kkennethwu/360-USID"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -203,8 +288,8 @@
                   <span>Data (HF)</span>
                   </a>
               </span> -->
-              <!-- Results Link. -->
-              <!-- <span class="link-block">
+                  <!-- Results Link. -->
+                  <!-- <span class="link-block">
                 <a href="https://drive.google.com/drive/folders/1b-QgNzWVpDaYkHQf3ycKORd7s5WekjGa?usp=drive_link"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -213,27 +298,52 @@
                   <span>Evaluation Results</span>
                   </a>
               </span> -->
+                </div>
+              </div>
             </div>
-
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="hero teaser" style="margin-bottom: 3rem;">
-  <div class="container fluid">
-    <div class="hero-body is-max-widescreen">
-      <center>
-          <iframe width="800" height="450" src="https://www.youtube.com/embed/EQEpNE_ggV0?si=3SmuGjiu4v9j9WN6&autoplay=1&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </center>
+    <!-- Teaser -->
+    <section class="hero teaser" style="margin-bottom: 3rem">
+      <div class="hero-body is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-centered is-full">
+            <div
+              class="notification is-centered is-info is-rounded"
+              style="
+                text-align: center;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                background-color: #ffffff;
+              "
+            >
+              <h6
+                style="text-align: center; color: rgb(0, 0, 0); font-size: 18px"
+              >
+                <strong>TL;DR:</strong> Skyfall-GS converts satellite images to
+                explorable 3D urban scenes using diffusion models, with
+                real-time rendering performance.
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="video-container">
+          <iframe
+            src="https://www.youtube.com/embed/EQEpNE_ggV0?si=3SmuGjiu4v9j9WN6&autoplay=1&mute=1"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- <section class="hero is-light is-small" >
+    <!-- <section class="hero is-light is-small" >
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
@@ -343,248 +453,298 @@
     </h2>
 </section> -->
 
-
-<section class="section">
-  <div class="container is-max-widescreen">
-    <!-- <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-2">News</h2>
-        <h4>
-          <strong>[2025.2.10]</strong> <img src="static/images/favicon.svg" alt="icon" style="height: 1em; vertical-align: -0.5mm;"> Release project page, arXiv paper, dataset, and evaluation results!
-        </h4>
-      </div>
-    </div>   -->
-
-
     <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-full-width">
-        <div class="columns is-centered">
+    <section class="section has-background-light">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
           <div class="column is-full-width">
-            <h2 class="title is-2">Abstract</h2>
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Abstract</h2>
+              </div>
+            </div>
+            <div class="content has-text-justified">
+              <p>
+                Synthesizing large-scale, explorable, and geometrically accurate
+                3D urban scenes is a challenging yet valuable task in providing
+                immersive and embodied applications. The challenges lie in the
+                lack of large-scale and high-quality real-world 3D scans for
+                training generalizable generative models. In this paper, we take
+                an alternative route to create large-scale 3D scenes by
+                synergizing the readily available satellite imagery that
+                supplies realistic coarse geometry and the open-domain diffusion
+                model for creating high-quality close-up appearances. We propose
+                <strong>Skyfall-GS</strong>, the first city-block scale 3D scene
+                creation framework without costly 3D annotations, also featuring
+                real-time, immersive 3D exploration. We tailor a
+                curriculum-driven iterative refinement strategy to progressively
+                enhance geometric completeness and photorealistic textures.
+                Extensive experiments demonstrate that Skyfall-GS provides
+                improved cross-view consistent geometry and more realistic
+                textures compared to state-of-the-art approaches.
+              </p>
+            </div>
           </div>
         </div>
-        <div class="content has-text-justified">
-          <p>
-            Synthesizing large-scale, explorable, and geometrically accurate 3D urban scenes is a challenging yet valuable task in providing immersive and embodied applications. The challenges lie in the lack of large-scale and high-quality real-world 3D scans for training generalizable generative models. In this paper, we take an alternative route to create large-scale 3D scenes by synergizing the readily available satellite imagery that supplies realistic coarse geometry and the open-domain diffusion model for creating high-quality close-up appearances. We propose <strong>Skyfall-GS</strong>, the first city-block scale 3D scene creation framework without costly 3D annotations, also featuring real-time, immersive 3D exploration. We tailor a curriculum-driven iterative refinement strategy to progressively enhance geometric completeness and photorealistic textures. Extensive experiments demonstrate that Skyfall-GS provides improved cross-view consistent geometry and more realistic textures compared to state-of-the-art approaches.
-          </p>
-        </div>
       </div>
-    </div>
-    <!--/ Abstract. -->
+    </section>
 
     <!-- Pipeline Fig. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
+    <section class="section">
+      <div class="container is-max-widescreen">
         <div class="columns is-centered">
           <div class="column is-full-width">
-            <h2 class="title is-2">Method</h2>
-          </div>
-        </div>
-        <div class="pipeline-figure">
-          <video id="pipeline-video-ours" style="width: 100%; height: auto;" autoplay muted poster="static/images/method_lazy.png">
-            <source src="static/images/method.mp4" type="video/mp4"/>
-          </video>
-        </div>
-        <script>
-          const video = document.getElementById('pipeline-video-ours');
-        
-          video.addEventListener('ended', () => {
-            // 當影片播放結束後，等待 5 秒再重新播放
-            setTimeout(() => {
-              video.play();
-            }, 5000); // 5000 毫秒 = 5 秒
-          });
-        </script>
-        <div class="content has-text-justified">
-          <p>
-            Our method synthesizes immersive and free-flight navigable city-block scale 3D scenes solely from multi-view satellite imagery in two stages.
-          </p>
-          <p><strong>(a) Reconstruction Stage</strong></p>
-          <ul>
-            <li>First, we reconstruct the initial 3D scene using 3DGS, enhanced by pseudo-camera depth supervision to address limited parallax in satellite images.</li>
-            <li>We then use an appearance modeling component to handle varying illumination conditions across multi-date satellite images.</li>
-          </ul>
-          <p><strong>(b) Synthesis Stage</strong></p>
-          <ul>
-            <li>Next, we introduce a curriculum-based <strong>Iterative Dataset Update (IDU)</strong> refinement technique.</li>
-            <li>This technique leverages <strong>(c)</strong> a pre-trained T2I diffusion model with <strong>prompt-to-prompt editing</strong>.</li>
-            <li>By iteratively updating training datasets with refined renders, our approach significantly reduces visual artifacts and improves geometric accuracy and texture realism.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Method</h2>
+              </div>
+            </div>
+            <div class="pipeline-figure">
+              <video
+                id="pipeline-video-ours"
+                style="width: 100%; height: auto"
+                autoplay
+                muted
+                poster="static/images/method_lazy.png"
+              >
+                <source src="static/images/method.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <script>
+              const video = document.getElementById("pipeline-video-ours");
 
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-2">Interactive 3DGS Viewer</h2>
-      </div>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class="content has-text-justified">
-          <p>
-            Explore our 3D Gaussian Splatting results interactively. Click on the scene buttons below to switch between different urban scenes. Use your mouse to freely navigate within each scene, and use <strong>WASD</strong> keys for fly navigation. Click the information button <i class="fas fa-info-circle"></i> in the viewer for more controls.
-          </p>
-        </div>
-
-        <div class="text-center">
-          <div class="gs-viewer-container">
-            <iframe id="gs-viewer" allow="fullscreen; xr-spatial-tracking"
-                    src="https://superspl.at/s?id=e3b02d34">
-            </iframe>
-          </div>
-
-          <div class="pill-row scene-pills" id="gs-viewer-pills" style="justify-content: center;">
-            <span class="pill scene-pill" data-gs-id="4bc1241b" data-scene-name="Residential (JAX_004)" onclick="selectGSScene(this)">
-              Residential (JAX_004)
-            </span>
-            <span class="pill scene-pill" data-gs-id="510a206c" data-scene-name="H Building (JAX_068)" onclick="selectGSScene(this)">
-              H Building (JAX_068)
-            </span>
-            <span class="pill scene-pill active" data-gs-id="e3b02d34" data-scene-name="Office Building (JAX_214)" onclick="selectGSScene(this)">
-              Office Building (JAX_214)
-            </span>
-            <span class="pill scene-pill" data-gs-id="5a2ccc44" data-scene-name="Lake Side (JAX_260)" onclick="selectGSScene(this)">
-              Lake Side (JAX_260)
-            </span>
-            <br>
-            <span class="pill scene-pill" data-gs-id="5ff93d97" data-scene-name="City Hall (JAX_164)" onclick="selectGSScene(this)">
-              City Hall (JAX_164)
-            </span>
-            <span class="pill scene-pill" data-gs-id="a19e5552" data-scene-name="Villa (JAX_168)" onclick="selectGSScene(this)">
-              Villa (JAX_168)
-            </span>
-            <span class="pill scene-pill" data-gs-id="f276edd4" data-scene-name="Stadium (JAX_175)" onclick="selectGSScene(this)">
-              Stadium (JAX_175)
-            </span>
-            <span class="pill scene-pill" data-gs-id="79d72eba" data-scene-name="Factory (JAX_264)" onclick="selectGSScene(this)">
-              Factory (JAX_264)
-            </span>
-            <br>
-            <span class="pill scene-pill" data-gs-id="068629b0" data-scene-name="World Financial Center (NYC_004)" onclick="selectGSScene(this)">
-              World Financial Center (NYC_004)
-            </span>
-            <span class="pill scene-pill" data-gs-id="02194cc2" data-scene-name="Union Square (NYC_010)" onclick="selectGSScene(this)">
-              Union Square (NYC_010)
-            </span>
-            <span class="pill scene-pill" data-gs-id="17864442" data-scene-name="E 12th St. (NYC_219)" onclick="selectGSScene(this)">
-              E 12th St. (NYC_219)
-            </span>
-            <span class="pill scene-pill" data-gs-id="5aea40f2" data-scene-name="Albany St. (NYC_336)" onclick="selectGSScene(this)">
-              Albany St. (NYC_336)
-            </span>
-          </div>
-        </div>
-
-        <script>
-          function selectGSScene(pill) {
-            // Remove active class from all pills
-            document.querySelectorAll('#gs-viewer-pills .scene-pill').forEach(p => p.classList.remove('active'));
-
-            // Add active class to clicked pill
-            pill.classList.add('active');
-
-            // Update iframe src
-            const gsId = pill.getAttribute('data-gs-id');
-            const viewer = document.getElementById('gs-viewer');
-            viewer.src = `https://superspl.at/s?id=${gsId}`;
-          }
-        </script>
-      </div>
-    </div>
-
-    
-    <!--
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class="tabs is-centered" style="font-size: 1.2rem;">
-          <ul>
-            <li class="is-active" id="tab1"><a>Octree Anchor Formation</a></li>
-            <li id="tab2"><a>Camera pose estimation</a></li>
-            <li id="tab3"><a>Visibility-Adapted Local Window</a></li>
-          </ul>
-        </div>
-        <div id="content1" class="tab-content" style="text-align: center;">
-          <img src="./static/images/octree_anchor_unprojection.png" alt="Octree Anchor Formation" style="width: 100%;"/>
-          <div class="content has-text-justified">
-            <br>
-            <p>
-              Given an initial sparse voxelized point cloud, we iteratively perform density-guided adaptive voxel splitting and pruning. Voxels with point cloud density (&rho;) exceeding a threshold are split, while those with density below the threshold are pruned. Repeated across multiple octree levels, this adaptive octree anchor design significantly reduces memory usage, allowing efficient representation and rendering of large-scale scenes.
-            </p>
-          </div>
-        </div>
-        <div id="content2" class="tab-content" style="display: none; text-align: center;">
-          <img src="./static/images/pose_estimation.png" alt="Camera pose estimation" style="width: 90%;"/>
-          <div class="content has-text-justified">
-            <br>
-            <p>
-              (a) PnP initialization: Given correspondences between the predicted 3D anchor points from frame T<sub>i-1</sub> and the 2D keypoints detected in frame T<sub>i</sub> we employ PnP with RANSAC to robustly estimate an initial camera pose. (b) Pose refinement: The estimated pose is further refined by rasterizing the 3DGS scene and iteratively minimizing reprojection error to enhance pose accuracy. (c) Anchor unprojection: Newly observed regions are detected via an occlusion mask, computed by forward-warping the previous frame's rendered depth. These regions are unprojected into 3D and converted into anchors via Octree Anchor Formation.
-            </p>
-          </div>
-        </div>
-        <div id="content3" class="tab-content" style="display: none; text-align: center;">
-          <img src="./static/images/visibiliry_adapted_local_window.png" alt="Visibility-Adapted Local Window" style="width: 80%;"/>
-          <div class="content has-text-justified">
-            <br>
-            <p>
-              To ensure balanced training of the 3D Gaussians, we dynamically define the optimization window based on anchor visibility overlap. Specifically, we compute the Intersection-over-Union (IoU) of visible anchors between consecutive views. Suppose the visibility IoU is below a certain threshold (a). In that case, the local optimization window is adjusted by removing the earliest frame, iteratively repeating until a suitable window with IoU above the threshold is found (b). This approach ensures balanced training coverage and enhances local reconstruction details during optimization (c).
-            </p>
+              video.addEventListener("ended", () => {
+                // 當影片播放結束後，等待 5 秒再重新播放
+                setTimeout(() => {
+                  video.play();
+                }, 5000); // 5000 毫秒 = 5 秒
+              });
+            </script>
+            <div class="content has-text-justified">
+              <p>
+                Our method synthesizes immersive and free-flight navigable
+                city-block scale 3D scenes solely from multi-view satellite
+                imagery in two stages.
+              </p>
+              <p><strong>(a) Reconstruction Stage</strong></p>
+              <ul>
+                <li>
+                  First, we reconstruct the initial 3D scene using 3DGS,
+                  enhanced by pseudo-camera depth supervision to address limited
+                  parallax in satellite images.
+                </li>
+                <li>
+                  We then use an appearance modeling component to handle varying
+                  illumination conditions across multi-date satellite images.
+                </li>
+              </ul>
+              <p><strong>(b) Synthesis Stage</strong></p>
+              <ul>
+                <li>
+                  Next, we introduce a curriculum-based
+                  <strong>Iterative Dataset Update (IDU)</strong> refinement
+                  technique.
+                </li>
+                <li>
+                  This technique leverages <strong>(c)</strong> a pre-trained
+                  T2I diffusion model with prompt-to-prompt editing .
+                </li>
+                <li>
+                  By iteratively updating training datasets with refined
+                  renders, our approach significantly reduces visual artifacts
+                  and improves geometric accuracy and texture realism.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <script>
-      document.querySelectorAll('.tabs ul li').forEach((tab, index) => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.tabs ul li').forEach(t => t.classList.remove('is-active'));
-          tab.classList.add('is-active');
-          document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-          document.getElementById(`content${index + 1}`).style.display = 'block';
-        });
-      });
-    </script>
-  </div>
-</section> -->
-
-
-
-
-    <!-- Citation -->
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-          <h2 class="title is-2">Citation</h2>
-          <div class="content">
-            <pre><code>@inproceedings{lee2025Skyfall-GS,
-      title={Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery},
-      author={Jie-Ying Lee and Yi-Ruei Liu and Shr-Ruei Tsai and Wei-Cheng Chang and Chung-Ho Wu and Jiewen Chan and Zhenjun Zhao and Chieh Hubert Lin and Yu-Lun Liu},
-      booktitle={TBD},
-      year={2025}
-  }</code></pre>
+    <!-- 3DGS Viewer -->
+    <section class="section has-background-light">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-2">Interactive 3DGS Viewer</h2>
           </div>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <div class="content has-text-justified">
+              <p>
+                Explore our 3D Gaussian Splatting results interactively. Click
+                on the scene buttons below to switch between different urban
+                scenes. Use your mouse to freely navigate within each scene, and
+                use <strong>WASD</strong> keys for fly navigation. Click the
+                information button <i class="fas fa-info-circle"></i> in the
+                viewer for more controls.
+              </p>
+            </div>
+            <div class="text-center">
+              <div class="gs-viewer-container">
+                <iframe
+                  id="gs-viewer"
+                  allow="fullscreen; xr-spatial-tracking"
+                  src="https://superspl.at/s?id=e3b02d34"
+                >
+                </iframe>
+              </div>
+
+              <div
+                class="pill-row scene-pills"
+                id="gs-viewer-pills"
+                style="justify-content: center"
+              >
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="4bc1241b"
+                  data-scene-name="Residential (JAX_004)"
+                  onclick="selectGSScene(this)"
+                >
+                  Residential (JAX_004)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="510a206c"
+                  data-scene-name="H Building (JAX_068)"
+                  onclick="selectGSScene(this)"
+                >
+                  H Building (JAX_068)
+                </span>
+                <span
+                  class="pill scene-pill active"
+                  data-gs-id="e3b02d34"
+                  data-scene-name="Office Building (JAX_214)"
+                  onclick="selectGSScene(this)"
+                >
+                  Office Building (JAX_214)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="5a2ccc44"
+                  data-scene-name="Lake Side (JAX_260)"
+                  onclick="selectGSScene(this)"
+                >
+                  Lake Side (JAX_260)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="5ff93d97"
+                  data-scene-name="City Hall (JAX_164)"
+                  onclick="selectGSScene(this)"
+                >
+                  City Hall (JAX_164)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="a19e5552"
+                  data-scene-name="Villa (JAX_168)"
+                  onclick="selectGSScene(this)"
+                >
+                  Villa (JAX_168)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="f276edd4"
+                  data-scene-name="Stadium (JAX_175)"
+                  onclick="selectGSScene(this)"
+                >
+                  Stadium (JAX_175)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="79d72eba"
+                  data-scene-name="Factory (JAX_264)"
+                  onclick="selectGSScene(this)"
+                >
+                  Factory (JAX_264)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="068629b0"
+                  data-scene-name="World Financial Center (NYC_004)"
+                  onclick="selectGSScene(this)"
+                >
+                  World Financial Center (NYC_004)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="02194cc2"
+                  data-scene-name="Union Square (NYC_010)"
+                  onclick="selectGSScene(this)"
+                >
+                  Union Square (NYC_010)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="17864442"
+                  data-scene-name="E 12th St. (NYC_219)"
+                  onclick="selectGSScene(this)"
+                >
+                  E 12th St. (NYC_219)
+                </span>
+                <span
+                  class="pill scene-pill"
+                  data-gs-id="5aea40f2"
+                  data-scene-name="Albany St. (NYC_336)"
+                  onclick="selectGSScene(this)"
+                >
+                  Albany St. (NYC_336)
+                </span>
+              </div>
+            </div>
+
+            <script>
+              function selectGSScene(pill) {
+                // Remove active class from all pills
+                document
+                  .querySelectorAll("#gs-viewer-pills .scene-pill")
+                  .forEach((p) => p.classList.remove("active"));
+
+                // Add active class to clicked pill
+                pill.classList.add("active");
+
+                // Update iframe src
+                const gsId = pill.getAttribute("data-gs-id");
+                const viewer = document.getElementById("gs-viewer");
+                viewer.src = `https://superspl.at/s?id=${gsId}`;
+              }
+            </script>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- Citation -->
+    </section>
 
     <!-- Acknowledgements -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-2">Acknowledgements</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            TBD.
-          </p>
+    <section class="section">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-2">Acknowledgements</h2>
+            <div class="content has-text-justified">
+              <p>TBD.</p>
+            </div>
+          </div>
         </div>
       </div>
-      
-  </div>
-</section>
+    </section>
 
-<footer class="footer">
-  <div class="container">
-    <!-- <div class="content has-text-centered">
+    <!-- Citation -->
+    <section class="section" id="BibTeX">
+      <div class="container content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@article{lee2025Skyfall-GS,
+title = {{Skyfall-GS}: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery},
+author = {Jie-Ying Lee and Yi-Ruei Liu and Shr-Ruei Tsai and Wei-Cheng Chang and Chung-Ho Wu and Jiewen Chan and Zhenjun Zhao and Chieh Hubert Lin and Yu-Lun Liu},
+booktitle = {TBD},
+year = {2025}}</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <!-- <div class="content has-text-centered">
       <a class="icon-link"
          href="http://arxiv.org/abs/2502.05176">
         <i class="fas fa-file-pdf"></i>
@@ -593,299 +753,22 @@
         <i class="fab fa-github"></i>
       </a>
     </div> -->
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            Website template borrowed from <a href="https://aibluefisher.github.io/ZeroGS/">ZeroGS</a>, <a href="https://nerfies.github.io/">NeRFies</a>, <a href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>, <a href="https://reconfusion.github.io/">ReconFusion</a> and <a href="https://nesf3d.github.io/">NeSF</a>.
-          </p>
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content">
+              <p>
+                Website template borrowed from
+                <a href="https://cut3r.github.io/">CUT3R</a>,
+                <a href="https://aibluefisher.github.io/ZeroGS/">ZeroGS</a>,
+                <a href="https://nerfies.github.io/">NeRFies</a>,
+                <a href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>,
+                <a href="https://reconfusion.github.io/">ReconFusion</a> and
+                <a href="https://nesf3d.github.io/">NeSF</a>.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // activeVidID 和 select 已在 app.js 中声明，这里不需要重复声明
-  // let activeVidID = 0;
-  // let select = true;
-
-  // 视频缓存对象 - 优化版本：只缓存元数据和关键帧
-  const videoCache = new Map();
-  const videoMetadataCache = new Map();
-  
-  // 智能预加载策略：只预加载元数据和关键帧
-  function preloadVideoMetadata(src) {
-    if (videoMetadataCache.has(src)) {
-      return Promise.resolve(videoMetadataCache.get(src));
-    }
-    
-    return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-      video.preload = 'metadata'; // 只预加载元数据，不预加载完整视频
-      video.muted = true;
-      
-      // 监听元数据加载完成
-      video.addEventListener('loadedmetadata', () => {
-        const metadata = {
-          src: src,
-          duration: video.duration,
-          videoWidth: video.videoWidth,
-          videoHeight: video.videoHeight,
-          readyState: video.readyState
-        };
-        videoMetadataCache.set(src, metadata);
-        resolve(metadata);
-      });
-      
-      video.addEventListener('error', reject);
-      video.src = src;
-    });
-  }
-  
-  // 智能视频预加载：根据用户行为预测需要加载的视频
-  function smartPreloadVideos() {
-    const activeMethod = activeMethodPill?.getAttribute('data-value');
-    const activeScene = activeScenePill?.getAttribute('data-value');
-    const activeMode = activeModePill?.getAttribute('data-value');
-    
-    if (!activeMethod || !activeScene || !activeMode) return;
-    
-    // 预加载相邻场景的视频
-    const scenes = ['Free_grass', 'Free_hydrant', 'Free_lab', 'Free_pillar', 'Free_road', 'Free_sky', 'Free_stair'];
-    const currentIndex = scenes.indexOf(activeScene);
-    
-    // 预加载前后各2个场景
-    for (let i = Math.max(0, currentIndex - 2); i <= Math.min(scenes.length - 1, currentIndex + 2); i++) {
-      const scene = scenes[i];
-      const videoSrc = `./videos/comparison/${scene}_${activeMethod}_vs_ours_${activeMode}.mp4`;
-      
-      if (!videoMetadataCache.has(videoSrc)) {
-        preloadVideoMetadata(videoSrc).catch(() => {}); // 静默失败
-      }
-    }
-  }
-  
-  // 延迟加载视频内容：只在需要时加载
-  function loadVideoContent(videoElement, src) {
-    if (videoElement.src === src) return Promise.resolve();
-    
-    return new Promise((resolve, reject) => {
-      // 先设置元数据预加载
-      videoElement.preload = 'metadata';
-      
-      videoElement.addEventListener('loadedmetadata', () => {
-        // 元数据加载完成后，开始加载视频内容
-        videoElement.preload = 'auto';
-        videoElement.addEventListener('canplay', resolve, { once: true });
-        videoElement.addEventListener('error', reject, { once: true });
-      }, { once: true });
-      
-      videoElement.addEventListener('error', reject, { once: true });
-      videoElement.src = src;
-    });
-  }
-  
-  // 性能监控和优化
-  function monitorVideoPerformance() {
-    const observer = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries()) {
-        if (entry.entryType === 'navigation') {
-          console.log('Page load time:', entry.loadEventEnd - entry.loadEventStart);
-        }
-      }
-    });
-    
-    observer.observe({ entryTypes: ['navigation'] });
-    
-    // 监控视频加载性能
-    const videoElements = document.querySelectorAll('video');
-    videoElements.forEach(video => {
-      video.addEventListener('loadstart', () => {
-        console.log('Video loading started:', video.src);
-      });
-      
-      video.addEventListener('loadedmetadata', () => {
-        console.log('Video metadata loaded:', video.src);
-      });
-      
-      video.addEventListener('canplay', () => {
-        console.log('Video can play:', video.src);
-      });
-    });
-  }
-  
-  // 启动性能监控
-  if ('PerformanceObserver' in window) {
-    monitorVideoPerformance();
-  }
-
-  // 视频缓存对象 - 缓存完整视频元素
-  // const videoCache = new Map();
-  
-  // 预加载视频函数 - 预加载完整视频
-  // function preloadVideo(src) {
-  //   if (videoCache.has(src)) {
-  //     return Promise.resolve(videoCache.get(src));
-  //   }
-    
-  //   return new Promise((resolve, reject) => {
-  //     const video = document.createElement('video');
-  //     video.preload = 'auto'; // 预加载完整视频
-  //     video.muted = true;
-      
-  //     // 监听加载完成事件
-  //     video.addEventListener('canplaythrough', () => {
-  //       videoCache.set(src, video);
-  //       resolve(video);
-  //     });
-      
-  //     // 监听元数据加载完成（作为备选）
-  //     video.addEventListener('loadedmetadata', () => {
-  //       if (!videoCache.has(src)) {
-  //         videoCache.set(src, video);
-  //         resolve(video);
-  //       }
-  //     });
-      
-  //     video.addEventListener('error', reject);
-  //     video.src = src;
-  //   });
-  // }
-  
-
-  
-  // 智能视频切换函数 - 优化版本
-  function selectCompVideo(methodPill, scenePill, numViews, modePill) {
-    if (methodPill) {
-      document.querySelectorAll('.method-pill').forEach(pill => pill.classList.remove('active'));
-      methodPill.classList.add('active');
-      activeMethodPill = methodPill;
-    }
-    if (scenePill) {
-      document.querySelectorAll('.scene-pill').forEach(pill => pill.classList.remove('active'));
-      scenePill.classList.add('active');
-      activeScenePill = scenePill;
-    }
-    if (modePill) {
-      document.querySelectorAll('.mode-pill').forEach(pill => pill.classList.remove('active'));
-      modePill.classList.add('active');
-      activeModePill = modePill;
-    }
-
-    const method = activeMethodPill.getAttribute('data-value');
-    const scene = activeScenePill.getAttribute('data-value');
-    const mode = activeModePill.getAttribute('data-value');
-
-    const video0 = document.getElementById("compVideo0");
-    const video1 = document.getElementById("compVideo1");
-
-    const newSource = `./videos/comparison/${scene}_${method}_vs_ours_${mode}.mp4`;
-    
-    // 检查缓存 - 如果已缓存，立即切换
-    if (videoMetadataCache.has(newSource)) {
-      const metadata = videoMetadataCache.get(newSource);
-      if (activeVidID == 0) {
-        video1.src = metadata.src;
-        video1.hidden = false;
-        video0.hidden = true;
-        activeVidID = 1;
-        // 智能预加载相邻视频
-        setTimeout(smartPreloadVideos, 100);
-      } else {
-        video0.src = metadata.src;
-        video0.hidden = false;
-        video1.hidden = true;
-        activeVidID = 0;
-        // 智能预加载相邻视频
-        setTimeout(smartPreloadVideos, 100);
-      }
-      return; // 缓存命中，直接返回
-    }
-    
-    // 显示加载状态
-    const loadingIndicator = document.createElement('div');
-    loadingIndicator.innerHTML = 'Loading...';
-    loadingIndicator.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: white; padding: 10px; border-radius: 5px; z-index: 10;';
-    
-    if (activeVidID == 0) {
-      video1.parentNode.appendChild(loadingIndicator);
-      
-      // 预加载新视频元数据
-      preloadVideoMetadata(newSource).then(() => {
-        const metadata = videoMetadataCache.get(newSource);
-        video1.src = metadata.src;
-        video1.hidden = false;
-        video0.hidden = true;
-        activeVidID = 1;
-        loadingIndicator.remove();
-        // 智能预加载相邻视频
-        setTimeout(smartPreloadVideos, 100);
-      }).catch(error => {
-        console.error('Video loading failed:', error);
-        loadingIndicator.remove();
-      });
-    } else {
-      video0.parentNode.appendChild(loadingIndicator);
-      
-      preloadVideoMetadata(newSource).then(() => {
-        const metadata = videoMetadataCache.get(newSource);
-        video0.src = metadata.src;
-        video0.hidden = false;
-        video1.hidden = true;
-        activeVidID = 0;
-        loadingIndicator.remove();
-        // 智能预加载相邻视频
-        setTimeout(smartPreloadVideos, 100);
-      }).catch(error => {
-        console.error('Video loading failed:', error);
-        loadingIndicator.remove();
-      });
-    }
-
-    select = false;
-    setTimeout(() => {
-      select = true;
-    }, 100);
-  }
-
-  // Initialize the first video
-  if (activeMethodPill && activeScenePill && activeModePill) {
-    selectCompVideo(activeMethodPill, activeScenePill, null, activeModePill);
-  }
-  
-  // 页面加载完成后启动智能预加载
-  document.addEventListener('DOMContentLoaded', () => {
-    // 延迟启动预加载，避免阻塞页面渲染
-    setTimeout(() => {
-      smartPreloadVideos();
-    }, 1000);
-  });
-  
-  // 用户交互后启动预加载
-  document.addEventListener('click', () => {
-    // 延迟启动预加载，避免阻塞用户交互
-    setTimeout(smartPreloadVideos, 500);
-  }, { once: true });
-</script>
-
-<style>
-  .citation-block {
-    background: #f5f5f5;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 0;
-  }
-  .citation-block code {
-    display: block;
-    white-space: pre;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 1.4;
-    color: #333;
-  }
-</style>
-
-</body>
+    </footer>
+  </body>
 </html>
-

@@ -19,6 +19,12 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 
+    editor.removeTag = CodeMirror.removeTag;
+    var cm = $(".CodeMirror");
+    cm.editor = editor;
+    editor.save();
+    editor.setOption("mode", "htmlmixed");
+
     activeMethodPill = $('.method-pill').filter('.active')[0];
     activeModePill = $('.mode-pill').filter('.active')[0];
     activeScenePill = $('.scene-pill').filter('.active')[0];
@@ -29,6 +35,12 @@ $(document).ready(function () {
 
     // resizeAndPlay($('#sparsity')[0]);
 });
+
+function copyBibtex() {
+    if (editor) {
+        navigator.clipboard.writeText(editor.getValue());
+    }
+};
 
 function selectCompVideo(methodPill, scenePill, n_views, modePill) {
     // Your existing logic for video selection
