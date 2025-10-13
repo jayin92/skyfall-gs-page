@@ -528,7 +528,7 @@ h2.title.is-2 {
   display: flex;
   justify-content: center;
   width: 100%;
-  max-width: 750px; /* Or use 50vw for exactly 50% of viewport */
+  max-width: 800px; /* Or use 50vw for exactly 50% of viewport */
   margin: 0 auto; /* Centers the container */
 }
 
