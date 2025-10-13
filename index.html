@@ -63,7 +63,7 @@
 
     <link rel="stylesheet" href="./static/css/bulma.min.css" />
     <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+
     <link rel="stylesheet" href="./static/css/index.css" />
     <link
       rel="stylesheet"
@@ -153,7 +153,20 @@
         <div class="container is-max-widescreen">
           <div class="columns is-centered">
             <div class="column has-text-centered">
-              <h1 class="title is-1 publication-title" style="display: flex; align-items: center; justify-content: center;"><img src="static/images/skyfall_gs_logo.png" alt="icon" style="height: 1.5em; margin-right: 0.25em;">Skyfall-GS</h1>
+              <h1
+                class="title is-1 publication-title"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  src="static/images/skyfall_gs_logo.png"
+                  alt="icon"
+                  style="height: 1.5em; margin-right: 0.25em"
+                />Skyfall-GS
+              </h1>
               <h2 class="subtitle is-3 publication-title">
                 Synthesizing Immersive 3D Urban Scenes from Satellite Imagery
               </h2>
@@ -252,7 +265,7 @@
                   <!-- Code Link. -->
                   <span class="link-block">
                     <a
-                      href="https://github.com/NVlabs/Skyfall-GS"
+                      href="https://skyfall-gs.jayinnn.dev/"
                       class="external-link button is-normal is-rounded is-dark"
                     >
                       <span class="icon">
@@ -262,15 +275,22 @@
                     </a>
                   </span>
                   <!-- Dataset Google Drive Link. -->
-                  <!-- <span class="link-block">
-                <a href="https://drive.google.com/drive/folders/1C0OqUSavUBwR_p_yNRBia90jvC-23hNN?usp=sharing"
-                   class="external-link button is-normal is-rounded is-dark">
-                   <span class="icon">
-                    <img src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" width="20" height="20" alt="Google Drive">
+                  <span class="link-block">
+                    <a
+                      href="https://drive.google.com/drive/folders/1C0OqUSavUBwR_p_yNRBia90jvC-23hNN?usp=sharing"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <img
+                          src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
+                          width="20"
+                          height="20"
+                          alt="Google Drive"
+                        />
+                      </span>
+                      <span>Datasets (Google Drive)</span>
+                    </a>
                   </span>
-                  <span>Data (Google Drive)</span>
-                  </a>
-              </span> -->
                   <!-- Dataset HF Link. -->
                   <!-- <span class="link-block">
                 <a href="https://huggingface.co/datasets/kkennethwu/360-USID"
@@ -500,7 +520,7 @@
                 muted
                 poster="static/images/method_lazy.png"
               >
-                <source src="static/images/method.mp4" type="video/mp4" />
+                <source src="./static/images/method.mp4" type="video/mp4" />
               </video>
             </div>
             <script>
@@ -540,7 +560,7 @@
                 </li>
                 <li>
                   This technique leverages <strong>(c)</strong> a pre-trained
-                  T2I diffusion model with prompt-to-prompt editing .
+                  T2I diffusion model with prompt-to-prompt editing.
                 </li>
                 <li>
                   By iteratively updating training datasets with refined
@@ -559,7 +579,7 @@
       <div class="container is-max-widescreen">
         <div class="columns is-centered">
           <div class="column is-full-width">
-            <h2 class="title is-2">Interactive 3DGS Viewer</h2>
+            <h2 class="title is-2">⚡️ Interactive 3DGS Viewer ⚡️</h2>
           </div>
         </div>
         <div class="columns is-centered">
@@ -737,15 +757,19 @@ year = {2025}}</code></pre>
 
     <footer class="footer">
       <div class="container">
-        <!-- <div class="content has-text-centered">
-      <a class="icon-link"
-         href="http://arxiv.org/abs/2502.05176">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/kkennethwu/Skyfall-GS_official.git" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div> -->
+        <div class="content has-text-centered">
+          <a class="icon-link" href="http://arxiv.org/abs/2502.05176">
+            <i class="fas fa-file-pdf"></i>
+          </a>
+          <a
+            class="icon-link"
+            href="https://github.com/kkennethwu/Skyfall-GS_official.git"
+            class="external-link"
+            disabled
+          >
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
         <div class="columns is-centered">
           <div class="column is-8">
             <div class="content">
