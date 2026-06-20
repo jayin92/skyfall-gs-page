@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a static research project website for "Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery" (under review at ICLR 2026). The website showcases the first method to synthesize immersive, real-time free-flight navigable 3D urban scenes solely from multi-view satellite imagery using 3D Gaussian Splatting combined with pre-trained diffusion models.
+This is a static research project website for "Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery" (accepted to ECCV 2026). The website showcases the first method to synthesize immersive, real-time free-flight navigable 3D urban scenes solely from multi-view satellite imagery using 3D Gaussian Splatting combined with pre-trained diffusion models.
 
 ## Architecture
 
