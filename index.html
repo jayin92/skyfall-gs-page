@@ -541,6 +541,49 @@
       </div>
     </section>
 
+    <!-- In Brief -->
+    <section class="section">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">In Brief</h2>
+              </div>
+            </div>
+            <div class="content has-text-justified">
+              <p>
+                Skyfall-GS takes a small set of satellite photographs of a
+                single city block, between nine and twenty-one views per area
+                in our experiments, captured on different dates, and returns a
+                3D Gaussian Splatting scene that can be flown through at street
+                level, in real time, in a web browser.
+              </p>
+              <p>
+                The obstacle is that satellites look almost straight down. A
+                building's roof appears in every image; its walls appear in
+                almost none. Reconstruction methods applied directly to this
+                data produce scenes that are convincing from above and fall
+                apart on descent, with smeared facades, floating fragments, and
+                surfaces that were never observed at all.
+              </p>
+              <p>
+                Skyfall-GS splits that into two problems and gives each a
+                different tool. The satellite images decide <em>where</em>
+                buildings sit and how tall they are, which is what overhead
+                views genuinely measure well. A pre-trained image diffusion
+                model supplies the close-up appearance the satellites never
+                recorded. The two are interleaved rather than run back to back:
+                the scene is re-rendered and re-refined over five passes, each
+                from a lower camera angle than the last, so every pass begins
+                from a cleaner scene than the one before it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- <section class="hero is-light is-small" >
   <div class="hero-body">
     <div class="container">
@@ -761,8 +804,158 @@
       </div>
     </section>
 
-    <!-- 3DGS Viewer -->
+
+    <!-- Intuition -->
     <section class="section has-background-light">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Why This Problem Is Hard</h2>
+              </div>
+            </div>
+            <div class="content has-text-justified">
+              <h3>What satellite imagery does and does not contain</h3>
+              <p>
+                Satellite data is an appealing starting point for city-scale 3D
+                because it already exists. WorldView-3 alone collects on the
+                order of 680,000 km&sup2; per day at resolutions down to 31 cm
+                per pixel, with no permits, no flights, and no crew on the
+                ground. What it does not contain is any strong signal about
+                vertical surfaces. Every view in a satellite set is close to
+                overhead, so the angular spread between views is small, facades
+                receive almost no parallax, and most of a building's walls are
+                occluded in most of the input images.
+              </p>
+              <p>
+                Applied to that input, 3D Gaussian Splatting cannot tell a wall
+                from empty air, so it fills the ambiguity with whatever lowers
+                training loss. In practice that means semi-transparent floaters
+                suspended above the scene and facades built from stretched roof
+                texture. The result looks acceptable at 85&deg; of elevation,
+                because that is roughly where the cameras were, and degrades
+                steadily as the viewpoint descends.
+              </p>
+              <p>
+                The reconstruction stage therefore spends its effort on making
+                the coarse geometry trustworthy before any generation happens:
+              </p>
+              <ul>
+                <li>
+                  <strong>Entropy-based opacity regularization</strong> pushes
+                  each Gaussian's opacity toward either 0 or 1. Floaters
+                  survive by being faint, so removing the middle of the opacity
+                  range removes the hiding place, and they are pruned during
+                  densification.
+                </li>
+                <li>
+                  <strong>Pseudo-camera depth supervision</strong> places extra
+                  cameras near ground level during training. MoGe predicts a
+                  scale-invariant depth map from each render, and the rendered
+                  depth is supervised against it through the absolute Pearson
+                  correlation, which compares the shape of the two depth maps
+                  without requiring them to share a scale.
+                </li>
+                <li>
+                  <strong>Appearance embeddings</strong>, 32 dimensions per
+                  image and 24 per Gaussian, absorb the illumination
+                  differences between captures taken on different dates, so the
+                  optimizer does not distort geometry to explain a shadow that
+                  moved between acquisitions.
+                </li>
+                <li>
+                  <strong>Two anti-elongation measures</strong>: the Gaussian
+                  scaling learning rate drops from 0.005 to 0.001, and
+                  Gaussians whose maximum covariance exceeds 20 are pruned.
+                  Overhead-only supervision otherwise rewards splats stretched
+                  flat against the ground plane.
+                </li>
+              </ul>
+
+              <h3>What the diffusion model is actually fixing</h3>
+              <p>
+                The synthesis stage uses FLUX.1 [dev] through FlowEdit, a
+                prompt-to-prompt editing method, and the distinction between
+                editing and generating is the whole point. The model is never
+                fine-tuned and never asked to invent a scene. It is handed an
+                existing render along with a source prompt describing what is
+                wrong with it and a target prompt describing what it should
+                look like instead. In our configuration those are
+                <em>"Satellite image of an urban area with modern and older
+                buildings, roads, green spaces. Some areas appear distorted,
+                with blurring and warping artifacts."</em> and
+                <em>"Clear satellite image of an urban area with sharp
+                buildings, smooth edges, natural lighting, and well-defined
+                textures."</em> The noise parameters are held at
+                <em>n</em><sub>min</sub> = 4 and <em>n</em><sub>max</sub> = 10,
+                low enough to preserve the underlying structure and high enough
+                to remove the artifacts.
+              </p>
+              <p>
+                So the diffusion prior is supplying appearance, not layout.
+                Building footprints stay pinned to what the satellite
+                reconstruction measured, and the training mixture enforces
+                that: each episode samples 75% refined renders and 25% original
+                satellite images, so the scene is continually pulled back toward
+                the real imagery rather than drifting toward whatever the
+                generative model finds plausible.
+              </p>
+
+              <h3>Why refinement is a loop rather than a single pass</h3>
+              <p>
+                Refining once would fail in two independent ways, and the
+                method has a separate mechanism for each.
+              </p>
+              <p>
+                The first is disagreement between views. A diffusion model asked
+                to repair the same wall from two angles returns two different
+                walls, and a single pass bakes that contradiction into the
+                scene. Drawing
+                <em>N</em><sub><em>s</em></sub> = 2 samples per view instead of
+                one lets the 3DGS optimization converge on what the samples
+                agree about rather than committing to any one of them. Measured
+                on a 17&deg; orbit of JAX_068 using the VBench
+                subject-consistency protocol with DINOv2 ViT-L/14 features,
+                frame-to-frame consistency improves from 0.0340 at
+                <em>N</em><sub><em>s</em></sub> = 1 to 0.0264 at
+                <em>N</em><sub><em>s</em></sub> = 2, against a Google Earth
+                Studio reference of 0.0213. That closes roughly 60% of the gap
+                to the reference.
+              </p>
+              <p>
+                The second is that the quality of the edit depends on the
+                quality of its input. Each episode re-renders from the
+                <em>updated</em> scene, so the next round of editing starts from
+                cleaner material, and the improvements compound. At matched
+                compute on JAX_068 the satellite reconstruction alone scores
+                84.99 FID<sub>CLIP</sub>; refining every elevation once brings
+                that to 51.46, already better than every reconstruction
+                baseline; running the full iterative loop reaches 28.35. The
+                gap between 51.46 and 28.35 is the part a single pass cannot
+                buy at any compute budget.
+              </p>
+              <p>
+                The curriculum is what keeps that loop stable. Camera elevation
+                descends from 85&deg; to 45&deg; across the five episodes, with
+                orbit radii shrinking from 300 to 250 units around a
+                3&nbsp;&times;&nbsp;3 grid of nine look-at points and six
+                cameras per point. Starting at 85&deg; means the first episode
+                edits renders that are already nearly correct, and each
+                subsequent episode is asked to hallucinate only slightly more
+                than the previous one has already resolved. Surface coverage
+                climbs from roughly 0.50 after the first episode to roughly 0.75
+                after the fifth as facades that were occluded from directly
+                overhead come into view and get densified.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3DGS Viewer -->
+    <section class="section">
       <div class="container is-max-widescreen">
         <div class="columns is-centered">
           <div class="column is-full-width">
@@ -916,8 +1109,195 @@
       </div>
     </section>
 
-    <!-- Acknowledgements -->
+
+    <!-- Limitations -->
+    <section class="section has-background-light">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Limitations and Failure Cases</h2>
+              </div>
+            </div>
+            <div class="content has-text-justified">
+              <h3>Blind spots left by a fixed camera schedule</h3>
+              <p>
+                The refinement trajectory is a fixed heuristic: a
+                3&nbsp;&times;&nbsp;3 grid of look-at points, six cameras
+                around each, elevations stepping down from 85&deg; to 45&deg;.
+                It covers ordinary city blocks well, but a complex arrangement
+                of buildings can shadow a facade from every camera in the
+                schedule, and a surface that is never rendered is never
+                densified. Those regions stay thin or hollow and show up as
+                minor artifacts at extreme street-level views. The coverage
+                analysis puts a number on it: roughly 0.75 of the reconstructed
+                surface after five episodes, not 1.0. That measurement is
+                itself optimistic, since it is computed against the final
+                reconstruction and so cannot count surfaces that were never
+                generated in the first place. Sampling refinement cameras
+                against detected geometric uncertainty, rather than from a fixed
+                grid, is the obvious next step.
+              </p>
+
+              <h3>Pedestrian-level views are out of scope</h3>
+              <p>
+                Strict pedestrian-level synthesis, below about 10&deg; of
+                elevation and close to a facade, is outside what this method
+                claims. Two things break there at once. Transient objects that
+                differ across the multi-date captures cannot be resolved into a
+                single consistent close-up, and the Google Earth Studio footage
+                used as an evaluation reference is itself distorted at low
+                elevations, which removes the ability to measure whether a
+                result is right. The scenes are built for free flight above and
+                through a city block, not for standing on its sidewalk.
+              </p>
+
+              <h3>Purely nadir input remains unsolved</h3>
+              <p>
+                Synthesizing a facade requires something to anchor the
+                synthesis to, which means the input must contain at least some
+                off-nadir views. Most commercial satellite imagery does, since
+                WorldView spans roughly &plusmn;40&deg;, so this is rarely
+                binding in practice. But given strictly nadir captures there is
+                no facade evidence anywhere in the input, the reconstruction
+                stage produces no vertical surface to refine, and the method has
+                nothing to build from. This is an open problem rather than an
+                implementation detail.
+              </p>
+
+              <h3>What it costs</h3>
+              <p>
+                Reconstruction takes about an hour per city block on a single
+                NVIDIA RTX A6000, and the synthesis stage about six more. Peak
+                memory reaches 46 GB during synthesis, driven by holding
+                FLUX.1 in memory alongside temporarily densified Gaussians,
+                though the converged scene settles to 28.04 GB and refinement
+                adds only about 27% more Gaussians, from roughly 1.65 million to
+                2.1 million, concentrated on the vertical geometry that was
+                missing. Merging two adjacent areas into a single
+                1&nbsp;km&nbsp;&times;&nbsp;512&nbsp;m region takes about nine
+                hours. The diffusion model, not the splatting, is the bottleneck
+                throughout. This is an offline cost paid once per scene, and it
+                buys a scene that then renders in real time, but it is a real
+                constraint on how quickly a region can be covered.
+              </p>
+
+              <h3>Reconstructed geometry, generated appearance</h3>
+              <p>
+                It is worth being explicit about which half of the output is
+                measured and which is invented, because the answer is not
+                uniform. Building footprints, heights, and layout come from the
+                satellite reconstruction and are constrained by it. Fine surface
+                appearance comes from the diffusion prior and is stochastic:
+                changing the random seed changes the text on a storefront sign
+                while leaving the building's footprint exactly where it was.
+                Skyfall-GS is a plausible, navigable rendering of a real place,
+                not a survey-grade record of one, and details read at close
+                range should be treated accordingly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
     <section class="section">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Frequently Asked Questions</h2>
+              </div>
+            </div>
+            <div class="content has-text-justified">
+              <h3>What satellite data do I need to run this on a new area?</h3>
+              <p>
+                Multi-view imagery of the same area with some off-nadir
+                coverage. Our DFC2019 areas use between nine and twenty-one
+                WorldView-3 captures each at 2048&nbsp;&times;&nbsp;2048 pixels
+                and roughly 35 cm per pixel, acquired on different dates, over
+                blocks about 500 m on a side. Camera parameters come from the
+                rational polynomial camera model shipped with the imagery and
+                are converted to perspective cameras with SatelliteSfM. A
+                single nadir image, or a set of images all taken from directly
+                overhead, will not work.
+              </p>
+
+              <h3>How long does reconstruction take, and on what hardware?</h3>
+              <p>
+                About an hour for the reconstruction stage and about six for
+                the synthesis stage on one NVIDIA RTX A6000, so roughly seven
+                hours per city block. Plan for 46 GB of peak VRAM during
+                synthesis, since FLUX.1 is resident while the scene is being
+                densified.
+              </p>
+
+              <h3>How fast does the result render?</h3>
+              <p>
+                11 FPS on an NVIDIA T4 and 40 FPS on a MacBook Air M2. The
+                interactive viewer above is running the same fused Gaussian
+                representation in a browser, so it is a fair sample of what the
+                method actually produces. For comparison, CityDreamer renders at
+                0.18 FPS on an A100, a considerably larger GPU.
+              </p>
+
+              <h3>How does this compare to earlier work?</h3>
+              <p>
+                The baselines fail in two opposite directions. Satellite
+                reconstruction methods such as Sat-NeRF, EOGS, CoR-GS, and
+                Mip-Splatting keep the real layout but cannot recover facades
+                they never observed, so low-altitude views come out fogged,
+                blurred, or covered in floaters. City generation methods such as
+                CityDreamer and GaussianCity produce clean-looking output but
+                take semantic maps and height fields as their only input, which
+                yields oversimplified building shapes and misses whatever makes
+                a particular block look like itself. Skyfall-GS keeps the
+                measured layout and borrows appearance from an open-domain
+                diffusion prior. On DFC2019 this lowers average
+                FID<sub>CLIP</sub> from roughly 84 for the next-best method to
+                roughly 27, and two user studies with 44 participants each
+                preferred it on geometric accuracy, spatial alignment, and
+                overall quality.
+              </p>
+
+              <h3>Is the geometry real, or is the model making it up?</h3>
+              <p>
+                The macro structure is reconstructed and the micro appearance is
+                generated. Footprints, heights, and street layout are determined
+                by the satellite imagery and hold fixed across runs; surface
+                detail comes from the diffusion model and varies with the random
+                seed. Re-running a scene with a different seed changes signage
+                and texture while leaving the buildings exactly where they were.
+              </p>
+
+              <h3>What license applies, and how do I run the code?</h3>
+              <p>
+                The code is released under Apache-2.0 on
+                <a href="https://github.com/jayin92/Skyfall-GS">GitHub</a>. The
+                underlying imagery is not ours to relicense: the JAX scenes
+                derive from the 2019 IEEE GRSS Data Fusion Contest, which
+                distributes Maxar WorldView-3 captures of Jacksonville, and the
+                NYC scenes derive from Google Earth Studio renders introduced by
+                CityDreamer, so please follow those upstream terms for the data
+                itself. Training is two invocations of <code>train.py</code>:
+                the first produces the satellite reconstruction, and the second
+                resumes from that checkpoint with
+                <code>--iterative_datasets_update</code> to run the curriculum
+                refinement. The repository README lists the full argument sets,
+                and pre-built PLY files are available if you would rather look
+                at the scenes than retrain them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acknowledgements -->
+    <section class="section has-background-light">
       <div class="container is-max-widescreen">
         <div class="columns is-centered">
           <div class="column is-full-width">
