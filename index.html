@@ -114,13 +114,24 @@
           "name": "Jie-Ying Lee's Personal Website",
           "url": "https://jayinnn.dev/"
         },
-        "video": {
-          "@type": "VideoObject",
-          "name": "Skyfall-GS Teaser",
-          "description": "A demonstration of Skyfall-GS, showing a fly-through of a 3D urban scene generated from satellite images.",
-          "thumbnailUrl": "https://skyfall-gs.jayinnn.dev/static/images/skyfall_gs_logo.png",
-          "embedUrl": "https://www.youtube.com/embed/zj2-aGSe6ao?si=mEW2fiQ4JqPGCpZj"
-        }
+        "video": [
+          {
+            "@type": "VideoObject",
+            "name": "Skyfall-GS Teaser",
+            "description": "A demonstration of Skyfall-GS, showing a fly-through of a 3D urban scene generated from satellite images.",
+            "thumbnailUrl": "https://skyfall-gs.jayinnn.dev/static/images/skyfall_gs_logo.png",
+            "embedUrl": "https://www.youtube.com/embed/zj2-aGSe6ao?si=mEW2fiQ4JqPGCpZj"
+          },
+          {
+            "@type": "VideoObject",
+            "name": "Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery (ECCV 2026)",
+            "description": "The authors' walkthrough of the Skyfall-GS paper: the problem, the reconstruction and synthesis stages, and the results.",
+            "thumbnailUrl": "https://i.ytimg.com/vi/YRfih-lAmgU/hqdefault.jpg",
+            "embedUrl": "https://www.youtube.com/embed/YRfih-lAmgU",
+            "uploadDate": "2026-08-30",
+            "duration": "PT8M17S"
+          }
+        ]
       }
     </script>
     <script type="application/ld+json">
@@ -386,8 +397,20 @@
                       <span>arXiv</span>
                     </a>
                   </span>
-                  <!-- Paper High-Res Link. Google Drive: Skyfall-GS high-res PDF, uploaded 2026-03. -->
+                  <!-- Poster Link. Google Drive: Skyfall-GS poster. -->
                   <span class="link-block">
+                    <a
+                      href="https://drive.google.com/file/d/19TCi8kP1YAyqxkBKe-h6m3qmMOPIagy7/view?usp=sharing"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fas fa-image"></i>
+                      </span>
+                      <span>Poster</span>
+                    </a>
+                  </span>
+                  <!-- Paper High-Res Link (retired 2026-09). Google Drive: Skyfall-GS high-res PDF, uploaded 2026-03. -->
+                  <!-- <span class="link-block">
                     <a
                       href="https://drive.google.com/file/d/1gbo5L2vcoXb6X87Q2-GJYopsMpuKsTCM/view?usp=sharing"
                       class="external-link button is-normal is-rounded is-dark"
@@ -397,8 +420,20 @@
                       </span>
                       <span>Paper (High-Res)</span>
                     </a>
+                  </span> -->
+                  <!-- Video Link (ECCV 2026 explanation video). -->
+                  <span class="link-block">
+                    <a
+                      href="https://www.youtube.com/watch?v=YRfih-lAmgU"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                      </span>
+                      <span>Video</span>
+                    </a>
                   </span>
-                  <!-- Video Link. -->
+                  <!-- Video Link (by Bilawal). -->
                   <span class="link-block">
                     <a
                       href="https://www.youtube.com/watch?v=VWdmXlRpL84"
@@ -652,7 +687,7 @@
 </section> -->
 
     <!-- Abstract. -->
-    <section class="section has-background-light">
+    <section class="section">
       <div class="container is-max-widescreen">
         <div class="columns is-centered has-text-centered">
           <div class="column is-full-width">
@@ -683,6 +718,31 @@
                 improved cross-view consistent geometry and more realistic
                 textures compared to state-of-the-art approaches.
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video -->
+    <section class="section has-background-light">
+      <div class="container is-max-widescreen">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-2">Video</h2>
+              </div>
+            </div>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/YRfih-lAmgU"
+                title="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery (ECCV 2026)"
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </div>
