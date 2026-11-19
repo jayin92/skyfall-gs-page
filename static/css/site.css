@@ -1507,6 +1507,9 @@ main > section.teaser {
 .sf-ba {
   --pos: 50%;
   position: absolute;
+  cursor: ew-resize;
+  /* a vertical swipe over the picture scrolls the page; a sideways one moves the split */
+  touch-action: pan-y;
   top: 0;
   left: 50%;
   height: 100%;
@@ -1591,9 +1594,8 @@ main > section.teaser {
   height: 100%;
   margin: 0;
   opacity: 0;
-  cursor: ew-resize;
-  /* a vertical swipe over the picture scrolls the page */
-  touch-action: pan-y;
+  /* the range is for the keyboard; site.js handles drags on the picture */
+  pointer-events: none;
 }
 
 .sf-ba:has(.sf-ba-range:focus-visible) {

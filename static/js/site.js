@@ -115,7 +115,8 @@
     };
 
     // Decode the loop's first frame before the hand-off, so starting it then takes a single frame.
-    // The intro downloads first; the loop starts once the intro is all in, or 3 s before the hand-off.
+    // The intro downloads first: the loop starts once the intro is all in, or 1.2 s before the hand-off.
+    // At worst the intro holds its settled last frame a moment, rather than stalling during the fall.
     var primeLoop = function () {
       if (primed || orbiting || reduceMotion) {
         return;
@@ -140,7 +141,7 @@
     var onIntroTime = function (time) {
       setBeat(time);
       var left = intro.duration - time;
-      if (left <= 3 || introLoaded()) {
+      if (left <= 1.2 || introLoaded()) {
         primeLoop();
       }
       if (left <= REVEAL_LEAD) {
@@ -377,6 +378,44 @@
     // (c): drag anywhere on the picture, or use the arrow keys, to move the split.
     beforeRange.addEventListener("input", function () {
       before.style.setProperty("--pos", beforeRange.value + "%");
+    });
+
+    // Drags are handled here, not by the range, which on touch jumps to the finger as a vertical swipe
+    // starts. A mouse drags at once; a finger moves the split once it is clearly going sideways.
+    var drag = null;
+    function dragTo(event) {
+      var box = before.getBoundingClientRect();
+      takeOver();
+      setSplit(Math.max(0, Math.min(100, ((event.clientX - box.left) / box.width) * 100)).toFixed(1));
+    }
+    before.addEventListener("pointerdown", function (event) {
+      if (event.button !== 0) {
+        return;
+      }
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, on: event.pointerType === "mouse" };
+      if (drag.on) {
+        before.setPointerCapture(event.pointerId);
+        dragTo(event);
+      }
+    });
+    before.addEventListener("pointermove", function (event) {
+      if (!drag || drag.id !== event.pointerId) {
+        return;
+      }
+      if (!drag.on) {
+        var dx = Math.abs(event.clientX - drag.x);
+        if (dx < 8 || dx < Math.abs(event.clientY - drag.y)) {
+          return;
+        }
+        drag.on = true;
+        before.setPointerCapture(event.pointerId);
+      }
+      dragTo(event);
+    });
+    ["pointerup", "pointercancel"].forEach(function (type) {
+      before.addEventListener(type, function () {
+        drag = null;
+      });
     });
 
     // ---- autoplay: walks through the method the way the method video did, until the reader takes over ----
