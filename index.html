@@ -8,6 +8,7 @@
     />
     <meta name="keywords" content="Skyfall-GS, 3DGS" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#13171f" />
     <link rel="canonical" href="https://skyfall-gs.jayinnn.dev/" />
     <title>
       Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery
@@ -22,7 +23,9 @@
       property="og:description"
       content="Skyfall-GS converts satellite images to explorable 3D urban scenes using diffusion models, with real-time rendering performance."
     />
-    <meta property="og:image" content="https://skyfall-gs.jayinnn.dev/static/images/skyfall_gs_logo.png" />
+    <meta property="og:image" content="https://skyfall-gs.jayinnn.dev/static/media/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content="https://skyfall-gs.jayinnn.dev/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Skyfall-GS" />
@@ -37,9 +40,12 @@
       name="twitter:description"
       content="Skyfall-GS converts satellite images to explorable 3D urban scenes using diffusion models, with real-time rendering performance."
     />
-    <meta name="twitter:image" content="https://skyfall-gs.jayinnn.dev/static/images/skyfall_gs_logo.png" />
-    <meta name="twitter:image:alt" content="Skyfall-GS Icon" />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <meta name="twitter:image" content="https://skyfall-gs.jayinnn.dev/static/media/og.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="Office Building, Jacksonville (JAX_214)"
+    />
+
     <!-- Google tag (gtag.js) -->
     <script
       async
@@ -58,44 +64,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Google+Sans:wght@400;600&family=Castoro&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-
-    <link rel="stylesheet" href="./static/css/bulma.min.css" />
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
-
-    <link rel="stylesheet" href="./static/css/index.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
-    />
-    <link rel="icon" href="./static/images/skyfall_gs_logo.png" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script
-      defer
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
-    ></script>
-    <script defer src="./static/js/bulma-carousel.min.js"></script>
-    <script defer src="./static/js/bulma-slider.min.js"></script>
-    <script defer src="./static/js/index.js"></script>
-    <script defer src="./static/js/video_comparison.js"></script>
-    <script defer src="./static/js/app.js"></script>
-    <script defer src="./static/js/carousel.js"></script>
-    <script defer src="./static/js/lazy-loading.js"></script>
+    <link rel="stylesheet" href="./static/css/site.css" />
+    <link rel="icon" href="./static/media/logo-192.png" />
+    <link rel="preload" as="image" href="./static/media/hero.jpg" />
+    <script defer src="./static/js/site.js"></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -241,462 +216,446 @@
     </script>
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+    <div class="stage">
+      <header class="top">
+        <a class="brand" href="#top" id="top">
+          <img src="static/media/logo-192.png" alt="" width="30" height="30" />
+          Skyfall-GS
         </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-start" style="flex-grow: 1; justify-content: center">
-          <a class="navbar-item" href="https://jayinnn.dev">
-            <span class="icon">
-              <i class="fas fa-home"></i>
-            </span>
-          </a>
+        <nav class="top-nav" aria-label="Page sections">
+          <a href="#viewer-section">Viewer</a>
+          <a href="#results">Results</a>
+          <a href="#method">Method</a>
+          <a href="#BibTeX">BibTeX</a>
+          <details class="more">
+            <summary>More Research</summary>
+            <ul>
+              <li><a href="https://su-terry.github.io/BoostMVSNeRFs/">BoostMVSNeRF</a></li>
+              <li><a href="https://spf-web.pages.dev/">See, Point, Fly</a></li>
+              <li><a href="https://kkennethwu.github.io/aurafusion360/">AuraFusion360</a></li>
+              <li><a href="https://cdfan0627.github.io/spectromotion/">SpectroMotion</a></li>
+              <li><a href="https://jayinnn.dev">jayinnn.dev</a></li>
+            </ul>
+          </details>
+        </nav>
+      </header>
 
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link"> More Research </a>
-            <div class="navbar-dropdown">
-              <a
-                class="navbar-item"
-                href="https://su-terry.github.io/BoostMVSNeRFs/"
-              >
-                BoostMVSNeRF
-              </a>
-              <a class="navbar-item" href="https://spf-web.pages.dev/">
-                See, Point, Fly
-              </a>
-              <a
-                class="navbar-item"
-                href="https://kkennethwu.github.io/aurafusion360/"
-              >
-                AuraFusion360
-              </a>
-              <a
-                class="navbar-item"
-                href="https://cdfan0627.github.io/spectromotion/"
-              >
-                SpectroMotion
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container is-max-widescreen">
-          <div class="columns is-centered">
-            <div class="column has-text-centered">
-              <h1
-                class="title is-1 publication-title"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <img
-                  src="static/images/skyfall_gs_logo.png"
-                  alt="icon"
-                  style="height: 1.5em; margin-right: 0.25em"
-                />Skyfall-GS
-              </h1>
-              <h2 class="subtitle is-3 publication-title">
-                Synthesizing Immersive 3D Urban Scenes from Satellite Imagery
-              </h2>
-              <div class="is-size-5 publication-authors">
-                <span class="author-block">
-                  <a href="https://jayinnn.dev/">Jie-Ying Lee</a
-                  ><sup>1</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://shigon255.github.io/">Yi-Ruei Liu</a
-                  ><sup>2</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://www.linkedin.com/in/shr-ruei-tsai"
-                    >Shr-Ruei Tsai</a
-                  ><sup>1</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3"
-                    >Wei-Cheng Chang</a
-                  ><sup>1</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://kkennethwu.github.io/">Chung-Ho Wu</a
-                  ><sup>1</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://jiewenchan.github.io/">Jiewen Chan</a
-                  ><sup>1</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a
-                  ><sup>3</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://hubert0527.github.io/">Chieh Hubert Lin</a
-                  ><sup>4</sup></span
-                >
-                <span class="author-block">
-                  <a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a
-                  ><sup>1</sup></span
-                >
-              </div>
-
-              <div class="is-size-5 publication-authors">
-                <span class="author-block" style="margin-right: 1.5rem"
-                  ><sup>1</sup>National Yang Ming Chiao Tung University</span
-                >
-                <span class="author-block" style="margin-right: 1.5rem"
-                  ><sup>2</sup>UIUC</span
-                >
-                <span class="author-block" style="margin-right: 1.5rem"
-                  ><sup>3</sup>University of Zaragoza</span
-                >
-                <span class="author-block"><sup>4</sup>UC Merced</span>
-              </div>
-              <h2
-                class="has-text-centered"
-                style="font-size: 24px; font-weight: bold; margin-top: 1rem"
-              >
-                ECCV 2026
-              </h2>
-
-              <div class="column has-text-centered">
-                <div class="publication-links">
-                  <!-- PDF Link. -->
-                  <!-- <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span> -->
-                  <span class="link-block">
-                    <a
-                      href="https://arxiv.org/abs/2510.15869"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="ai ai-arxiv"></i>
-                      </span>
-                      <span>arXiv</span>
-                    </a>
-                  </span>
-                  <!-- Poster Link. Google Drive: Skyfall-GS poster. -->
-                  <span class="link-block">
-                    <a
-                      href="https://drive.google.com/file/d/19TCi8kP1YAyqxkBKe-h6m3qmMOPIagy7/view?usp=sharing"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="fas fa-image"></i>
-                      </span>
-                      <span>Poster</span>
-                    </a>
-                  </span>
-                  <!-- Paper High-Res Link (retired 2026-09). Google Drive: Skyfall-GS high-res PDF, uploaded 2026-03. -->
-                  <!-- <span class="link-block">
-                    <a
-                      href="https://drive.google.com/file/d/1gbo5L2vcoXb6X87Q2-GJYopsMpuKsTCM/view?usp=sharing"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Paper (High-Res)</span>
-                    </a>
-                  </span> -->
-                  <!-- Video Link (ECCV 2026 explanation video). -->
-                  <span class="link-block">
-                    <a
-                      href="https://www.youtube.com/watch?v=YRfih-lAmgU"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="fab fa-youtube"></i>
-                      </span>
-                      <span>Video</span>
-                    </a>
-                  </span>
-                  <!-- Video Link (by Bilawal). -->
-                  <span class="link-block">
-                    <a
-                      href="https://www.youtube.com/watch?v=VWdmXlRpL84"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="fab fa-youtube"></i>
-                      </span>
-                      <span>Video (by Bilawal)</span>
-                    </a>
-                  </span>
-                  <!-- Code Link. -->
-                  <span class="link-block">
-                    <a
-                      href="https://github.com/jayin92/skyfall-gs"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="fab fa-github"></i>
-                      </span>
-                      <span>Code</span>
-                    </a>
-                  </span>
-                  <!-- Dataset Google Drive Link. -->
-                  <span class="link-block">
-                    <a
-                      href="https://drive.google.com/drive/folders/1Uugwpf7n5fj7k4UJRBuKUyrmkYcDRScQ?usp=sharing"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <img
-                          src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
-                          width="20"
-                          height="20"
-                          alt="Google Drive"
-                        />
-                      </span>
-                      <span>Datasets</span>
-                    </a>
-                  </span>
-                  <!-- 3DGS Ply files Link. -->
-                  <span class="link-block">
-                    <a
-                      href="https://drive.google.com/drive/folders/1zSzhY5N0A8RwOvwsP03-Z5Z24Mm1hY1H?usp=sharing"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <img
-                          src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
-                          width="20"
-                          height="20"
-                          alt="Google Drive"
-                        />
-                      </span>
-                      <span>3DGS PLY Files</span>
-                    </a>
-                  </span>
-                  <!-- Evaluation Data Link. -->
-                  <span class="link-block">
-                    <a
-                      href="https://drive.google.com/drive/folders/1hSFe9yGOwJCLBK7ZLHB-49_x73Ebk_VV?usp=sharing"
-                      class="external-link button is-normal is-rounded is-dark"
-                    >
-                      <span class="icon">
-                        <i class="far fa-images"></i>
-                      </span>
-                      <span>Evaluation Data</span>
-                    </a>
-                  </span>
-                  <!-- Dataset HF Link. -->
-                  <!-- <span class="link-block">
-                <a href="https://huggingface.co/datasets/kkennethwu/360-USID"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" width="20" height="20" alt="HF">
-                  </span>
-                  <span>Data (HF)</span>
-                  </a>
-              </span> -->
-                  <!-- Results Link. -->
-                  <!-- <span class="link-block">
-                <a href="https://drive.google.com/drive/folders/1b-QgNzWVpDaYkHQf3ycKORd7s5WekjGa?usp=drive_link"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Evaluation Results</span>
-                  </a>
-              </span> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Teaser -->
-    <section class="hero teaser" style="margin-bottom: 3rem">
-      <div class="hero-body is-max-widescreen">
-        <div class="columns is-centered">
-          <div class="column is-centered is-full">
-            <div
-              class="notification is-centered is-info is-rounded"
-              style="
-                text-align: center;
-                padding-bottom: 0px;
-                padding-top: 0px;
-                background-color: #ffffff;
-              "
+      <main>
+        <section class="hero">
+          <div class="film">
+            <video
+              id="film"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              poster="static/media/hero.jpg"
+              width="1920"
+              height="730"
+              aria-label="Office Building, Jacksonville (JAX_214)"
             >
-              <h6
-                style="text-align: center; color: rgb(0, 0, 0); font-size: 18px"
-              >
+              <source src="static/media/hero.mp4" type="video/mp4" />
+            </video>
+            <button class="film-toggle" id="film-toggle" type="button">Pause</button>
+          </div>
+
+          <div class="wrap hero-body">
+            <div class="hero-main">
+              <h1>
+                <span class="name">Skyfall-GS</span>
+                <span class="subtitle"
+                  >Synthesizing Immersive 3D Urban Scenes from Satellite
+                  Imagery</span
+                >
+              </h1>
+              <p class="venue">ECCV 2026</p>
+              <p class="lede">
                 <strong>TL;DR:</strong> Skyfall-GS converts satellite images to
                 explorable 3D urban scenes using diffusion models, with
                 real-time rendering performance.
-              </h6>
+              </p>
             </div>
-          </div>
-        </div>
-        <div class="video-container">
-          <iframe
-            src="https://www.youtube.com/embed/zj2-aGSe6ao?si=mEW2fiQ4JqPGCpZj&autoplay=1&mute=1&loop=1&playlist=zj2-aGSe6ao"
-            title="YouTube video player"
-            allow="
-              accelerometer;
-              autoplay;
-              clipboard-write;
-              encrypted-media;
-              gyroscope;
-              picture-in-picture;
-              web-share;
-            "
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          >
-          </iframe>
-        </div>
-      </div>
-    </section>
 
-    <!-- <section class="hero is-light is-small" >
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-          <div class="item item-forest1">
-            <div class="video-compare-container" id="forest1Div" style="width: 100%;">
-                <video class="video" id="forest1" loop playsinline muted src="./videos/hike_dataset/forest1_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest1_lazy.png" preload="none"></video>
-                <canvas height=0 class="videoMerge" id="forest1Merge" style="width: 100%;"></canvas>
-            </div>
-          </div>
+            <figure class="input">
+              <img
+                src="static/media/stills/214-sat.webp"
+                alt="Satellite Input, JAX_214"
+                width="640"
+                height="640"
+              />
+              <figcaption>Satellite Input</figcaption>
+            </figure>
 
-          <div class="item item-forest2">
-            <div class="video-compare-container" id="forest2Div" style="width: 100%;">
-                <video class="video" id="forest2" loop playsinline muted preload="none" src="./videos/hike_dataset/forest2_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest2_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="forest2Merge" style="width: 100%;"></canvas>
+            <div class="hero-main">
+              <p class="authors">
+                <span><a href="https://jayinnn.dev/">Jie-Ying Lee</a><sup>1</sup></span>
+                <span><a href="https://shigon255.github.io/">Yi-Ruei Liu</a><sup>2</sup></span>
+                <span><a href="https://www.linkedin.com/in/shr-ruei-tsai">Shr-Ruei Tsai</a><sup>1</sup></span>
+                <span><a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3">Wei-Cheng Chang</a><sup>1</sup></span>
+                <span><a href="https://kkennethwu.github.io/">Chung-Ho Wu</a><sup>1</sup></span>
+                <span><a href="https://jiewenchan.github.io/">Jiewen Chan</a><sup>1</sup></span>
+                <span><a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a><sup>3</sup></span>
+                <span><a href="https://hubert0527.github.io/">Chieh Hubert Lin</a><sup>4</sup></span>
+                <span><a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>1</sup></span>
+              </p>
+              <p class="affiliations">
+                <span><sup>1</sup>National Yang Ming Chiao Tung University</span>
+                <span><sup>2</sup>UIUC</span>
+                <span><sup>3</sup>University of Zaragoza</span>
+                <span><sup>4</sup>UC Merced</span>
+              </p>
             </div>
-          </div>
 
-          <div class="item item-forest3">
-            <div class="video-compare-container" id="forest3Div" style="width: 100%;">
-                <video class="video" id="forest3" loop playsinline muted preload="none" src="./videos/hike_dataset/forest3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/forest3_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="forest3Merge" style="width: 100%;"></canvas>
-            </div>
+            <p class="links">
+              <a class="btn primary" href="https://arxiv.org/abs/2510.15869">arXiv</a>
+              <a class="btn primary" href="https://github.com/jayin92/skyfall-gs">Code</a>
+              <a class="btn" href="https://drive.google.com/file/d/19TCi8kP1YAyqxkBKe-h6m3qmMOPIagy7/view?usp=sharing">Poster</a>
+              <a class="btn" href="https://www.youtube.com/watch?v=YRfih-lAmgU">Video</a>
+              <a class="btn" href="https://www.youtube.com/watch?v=VWdmXlRpL84">Video (by Bilawal)</a>
+            </p>
+            <p class="downloads">
+              <a href="https://drive.google.com/drive/folders/1Uugwpf7n5fj7k4UJRBuKUyrmkYcDRScQ?usp=sharing">Datasets</a>
+              <a href="https://drive.google.com/drive/folders/1zSzhY5N0A8RwOvwsP03-Z5Z24Mm1hY1H?usp=sharing">3DGS PLY Files</a>
+              <a href="https://drive.google.com/drive/folders/1hSFe9yGOwJCLBK7ZLHB-49_x73Ebk_VV?usp=sharing">Evaluation Data</a>
+            </p>
           </div>
+        </section>
 
-          <div class="item item-garden1">
-            <div class="video-compare-container" id="garden1Div" style="width: 100%;">
-                <video class="video" id="garden1" loop playsinline muted preload="none" src="./videos/hike_dataset/garden1_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="garden1Merge" style="width: 100%;"></canvas>
-            </div>
+        <!-- Teaser -->
+        <section class="teaser" id="teaser">
+          <div class="wrap">
+            <button class="yt yt-wide" type="button" data-yt="zj2-aGSe6ao" data-title="Skyfall-GS Teaser">
+              <img src="static/media/teaser.webp" alt="" width="1600" height="900" />
+              <span>Play the teaser</span>
+            </button>
           </div>
+        </section>
 
-          <div class="item item-garden2">
-            <div class="video-compare-container" id="garden2Div" style="width: 100%;">
-                <video class="video" id="garden2" loop playsinline muted preload="none" src="./videos/hike_dataset/garden2_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="garden2Merge" style="width: 100%;"></canvas>
+        <!-- 3DGS Viewer -->
+        <section id="viewer-section">
+          <div class="wrap">
+            <div class="section-head">
+              <h2>Interactive 3DGS Viewer</h2>
+              <p>
+                Explore our 3D Gaussian Splatting results interactively. Click
+                on the scene buttons below to switch between different urban
+                scenes. Use your mouse to freely navigate within each scene, and
+                use <strong>WASD</strong> keys for fly navigation. Click the
+                information button in the viewer for more controls.
+              </p>
             </div>
-          </div>
 
-          <div class="item item-garden3">
-            <div class="video-compare-container" id="garden3Div" style="width: 100%;">
-                <video class="video" id="garden3" loop playsinline muted preload="none" src="./videos/hike_dataset/garden3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="garden3Merge" style="width: 100%;"></canvas>
+            <div class="viewer" id="viewer">
+              <img
+                id="viewer-poster"
+                src="static/media/scenes/e3b02d34.webp"
+                alt="Office Building, Jacksonville (JAX_214)"
+                width="960"
+                height="960"
+              />
+              <button class="viewer-start" id="viewer-start" type="button">
+                <span>Load the 3D scene</span>
+              </button>
+              <noscript>
+                <a href="https://superspl.at/s?id=e3b02d34">Open the 3D scene</a>
+              </noscript>
             </div>
-          </div>
-          <div class="item item-university3">
-            <div class="video-compare-container" id="university3Div" style="width: 100%;">
-                <video class="video" id="university3" loop playsinline muted preload="none" src="./videos/hike_dataset/university3_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="university3Merge" style="width: 100%;"></canvas>
-            </div>
-          </div>
 
-          <div class="item item-university4">
-            <div class="video-compare-container" id="university4Div" style="width: 100%;">
-                <video class="video" id="university4" loop playsinline muted preload="none" src="./videos/hike_dataset/university4_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="university4Merge" style="width: 100%;"></canvas>
+            <div class="viewer-meta">
+              <p>
+                <strong id="scene-title">Office Building, Jacksonville (JAX_214)</strong>
+                <span id="scene-input">21 training images</span>
+              </p>
+              <p>
+                <span class="coords" id="scene-coords">81.66353°W, 30.31646°N</span>
+                <a
+                  id="scene-map"
+                  href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;basemap=satellite&amp;zoom=17&amp;center=30.31646,-81.66353"
+                  >Google Maps</a
+                >
+              </p>
             </div>
-          </div>
 
-          <div class="item item-grass">
-              <div class="video-compare-container" id="grassDiv" style="width: 100%;">
-                  <video class="video" id="grass" loop playsinline muted preload="none" src="./videos/free_dataset/grass_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                  <canvas height=0 class="videoMerge" id="grassMerge" style="width: 100%;"></canvas>
+            <div class="scenes">
+              <div>
+                <h3>Jacksonville</h3>
+                <ul style="--count: 8">
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="4bc1241b" data-name="Residential" data-place="Jacksonville" data-code="JAX_004" data-lat="30.35782" data-lon="-81.70643" data-count="9">
+                      <img src="static/media/scenes/4bc1241b-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Residential</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="510a206c" data-name="H Building" data-place="Jacksonville" data-code="JAX_068" data-lat="30.34880" data-lon="-81.66375" data-count="17">
+                      <img src="static/media/scenes/510a206c-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>H Building</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="true" data-id="e3b02d34" data-name="Office Building" data-place="Jacksonville" data-code="JAX_214" data-lat="30.31646" data-lon="-81.66353" data-count="21">
+                      <img src="static/media/scenes/e3b02d34-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Office Building</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="5a2ccc44" data-name="Lake Side" data-place="Jacksonville" data-code="JAX_260" data-lat="30.31184" data-lon="-81.66350" data-count="15">
+                      <img src="static/media/scenes/5a2ccc44-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Lake Side</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="5ff93d97" data-name="City Hall" data-place="Jacksonville" data-code="JAX_164" data-lat="30.33032" data-lon="-81.66362" data-count="20">
+                      <img src="static/media/scenes/5ff93d97-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>City Hall</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="a19e5552" data-name="Villa" data-place="Jacksonville" data-code="JAX_168" data-lat="30.33037" data-lon="-81.65297" data-count="21">
+                      <img src="static/media/scenes/a19e5552-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Villa</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="f276edd4" data-name="Stadium" data-place="Jacksonville" data-code="JAX_175" data-lat="30.32583" data-lon="-81.63696" data-count="21">
+                      <img src="static/media/scenes/f276edd4-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Stadium</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="79d72eba" data-name="Factory" data-place="Jacksonville" data-code="JAX_264" data-lat="30.31189" data-lon="-81.65285" data-count="21">
+                      <img src="static/media/scenes/79d72eba-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Factory</span>
+                    </button>
+                  </li>
+                </ul>
               </div>
-          </div>
-
-          <div class="item item-hydrant">
-              <div class="video-compare-container" id="hydrantDiv" style="width: 100%;">
-                  <video class="video" id="hydrant" loop playsinline muted preload="none" src="./videos/free_dataset/hydrant_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                  <canvas height=0 class="videoMerge" id="hydrantMerge" style="width: 100%;"></canvas>
+              <div>
+                <h3>NYC</h3>
+                <ul style="--count: 4">
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="068629b0" data-name="World Financial Center" data-place="NYC" data-code="NYC_004" data-lat="40.71473" data-lon="-74.01587" data-count="60">
+                      <img src="static/media/scenes/068629b0-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>World Financial Center</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="e4094d85" data-name="Union Square" data-place="NYC" data-code="NYC_010" data-lat="40.73482" data-lon="-73.98975" data-count="60">
+                      <img src="static/media/scenes/e4094d85-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Union Square</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="17864442" data-name="E 12th St." data-place="NYC" data-code="NYC_219" data-lat="40.73187" data-lon="-73.98690" data-count="60">
+                      <img src="static/media/scenes/17864442-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>E 12th St.</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="scene" type="button" aria-pressed="false" data-id="5aea40f2" data-name="Albany St." data-place="NYC" data-code="NYC_336" data-lat="40.71020" data-lon="-74.01753" data-count="60">
+                      <img src="static/media/scenes/5aea40f2-thumb.webp" alt="" width="360" height="360" loading="lazy" />
+                      <span>Albany St.</span>
+                    </button>
+                  </li>
+                </ul>
               </div>
+            </div>
           </div>
+        </section>
 
-          <div class="item item-lab">
-              <div class="video-compare-container" id="labDiv" style="width: 100%;">
-                  <video class="video" id="lab" loop playsinline muted preload="none" src="./videos/free_dataset/lab_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                  <canvas height=0 class="videoMerge" id="labMerge" style="width: 100%;"></canvas>
+        <!-- The three steps and their wording are from the ECCV poster. -->
+        <section id="refinement">
+          <div class="wrap">
+            <h2 class="lone">From Satellite Images to Navigable 3D Cities</h2>
+            <div class="split">
+              <video
+                data-inview
+                muted
+                loop
+                playsinline
+                controls
+                preload="none"
+                poster="static/media/refinement.jpg"
+                width="1280"
+                height="720"
+                aria-label="Initial 3DGS, IDU episodes 1 to 5"
+              >
+                <source src="static/media/refinement.mp4" type="video/mp4" />
+              </video>
+              <ol class="steps">
+                <li>
+                  <h3>Start Where Reconstruction Is Reliable</h3>
+                  <p>
+                    Initial 3DGS renders degrade at lower elevations. We
+                    therefore begin with reliable high-elevation views and
+                    progressively descend as the scene improves.
+                  </p>
+                </li>
+                <li>
+                  <h3>Refine Renders with a Frozen Diffusion Prior</h3>
+                  <p>
+                    FlowEdit + FLUX.1 [dev] removes artifacts and completes
+                    disoccluded facades without fine-tuning. The refined views
+                    are then added back as training targets.
+                  </p>
+                </li>
+                <li>
+                  <h3>Repeat Refinement and Retraining</h3>
+                  <p>
+                    Each IDU episode improves geometry and fills missing
+                    textures while remaining anchored to the satellite
+                    observations.
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Results -->
+        <section id="results">
+          <div class="wrap">
+            <h2 class="lone">Results</h2>
+
+            <div class="still-head" aria-hidden="true">
+              <span>Input Satellite Image</span>
+              <span>3DGS Render</span>
+            </div>
+            <figure class="still-row">
+              <img class="sat" src="static/media/stills/068-sat.webp" alt="Input satellite image, JAX_068" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/068-1.webp" alt="3DGS render, JAX_068" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/068-2.webp" alt="3DGS render, JAX_068" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/068-3.webp" alt="3DGS render, JAX_068" width="640" height="640" loading="lazy" />
+              <figcaption>JAX_068</figcaption>
+            </figure>
+            <figure class="still-row">
+              <img class="sat" src="static/media/stills/175-sat.webp" alt="Input satellite image, JAX_175" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/175-1.webp" alt="3DGS render, JAX_175" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/175-2.webp" alt="3DGS render, JAX_175" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/175-3.webp" alt="3DGS render, JAX_175" width="640" height="640" loading="lazy" />
+              <figcaption>JAX_175</figcaption>
+            </figure>
+            <figure class="still-row">
+              <img class="sat" src="static/media/stills/164-sat.webp" alt="Input satellite image, JAX_164" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/164-1.webp" alt="3DGS render, JAX_164" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/164-2.webp" alt="3DGS render, JAX_164" width="640" height="640" loading="lazy" />
+              <img src="static/media/stills/164-3.webp" alt="3DGS render, JAX_164" width="640" height="640" loading="lazy" />
+              <figcaption>JAX_164</figcaption>
+            </figure>
+
+            <!-- One comparison plays at a time; when it ends the other takes over. -->
+            <div class="versus-head">
+              <h3>Visual Comparison</h3>
+              <div class="versus-tabs" role="group" aria-label="Benchmark shown">
+                <button
+                  class="versus-tab"
+                  type="button"
+                  aria-pressed="true"
+                  data-src="static/media/compare-jax.mp4"
+                  data-poster="static/media/compare-jax.jpg"
+                  data-fit="contain"
+                  data-label="DFC2019: Sat-NeRF, Mip-Splatting, Ours, Google Earth"
+                  data-caption="DFC2019. Four Jacksonville scenes captured by WorldView-3."
+                >
+                  DFC2019
+                </button>
+                <button
+                  class="versus-tab"
+                  type="button"
+                  aria-pressed="false"
+                  data-src="static/media/compare-nyc.mp4"
+                  data-poster="static/media/compare-nyc.jpg"
+                  data-fit="cover"
+                  data-label="GoogleEarth: CityDreamer, GaussianCity, Ours, Google Earth"
+                  data-caption="GoogleEarth. Four NYC scenes rendered from Google Earth Studio at 80° elevation."
+                >
+                  GoogleEarth
+                </button>
               </div>
-          </div>
+            </div>
+            <figure class="versus">
+              <video
+                id="versus-video"
+                data-inview
+                data-fit="contain"
+                muted
+                playsinline
+                controls
+                preload="none"
+                src="static/media/compare-jax.mp4"
+                poster="static/media/compare-jax.jpg"
+                width="1280"
+                height="720"
+                aria-label="DFC2019: Sat-NeRF, Mip-Splatting, Ours, Google Earth"
+              ></video>
+              <figcaption id="versus-caption">
+                DFC2019. Four Jacksonville scenes captured by WorldView-3.
+              </figcaption>
+            </figure>
 
-          <div class="item item-pillar">
-            <div class="video-compare-container" id="pillarDiv" style="width: 100%;">
-                <video class="video" id="pillar" loop playsinline muted preload="none" src="./videos/free_dataset/pillar_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="pillarMerge" style="width: 100%;"></canvas>
+            <h3 class="scores-head">Quantitative Comparison</h3>
+            <div class="scores-layout">
+              <div class="scores-scroll">
+                <table class="scores">
+                  <thead>
+                    <tr>
+                      <th rowspan="2" scope="col">Method</th>
+                      <th colspan="2" scope="colgroup">DFC2019</th>
+                      <th colspan="5" scope="colgroup">GoogleEarth</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">FID<sub>CLIP</sub> ↓</th>
+                      <th scope="col">CMMD ↓</th>
+                      <th scope="col">FID<sub>CLIP</sub> ↓</th>
+                      <th scope="col">CMMD ↓</th>
+                      <th scope="col">PSNR ↑</th>
+                      <th scope="col">SSIM ↑</th>
+                      <th scope="col">LPIPS ↓</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="group"><th colspan="8" scope="rowgroup"><span>3D reconstruction</span></th></tr>
+                    <tr><th scope="row">Sat-NeRF</th><td>86.52</td><td>4.788</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+                    <tr><th scope="row">EOGS</th><td>87.67</td><td>5.291</td><td>–</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+                    <tr><th scope="row">CoR-GS</th><td>84.95</td><td>5.692</td><td>26.35</td><td>3.758</td><td>13.35</td><td>0.299</td><td>0.412</td></tr>
+                    <tr><th scope="row">Mip-Splatting<sup>†</sup></th><td>86.72</td><td>5.404</td><td>16.09</td><td>2.086</td><td>14.13</td><td><b>0.302</b></td><td><b>0.379</b></td></tr>
+                    <tr class="group"><th colspan="8" scope="rowgroup"><span>City generation</span></th></tr>
+                    <tr><th scope="row">CityDreamer</th><td>–</td><td>–</td><td>36.66</td><td>4.200</td><td>12.58</td><td>0.267</td><td>0.558</td></tr>
+                    <tr><th scope="row">GaussianCity</th><td>–</td><td>–</td><td>28.76</td><td>2.915</td><td>13.41</td><td>0.291</td><td>0.540</td></tr>
+                    <tr class="ours"><th scope="row">Ours</th><td><b>27.03</b></td><td><b>2.110</b></td><td><b>10.29</b></td><td><b>1.959</b></td><td><b>14.42</b></td><td><b>0.302</b></td><td>0.393</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul class="scores-notes">
+                <li>
+                  <strong>68% lower FID<sub>CLIP</sub>:</strong> Skyfall-GS
+                  substantially outperforms the strongest 3D reconstruction
+                  baseline on DFC2019.
+                </li>
+                <li>
+                  <strong>Primary:</strong> FID<sub>CLIP</sub> and CMMD measure
+                  perceptual distribution distance to the reference images.
+                </li>
+                <li>
+                  <strong>Secondary:</strong> Pixel metrics are limited by the
+                  lack of pixel-aligned facade ground truth.
+                </li>
+                <li><sup>†</sup> Mip-Splatting enhanced with our appearance modeling.</li>
+              </ul>
             </div>
           </div>
-
-
-          <div class="item item-sky">
-            <div class="video-compare-container" id="skyDiv" style="width: 100%;">
-                <video class="video" id="sky" loop playsinline muted preload="none" src="./videos/free_dataset/sky_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="skyMerge" style="width: 100%;"></canvas>
-            </div>
-          </div>
-
-          <div class="item item-stair">
-            <div class="video-compare-container" id="stairDiv" style="width: 100%;">
-                <video class="video" id="stair" loop playsinline muted preload="none" src="./videos/free_dataset/stair_nvs_w_input.mp4" onplay="resizeAndPlay(this)" width="100%" poster="static/images/teaser_lazy.png"></video>
-                <canvas height=0 class="videoMerge" id="stairMerge" style="width: 100%;"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
-  </div>
-    <h2 class="subtitle is-4 has-text-centered" style="margin-top: -1.2rem;">
-      Render novel view from casually captured long videos.
-    </h2>
-</section> -->
 
-    <!-- Abstract. -->
-    <section class="section">
-      <div class="container is-max-widescreen">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-full-width">
-            <div class="columns is-centered">
-              <div class="column is-full-width">
-                <h2 class="title is-2">Abstract</h2>
-              </div>
-            </div>
-            <div class="content has-text-justified">
+    <div class="paper">
+      <!-- Abstract -->
+      <section>
+        <div class="wrap abstract">
+          <div>
+            <h2>Abstract</h2>
+            <div class="prose">
               <p>
                 Synthesizing large-scale, explorable, and geometrically accurate
                 3D urban scenes is a challenging yet valuable task for immersive
@@ -720,72 +679,54 @@
               </p>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Video -->
-    <section class="section has-background-light">
-      <div class="container is-max-widescreen">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-full-width">
-            <div class="columns is-centered">
-              <div class="column is-full-width">
-                <h2 class="title is-2">Video</h2>
-              </div>
-            </div>
-            <div class="video-container">
-              <iframe
-                src="https://www.youtube.com/embed/YRfih-lAmgU"
-                title="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery (ECCV 2026)"
-                loading="lazy"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </div>
+          <aside class="watch">
+            <h3>Video</h3>
+            <button
+              class="yt"
+              type="button"
+              data-yt="YRfih-lAmgU"
+              data-title="Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery (ECCV 2026)"
+            >
+              <img src="static/media/talk.webp" alt="" width="1280" height="720" loading="lazy" />
+              <span>Play</span>
+            </button>
+            <ul>
+              <li><a href="https://www.youtube.com/watch?v=VWdmXlRpL84">Video (by Bilawal)</a></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Method: figure and wording as on the original page -->
+      <section id="method">
+        <div class="wrap method">
+          <h2>Method</h2>
+          <div class="figure">
+            <video
+              id="method-video"
+              data-inview
+              muted
+              playsinline
+              controls
+              preload="none"
+              poster="static/media/method.jpg"
+              width="1920"
+              height="630"
+              aria-label="Overview of the proposed Skyfall-GS pipeline"
+            >
+              <source src="static/media/method.mp4" type="video/mp4" />
+            </video>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pipeline Fig. -->
-    <section class="section">
-      <div class="container is-max-widescreen">
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            <div class="columns is-centered">
-              <div class="column is-full-width">
-                <h2 class="title is-2">Method</h2>
-              </div>
-            </div>
-            <div class="pipeline-figure">
-              <video
-                id="pipeline-video-ours"
-                style="width: 100%; height: auto"
-                autoplay
-                muted
-                poster="static/images/method_lazy.png"
-              >
-                <source src="./static/images/method.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <script>
-              const video = document.getElementById("pipeline-video-ours");
-
-              video.addEventListener("ended", () => {
-                // 當影片播放結束後，等待 5 秒再重新播放
-                setTimeout(() => {
-                  video.play();
-                }, 5000); // 5000 毫秒 = 5 秒
-              });
-            </script>
-            <div class="content has-text-justified">
-              <p>
-                Our method synthesizes immersive and free-flight navigable
-                city-block scale 3D scenes solely from multi-view satellite
-                imagery in two stages.
-              </p>
+          <div class="prose">
+            <p>
+              Our method synthesizes immersive and free-flight navigable
+              city-block scale 3D scenes solely from multi-view satellite
+              imagery in two stages.
+            </p>
+          </div>
+          <div class="stages">
+            <div class="prose">
               <p><strong>(a) Reconstruction Stage</strong></p>
               <ul>
                 <li>
@@ -798,6 +739,8 @@
                   illumination conditions across multi-date satellite images.
                 </li>
               </ul>
+            </div>
+            <div class="prose">
               <p><strong>(b) Synthesis Stage</strong></p>
               <ul>
                 <li>
@@ -818,190 +761,17 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 3DGS Viewer -->
-    <section class="section has-background-light">
-      <div class="container is-max-widescreen">
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            <h2 class="title is-2">⚡️ Interactive 3DGS Viewer ⚡️</h2>
+      <!-- Citation -->
+      <section id="BibTeX" class="minor">
+        <div class="wrap">
+          <div class="cite-head">
+            <h2>BibTeX</h2>
+            <button class="copy" id="copy-bibtex" type="button">Copy</button>
           </div>
-        </div>
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            <div class="content has-text-justified">
-              <p>
-                Explore our 3D Gaussian Splatting results interactively. Click
-                on the scene buttons below to switch between different urban
-                scenes. Use your mouse to freely navigate within each scene, and
-                use <strong>WASD</strong> keys for fly navigation. Click the
-                information button <i class="fas fa-info-circle"></i> in the
-                viewer for more controls.
-              </p>
-            </div>
-            <div class="text-center">
-              <div class="gs-viewer-container">
-                <iframe
-                  id="gs-viewer"
-                  allow="fullscreen; xr-spatial-tracking"
-                  src="https://superspl.at/s?id=e3b02d34"
-                >
-                </iframe>
-              </div>
-
-              <div
-                class="pill-row scene-pills"
-                id="gs-viewer-pills"
-                style="justify-content: center"
-              >
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="4bc1241b"
-                  data-scene-name="Residential (JAX_004)"
-                  onclick="selectGSScene(this)"
-                >
-                  Residential (JAX_004)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="510a206c"
-                  data-scene-name="H Building (JAX_068)"
-                  onclick="selectGSScene(this)"
-                >
-                  H Building (JAX_068)
-                </span>
-                <span
-                  class="pill scene-pill active"
-                  data-gs-id="e3b02d34"
-                  data-scene-name="Office Building (JAX_214)"
-                  onclick="selectGSScene(this)"
-                >
-                  Office Building (JAX_214)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="5a2ccc44"
-                  data-scene-name="Lake Side (JAX_260)"
-                  onclick="selectGSScene(this)"
-                >
-                  Lake Side (JAX_260)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="5ff93d97"
-                  data-scene-name="City Hall (JAX_164)"
-                  onclick="selectGSScene(this)"
-                >
-                  City Hall (JAX_164)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="a19e5552"
-                  data-scene-name="Villa (JAX_168)"
-                  onclick="selectGSScene(this)"
-                >
-                  Villa (JAX_168)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="f276edd4"
-                  data-scene-name="Stadium (JAX_175)"
-                  onclick="selectGSScene(this)"
-                >
-                  Stadium (JAX_175)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="79d72eba"
-                  data-scene-name="Factory (JAX_264)"
-                  onclick="selectGSScene(this)"
-                >
-                  Factory (JAX_264)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="068629b0"
-                  data-scene-name="World Financial Center (NYC_004)"
-                  onclick="selectGSScene(this)"
-                >
-                  World Financial Center (NYC_004)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="e4094d85"
-                  data-scene-name="Union Square (NYC_010)"
-                  onclick="selectGSScene(this)"
-                >
-                  Union Square (NYC_010)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="17864442"
-                  data-scene-name="E 12th St. (NYC_219)"
-                  onclick="selectGSScene(this)"
-                >
-                  E 12th St. (NYC_219)
-                </span>
-                <span
-                  class="pill scene-pill"
-                  data-gs-id="5aea40f2"
-                  data-scene-name="Albany St. (NYC_336)"
-                  onclick="selectGSScene(this)"
-                >
-                  Albany St. (NYC_336)
-                </span>
-              </div>
-            </div>
-
-            <script>
-              function selectGSScene(pill) {
-                // Remove active class from all pills
-                document
-                  .querySelectorAll("#gs-viewer-pills .scene-pill")
-                  .forEach((p) => p.classList.remove("active"));
-
-                // Add active class to clicked pill
-                pill.classList.add("active");
-
-                // Update iframe src
-                const gsId = pill.getAttribute("data-gs-id");
-                const viewer = document.getElementById("gs-viewer");
-                viewer.src = `https://superspl.at/s?id=${gsId}`;
-              }
-            </script>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Acknowledgements -->
-    <section class="section">
-      <div class="container is-max-widescreen">
-        <div class="columns is-centered">
-          <div class="column is-full-width">
-            <h2 class="title is-2">Acknowledgements</h2>
-            <div class="content has-text-justified">
-              <p>
-                This research was funded by the National Science and Technology
-                Council, Taiwan, under Grants NSTC 112-2222-E-A49-004-MY2 and
-                113-2628-EA49-023-. The authors are grateful to Google, NVIDIA,
-                and MediaTek Inc. for their generous donations. Yu-Lun Liu
-                acknowledges the Yushan Young Fellow Program by the MOE in
-                Taiwan.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Citation -->
-    <section class="section" id="BibTeX">
-      <div class="container content">
-        <h2 class="title">BibTeX</h2>
-        <pre><code>@inproceedings{lee2026skyfall,
+          <div class="cite">
+            <pre id="bibtex"><code>@inproceedings{lee2026skyfall,
   title = {{Skyfall-GS}: Synthesizing Immersive {3D} Urban Scenes from Satellite Imagery},
   author = {Lee, Jie-Ying and Liu, Yi-Ruei and Tsai, Shr-Ruei and Chang, Wei-Cheng and Wu, Chung-Ho and Chan, Jiewen and Zhao, Zhenjun and Lin, Chieh Hubert and Liu, Yu-Lun},
   booktitle = {European Conference on Computer Vision (ECCV)},
@@ -1010,37 +780,42 @@
   publisher = {Springer},
   doi = {10.1007/978-3-032-37627-5_24}
 }</code></pre>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="content has-text-centered">
-          <a class="icon-link" href="https://arxiv.org/abs/2510.15869">
-            <i class="fas fa-file-pdf"></i>
-          </a>
-          <a
-            class="icon-link external-link"
-            href="https://github.com/jayin92/Skyfall-GS"
-          >
-            <i class="fab fa-github"></i>
-          </a>
-        </div>
-        <div class="columns is-centered">
-          <div class="column is-8">
-            <div class="content">
-              <p>
-                Website template borrowed from
-                <a href="https://cut3r.github.io/">CUT3R</a>,
-                <a href="https://aibluefisher.github.io/ZeroGS/">ZeroGS</a>,
-                <a href="https://nerfies.github.io/">NeRFies</a>,
-                <a href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>,
-                <a href="https://reconfusion.github.io/">ReconFusion</a> and
-                <a href="https://nesf3d.github.io/">NeSF</a>.
-              </p>
-            </div>
           </div>
         </div>
+      </section>
+
+      <!-- Acknowledgements -->
+      <section class="thanks minor">
+        <div class="wrap">
+          <h2>Acknowledgements</h2>
+          <div class="prose">
+            <p>
+              This research was funded by the National Science and Technology
+              Council, Taiwan, under Grants NSTC 112-2222-E-A49-004-MY2 and
+              113-2628-EA49-023-. The authors are grateful to Google, NVIDIA,
+              and MediaTek Inc. for their generous donations. Yu-Lun Liu
+              acknowledges the Yushan Young Fellow Program by the MOE in
+              Taiwan.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <div class="wrap">
+        <ul>
+          <li>Skyfall-GS</li>
+          <li><a href="https://arxiv.org/abs/2510.15869">arXiv</a></li>
+          <li><a href="https://github.com/jayin92/Skyfall-GS">Code</a></li>
+        </ul>
+        <ul>
+          <li>More Research</li>
+          <li><a href="https://su-terry.github.io/BoostMVSNeRFs/">BoostMVSNeRF</a></li>
+          <li><a href="https://spf-web.pages.dev/">See, Point, Fly</a></li>
+          <li><a href="https://kkennethwu.github.io/aurafusion360/">AuraFusion360</a></li>
+          <li><a href="https://cdfan0627.github.io/spectromotion/">SpectroMotion</a></li>
+        </ul>
       </div>
     </footer>
   </body>

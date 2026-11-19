@@ -1,53 +1,31 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Project page for **Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery** (ECCV 2026, arXiv 2510.15869), served at https://skyfall-gs.jayinnn.dev/ (Cloudflare Pages; `_redirects` sends the `pages.dev` host to the custom domain).
 
-## Project Overview
+A single static page with no framework and no build step: `index.html`, `static/css/site.css`, `static/js/site.js`, and media in `static/media/`. Preview with `python3 -m http.server 8000`.
 
-This is a static research project website for "Skyfall-GS: Synthesizing Immersive 3D Urban Scenes from Satellite Imagery" (accepted to ECCV 2026). The website showcases the first method to synthesize immersive, real-time free-flight navigable 3D urban scenes solely from multi-view satellite imagery using 3D Gaussian Splatting combined with pre-trained diffusion models.
+## Page text
 
-## Architecture
+Every sentence on the page is copied verbatim from one of three sources: the ECCV poster (linked from the Poster button), the paper's arXiv source, or the page's own earlier wording in git history. Copy a new sentence from those sources too. The only text written for the page is control labels such as "Load the 3D scene" or "Play the teaser".
 
-- **Frontend**: Static HTML website using Bulma CSS framework
-- **Assets**:
-  - `static/`: Contains CSS, JavaScript, and images
-  - `videos/`: Research result videos organized by dataset (comparison, free_dataset, hike_dataset, tank_dataset, teaser)
-  - `thumbnails/`: Video thumbnail images
-- **Interactive Components**:
-  - Video comparison sliders (implemented in `static/js/video_comparison.js`)
-  - Image interpolation viewer (`static/js/index.js`)
-  - Bulma carousel and slider components
+## Look
 
-## Key Files
+- Google Sans is the one typeface, matching the poster and talk slides.
+- Dark sections use `--stage` (`#13171f`). Empty black backgrounds in clips and renders are recoloured to `--stage`; scene pixels stay untouched.
+- One video moves on screen at a time. The hero loop autoplays; every other clip plays only while scrolled into view (`data-inview`), and the YouTube teaser and talk load on click.
+- Changes to the design are previewed as a live before/after against the current page before they land on `main`.
 
-- `index.html`: Main website page with research presentation
-- `static/js/video_comparison.js`: Interactive before/after video comparison functionality
-- `static/js/index.js`: Image interpolation and general site interactions
-- `static/css/`: Bulma framework and custom styling
+## Media
 
-## Development Commands
+- `static/media/hero.mp4` is a seamless 360° orbit of the Office Building scene (SuperSplat id `e3b02d34`). It was rendered in headless Chrome with PlayCanvas `2.24.1` loading `https://d28zzqy0iyovbz.cloudfront.net/e3b02d34/v1/meta.json`, scene rotated 180° about Z, with these settings:
+  - 600 frames at 1920×920 and 30 fps.
+  - Look-at point (-1.144, -0.168, -2.284), radius 21, elevation 34°, vertical FOV 36.5°, starting azimuth 90°.
+  - Frames cropped to `1920:730:0:190` to drop a floater at the scene edge, then encoded as BT.709 limited range, x264 CRF 26.
+  - `hero.jpg` (poster) and `og.jpg` (social card) are decoded from the encoded video.
+- `refinement.mp4` and `compare-*.mp4` are cut from the talk video (YouTube `YRfih-lAmgU`). The stills come from the paper source's `figs/results/`.
+- `scenes/<id>.webp` and `<id>-thumb.webp` are the SuperSplat posters, which `site.js` loads by scene id. Scene names come from the SuperSplat titles; image counts and coordinates come from the paper's training-image tables.
+- `static/images/skyfall_gs_logo.png` is referenced by the JSON-LD `thumbnailUrl`.
 
-Since this is a static website, no build process is required. For local development:
+## Analytics
 
-```bash
-# Serve locally (requires Python)
-python3 -m http.server 8000
-
-# Or using Node.js
-npx serve .
-```
-
-## Website Structure
-
-The site includes:
-- Research paper information and authors
-- Interactive video comparisons showing method results
-- Dataset demonstrations across multiple scenarios
-- Abstract and methodology overview
-- Social media meta tags for sharing (Open Graph, Twitter Card)
-
-## Notes
-
-- All video content is pre-rendered and stored in the `videos/` directory
-- The website uses Google Analytics (tracking ID: G-PYVRSFMDRL)
-- Based on the Nerfies website template (licensed under Creative Commons Attribution-ShareAlike 4.0)
+The page reports to Google Analytics ID `G-NM5BSS0HTY`.
