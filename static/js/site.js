@@ -32,6 +32,9 @@
     };
     var revealed = false;
     var orbiting = false;
+    var primed = false;
+    var introRun = 0;           // each intro run has its own number; callbacks from an earlier run do nothing
+    var controlsAt = 0;         // Replay and Pause take clicks only once Skip has had time to leave
     var active = film;
     var frameCallbacks = "requestVideoFrameCallback" in HTMLVideoElement.prototype;
 
@@ -47,9 +50,25 @@
       }
       orbiting = true;
       active = film;
+      controlsAt = performance.now() + 800;
+      var thisRun = introRun;
       var shown = function () {
+        if (introRun !== thisRun || !orbiting) {
+          return;
+        }
         hero.classList.add("is-orbit");
+        // Skip has gone; keep the keyboard reader's place on the controls
+        if (document.activeElement === filmSkip) {
+          filmReplay.focus({ preventScroll: true });
+        }
       };
+      // readers who prefer reduced motion asked for the intro, not for the loop after it
+      if (reduceMotion) {
+        film.currentTime = 0;
+        shown();
+        syncToggle();
+        return;
+      }
       if (frameCallbacks) {
         film.requestVideoFrameCallback(shown);
       }
@@ -95,32 +114,51 @@
       window.addEventListener("scroll", onScroll, { passive: true });
     };
 
-    // Decode the loop's first frame early, so starting it later takes a single frame.
+    // Decode the loop's first frame before the hand-off, so starting it then takes a single frame.
+    // The intro downloads first; the loop starts once the intro is all in, or 3 s before the hand-off.
     var primeLoop = function () {
+      if (primed || orbiting || reduceMotion) {
+        return;
+      }
+      primed = true;
+      var thisRun = introRun;
       film.currentTime = 0;
       film.play().then(function () {
-        if (!orbiting) {
+        if (!orbiting && introRun === thisRun) {
           film.pause();
           film.currentTime = 0;
         }
       }, function () {});
     };
 
-    // Watch the intro frame by frame: bring in the title as the camera settles, hand over on the last frame.
+    var introLoaded = function () {
+      var b = intro.buffered;
+      return intro.duration > 0 && b.length > 0 && b.end(b.length - 1) >= intro.duration - 0.1;
+    };
+
+    // Per intro frame: caption, title as the camera settles, the loop primed, the hand-off on the last frame.
+    var onIntroTime = function (time) {
+      setBeat(time);
+      var left = intro.duration - time;
+      if (left <= 3 || introLoaded()) {
+        primeLoop();
+      }
+      if (left <= REVEAL_LEAD) {
+        reveal();
+      }
+      return left;
+    };
+
     var watchIntro = function () {
       if (!frameCallbacks) {
         return;
       }
+      var thisRun = introRun;
       var onFrame = function (now, meta) {
-        if (orbiting) {
+        if (orbiting || introRun !== thisRun) {
           return;
         }
-        setBeat(meta.mediaTime);
-        var left = intro.duration - meta.mediaTime;
-        if (left <= REVEAL_LEAD) {
-          reveal();
-        }
-        if (left <= 1.5 / 30) {
+        if (onIntroTime(meta.mediaTime) <= 1.5 / 30) {
           startOrbit();
           return;
         }
@@ -130,8 +168,11 @@
     };
 
     var playIntro = function () {
+      introRun++;
+      var thisRun = introRun;
       revealed = false;
       orbiting = false;
+      primed = false;
       root.classList.add("intro");
       root.classList.remove("revealed");
       hero.classList.remove("is-orbit");
@@ -139,22 +180,52 @@
       active = intro;
       intro.currentTime = 0;
       // if the intro cannot play (autoplay blocked, data saver), go straight to the finished hero
-      intro.play().then(function () {
-        setTimeout(primeLoop, 800);
-      }, skip);
+      intro.play().catch(function () {
+        if (introRun === thisRun) {
+          skip();
+        }
+      });
       watchIntro();
-      // browsers without frame callbacks: reveal on the clock, hand over when the intro ends
-      if (!frameCallbacks) {
-        var onTime = function () {
-          setBeat(intro.currentTime);
-          if (intro.duration - intro.currentTime <= REVEAL_LEAD) {
-            reveal();
-            intro.removeEventListener("timeupdate", onTime);
-          }
-        };
-        intro.addEventListener("timeupdate", onTime);
-      }
+      // an intro that has not started after 4 s (no data, no decoder) is dropped;
+      // one that stalls on the way still gets its title by 14 s
+      setTimeout(function () {
+        if (introRun === thisRun && !orbiting && intro.currentTime < 0.1) {
+          skip();
+        }
+      }, 4000);
+      setTimeout(function () {
+        if (introRun === thisRun && !orbiting) {
+          reveal();
+        }
+      }, 14000);
     };
+
+    // a missing or undecodable intro never settles play(); its source reports the error instead
+    var introSource = intro.querySelector("source");
+    [intro, introSource].forEach(function (target) {
+      if (target) {
+        target.addEventListener("error", function () {
+          if (root.classList.contains("intro") && !orbiting) {
+            skip();
+          }
+        });
+      }
+    });
+
+    intro.addEventListener("progress", function () {
+      if (root.classList.contains("intro") && introLoaded()) {
+        primeLoop();
+      }
+    });
+
+    // browsers without frame callbacks: follow the clock, hand over when the intro ends
+    if (!frameCallbacks) {
+      intro.addEventListener("timeupdate", function () {
+        if (!orbiting && root.classList.contains("intro")) {
+          onIntroTime(intro.currentTime);
+        }
+      });
+    }
 
     intro.addEventListener("ended", function () {
       startOrbit();
@@ -163,6 +234,10 @@
     filmSkip.addEventListener("click", skip);
 
     filmToggle.addEventListener("click", function () {
+      // a second click on Skip lands here once Skip has gone; it is not a request to pause
+      if (performance.now() < controlsAt) {
+        return;
+      }
       if (active.paused) {
         active.play();
       } else {
@@ -176,6 +251,9 @@
 
     // Replay runs the skyfall again from the satellite image.
     filmReplay.addEventListener("click", function () {
+      if (performance.now() < controlsAt) {
+        return;
+      }
       // jump to the top at once (the page otherwise scrolls smoothly) and let that jump settle,
       // so it is not read as the reader scrolling away
       ignoreScrollUntil = performance.now() + 700;
@@ -258,11 +336,13 @@
         if (event.key === "End") next = tabs.length - 1;
         if (next !== null) {
           event.preventDefault();
+          takeOver();
           selectTab(next, true);
         }
       });
     });
     selectTab(0, false);
+    pipeline.classList.add("is-tabbed");
 
     // One episode drives the whole loop: the scene and its ring in (b) and the render pair in (c).
     function setEpisode(state) {
@@ -287,6 +367,7 @@
         if (event.key === "End") next = episodeButtons.length - 1;
         if (next !== null) {
           event.preventDefault();
+          takeOver();
           setEpisode(episodeButtons[next].dataset.episode);
           episodeButtons[next].focus();
         }
@@ -311,11 +392,14 @@
     ];
     var TAB_SPAN = [[0, 5], [5, 20]];
     var CYCLE = 20;
+    // on phones the two panels differ in height by most of a screen, so after the first pass
+    // the loop stays in (b) rather than pulling the page up and down
+    var narrow = window.matchMedia("(max-width: 860px)");
     var clock = 0;
     var playing = false;
     var inView = false;
     var lastFrame = 0;
-    var current = -1;
+    var shownSegment = -1;
     var raf = 0;
 
     function easeInOut(x) {
@@ -351,15 +435,18 @@
         return;
       }
       if (lastFrame) {
-        clock = (clock + (now - lastFrame) / 1000) % CYCLE;
+        clock += (now - lastFrame) / 1000;
+        if (clock >= CYCLE) {
+          clock = narrow.matches ? SEGMENTS[1].start + (clock - CYCLE) : clock % CYCLE;
+        }
       }
       lastFrame = now;
       var index = 0;
       while (index < SEGMENTS.length - 1 && clock >= SEGMENTS[index].end) {
         index++;
       }
-      if (index !== current) {
-        current = index;
+      if (index !== shownSegment) {
+        shownSegment = index;
         enterSegment(index);
       }
       var segment = SEGMENTS[index];
@@ -393,7 +480,6 @@
     function setPlaying(on) {
       playing = on;
       pipeline.classList.toggle("is-playing", on);
-      playButton.setAttribute("aria-pressed", String(on));
       playText.textContent = on ? "Pause" : "Play";
       if (!on) {
         pipeline.dataset.phase = "";
@@ -409,11 +495,11 @@
         return;
       }
       clock = tabs[0].getAttribute("aria-selected") === "true" ? 0 : 5 + (Number(pipeline.dataset.episode.slice(2)) - 1) * 5;
-      current = -1;
+      shownSegment = -1;
       setPlaying(true);
     });
 
-    // Any hands-on use hands control to the reader.
+    // Any hands-on change hands control to the reader: a tab, an episode, a move of the split.
     function takeOver() {
       if (playing) {
         setPlaying(false);
@@ -421,29 +507,46 @@
     }
     tabs.forEach(function (tab) {
       tab.addEventListener("click", takeOver);
-      tab.addEventListener("keydown", takeOver);
     });
-    ["pointerdown", "keydown", "input"].forEach(function (type) {
-      beforeRange.addEventListener(type, takeOver);
-    });
+    beforeRange.addEventListener("input", takeOver);
     episodeButtons.forEach(function (button) {
       button.addEventListener("click", takeOver);
-      button.addEventListener("keydown", takeOver);
+    });
+    // the pictures hold still while keyboard focus is inside them, so focus never sits on a hidden control
+    panels.forEach(function (panel) {
+      panel.addEventListener("focusin", function (event) {
+        if (event.target.matches(":focus-visible")) {
+          takeOver();
+        }
+      });
     });
 
-    // Play only while the figure is on screen and the page is visible.
+    // Play only while the figure crosses the middle of the screen and the page is visible.
+    // The first time it comes near, the (b) pictures load, so the first episode does not play over empty frames.
     if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries, observer) {
+        if (entries[0].isIntersecting) {
+          pipeline.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+            img.loading = "eager";
+          });
+          observer.disconnect();
+        }
+      }, { rootMargin: "600px 0px" }).observe(pipeline);
       new IntersectionObserver(function (entries) {
         inView = entries[0].isIntersecting;
         if (!inView) {
           lastFrame = 0;
         }
         run();
-      }, { threshold: 0.35 }).observe(pipeline);
+      }, { rootMargin: "-30% 0px -30% 0px" }).observe(pipeline);
     } else {
       inView = true;
     }
-    document.addEventListener("visibilitychange", run);
+    document.addEventListener("visibilitychange", function () {
+      // time away from the tab is not time watched
+      lastFrame = 0;
+      run();
+    });
 
     // Readers who prefer reduced motion start paused and can press Play.
     setPlaying(!reduceMotion);

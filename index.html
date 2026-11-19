@@ -67,9 +67,10 @@
       href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./static/css/site.css" />
+    <link rel="stylesheet" href="./static/css/site.css?v=20261119" />
     <link rel="icon" href="./static/media/logo-192.png" />
-    <script defer src="./static/js/site.js"></script>
+    <!-- if the script cannot load, nothing would ever end the intro; show the finished hero instead -->
+    <script defer src="./static/js/site.js?v=20261119" onerror="document.documentElement.classList.remove('intro')"></script>
     <script>
       // The hero intro plays once per visit, and never for readers who prefer reduced motion.
       (function () {
@@ -261,13 +262,13 @@
               class="film-video film-intro"
               muted
               playsinline
-              preload="auto"
+              preload="none"
               width="1920"
               height="1080"
               aria-hidden="true"
               tabindex="-1"
             >
-              <source src="static/media/intro.mp4" type="video/mp4" />
+              <source src="static/media/intro.mp4?v=20261119" type="video/mp4" />
             </video>
             <video
               id="film"
@@ -275,13 +276,13 @@
               muted
               loop
               playsinline
-              preload="auto"
-              poster="static/media/hero.jpg"
+              preload="metadata"
+              poster="static/media/hero.jpg?v=20261119"
               width="1920"
               height="1080"
               aria-label="Office Building, Jacksonville (JAX_214)"
             >
-              <source src="static/media/hero.mp4" type="video/mp4" />
+              <source src="static/media/hero.mp4?v=20261119" type="video/mp4" />
             </video>
             <div class="film-scrim reveal" style="--i: 0" aria-hidden="true"></div>
 
@@ -749,17 +750,19 @@
           </div>
 
           <div class="sf" id="pipeline" data-episode="ep1">
-            <div class="sf-tabs" role="tablist" aria-label="Overview of the proposed Skyfall-GS pipeline">
-              <button type="button" class="sf-tab" role="tab" id="sf-tab-a" aria-controls="sf-panel-a" aria-selected="true">
-                <img src="static/media/method/a-render.webp" alt="" width="784" height="480" loading="lazy" decoding="async" />
-                <span><b>(a) Reconstruction Stage</b><small>Reconstruction from Satellite Image</small></span>
-              </button>
-              <span class="sf-arrow" aria-hidden="true"></span>
-              <button type="button" class="sf-tab" role="tab" id="sf-tab-b" aria-controls="sf-panel-b" aria-selected="false" tabindex="-1">
-                <img src="static/media/method/b-ep3.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
-                <span><b>(b) Synthesis Stage</b><small>Curriculum-Based Iterative Dataset Update</small></span>
-              </button>
-              <button type="button" class="sf-play" id="sf-play" aria-pressed="false">
+            <div class="sf-tabs">
+              <div class="sf-tablist" role="tablist" aria-label="Overview of the proposed Skyfall-GS pipeline">
+                <button type="button" class="sf-tab" role="tab" id="sf-tab-a" aria-controls="sf-panel-a" aria-selected="true">
+                  <img src="static/media/method/a-render.webp" alt="" width="784" height="480" loading="lazy" decoding="async" />
+                  <span><b>(a) Reconstruction Stage</b><small>Reconstruction from Satellite Image</small></span>
+                </button>
+                <span class="sf-arrow" aria-hidden="true"></span>
+                <button type="button" class="sf-tab" role="tab" id="sf-tab-b" aria-controls="sf-panel-b" aria-selected="false" tabindex="-1">
+                  <img src="static/media/method/b-ep3.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
+                  <span><b>(b) Synthesis Stage</b><small>Curriculum-Based Iterative Dataset Update</small></span>
+                </button>
+              </div>
+              <button type="button" class="sf-play" id="sf-play">
                 <span class="sf-play-icon" aria-hidden="true"></span><span class="sf-play-text">Play</span>
               </button>
             </div>
@@ -807,7 +810,7 @@
                   <div class="sf-episode-set" role="radiogroup" aria-labelledby="sf-episodes-name">
                     <button type="button" role="radio" aria-checked="true" data-episode="ep1">Episode 1</button>
                     <button type="button" role="radio" aria-checked="false" tabindex="-1" data-episode="ep2" aria-label="Episode 2">2</button>
-                    <span class="sf-episode-more" aria-hidden="true">⋯</span>
+                    <span class="sf-episode-more" aria-hidden="true">···</span>
                     <button type="button" role="radio" aria-checked="false" tabindex="-1" data-episode="ep3" aria-label="Episode N e"><span><i>N</i><sub>e</sub></span></button>
                   </div>
                 </div>

@@ -198,6 +198,7 @@ h3 {
   padding: 8px 0;
   background: #fff;
   border-radius: 4px;
+  text-shadow: none;
 }
 
 .more li a {
@@ -227,6 +228,12 @@ h3 {
   /* keeps the bar legible over a bright frame */
   background: linear-gradient(to bottom, rgba(19, 23, 31, 0.86) 0%, rgba(19, 23, 31, 0.55) 45%, rgba(19, 23, 31, 0) 100%);
   text-shadow: 0 1px 6px rgba(19, 23, 31, 0.6);
+  /* the shade reaches over the film's controls on phones; only the brand and the menu take taps */
+  pointer-events: none;
+}
+
+.top > * {
+  pointer-events: auto;
 }
 
 .film {
@@ -282,6 +289,15 @@ html.intro .hero.is-orbit .film-loop {
   left: 0;
   right: 0;
   bottom: clamp(32px, 6vh, 64px);
+}
+
+/* the title block keeps clear of the satellite tile in the corner */
+.film {
+  --tile-w: clamp(130px, 13vw, 196px);
+}
+
+.film-content .wrap {
+  padding-right: calc(var(--tile-w) + 24px);
 }
 
 h1 {
@@ -404,7 +420,8 @@ h1 {
   position: absolute;
   right: var(--gutter);
   bottom: calc(clamp(32px, 6vh, 64px) + 48px);
-  width: clamp(130px, 13vw, 196px);
+  width: var(--tile-w);
+  pointer-events: none;
 }
 
 .input img,
@@ -464,11 +481,6 @@ h1 {
   letter-spacing: -0.005em;
   text-align: center;
   pointer-events: none;
-  display: none;
-}
-
-html.intro:not(.revealed) .film-caption {
-  display: block;
 }
 
 .film-caption span {
@@ -490,13 +502,13 @@ html.intro:not(.revealed) .film-caption {
   translate: 0 0;
 }
 
-/* Skip shows only while the intro runs, at the outer end (Replay and Pause are laid out, invisible, beside it) */
+/* Skip shows until the orbit is on screen, at the outer end (Replay and Pause are laid out, invisible, beside it) */
 .film-skip {
   order: 2;
   display: none;
 }
 
-html.intro:not(.revealed) .film-skip {
+html.intro .hero:not(.is-orbit) .film-skip {
   display: block;
 }
 
@@ -505,6 +517,10 @@ html.intro .reveal,
 html.intro .top {
   opacity: 0;
   translate: 0 10px;
+}
+
+html.intro .reveal,
+html.intro:not(.revealed) .top > * {
   pointer-events: none;
 }
 
@@ -520,7 +536,6 @@ html.intro.revealed .reveal,
 html.intro.revealed .top {
   opacity: 1;
   translate: 0 0;
-  pointer-events: auto;
   transition: opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), translate 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
   transition-delay: calc(0.35s + var(--i, 0) * 130ms);
 }
@@ -529,6 +544,10 @@ html.intro.revealed .top {
 html.intro.revealed .film-scrim {
   transition: opacity 1.8s ease-out;
   transition-delay: 0s;
+}
+
+html.intro.revealed .reveal {
+  pointer-events: auto;
 }
 
 html.intro.revealed .film-scrim,
@@ -1098,9 +1117,15 @@ main > section.teaser {
 /* tabs: the two stages in order, so the row doubles as the pipeline overview */
 .sf-tabs {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   border-bottom: 1px solid var(--rule-light);
+}
+
+.sf-tablist {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+  align-items: stretch;
 }
 
 .sf-tab {
@@ -1203,7 +1228,7 @@ main > section.teaser {
   border-left: 9px solid currentColor;
 }
 
-.sf-play[aria-pressed="true"] .sf-play-icon {
+.sf.is-playing .sf-play-icon {
   width: 9px;
   height: 11px;
   border: 0;
@@ -1475,6 +1500,7 @@ main > section.teaser {
 
 .sf-episode-more {
   color: var(--ink-soft);
+  letter-spacing: 0.06em;
 }
 
 /* (c): before / after of the refinement, for the same episode */
@@ -1566,6 +1592,8 @@ main > section.teaser {
   margin: 0;
   opacity: 0;
   cursor: ew-resize;
+  /* a vertical swipe over the picture scrolls the page */
+  touch-action: pan-y;
 }
 
 .sf-ba:has(.sf-ba-range:focus-visible) {
@@ -1809,9 +1837,34 @@ main > section.teaser {
   fill: #8fbcff;
 }
 
+/* with the script running, the two panels share one cell, so switching stages never moves the page */
+@media (min-width: 861px) {
+  .sf.is-tabbed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sf.is-tabbed > .sf-panel {
+    grid-area: 2 / 1;
+  }
+
+  .sf.is-tabbed > .sf-panel[hidden] {
+    display: grid !important;
+    visibility: hidden;
+  }
+
+  .sf.is-tabbed > .sf-panel-b[hidden] {
+    display: block !important;
+  }
+}
+
 @media (max-width: 860px) {
   .sf-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+    column-gap: 12px;
+  }
+
+  .sf-tablist {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 12px;
   }
 
@@ -2119,6 +2172,10 @@ main > section.teaser {
 
   .input {
     display: none;
+  }
+
+  .film-content .wrap {
+    padding-right: 0;
   }
 
   .hero-after {
