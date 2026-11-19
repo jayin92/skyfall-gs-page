@@ -64,13 +64,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./static/css/site.css" />
     <link rel="icon" href="./static/media/logo-192.png" />
-    <link rel="preload" as="image" href="./static/media/hero.jpg" />
     <script defer src="./static/js/site.js"></script>
+    <script>
+      // The hero intro plays once per visit, and never for readers who prefer reduced motion.
+      (function () {
+        var seen = false;
+        try {
+          seen = sessionStorage.getItem("skyfall-intro") === "seen";
+        } catch (e) {}
+        if (!seen && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("intro");
+        }
+      })();
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -241,43 +252,88 @@
       </header>
 
       <main>
-        <section class="hero">
+        <!-- Hero: the camera falls from the satellite image into the 3D city and settles into an orbit;
+             the title and links appear once the orbit starts. -->
+        <section class="hero" id="hero">
           <div class="film">
             <video
+              id="film-intro"
+              class="film-video film-intro"
+              muted
+              playsinline
+              preload="auto"
+              width="1920"
+              height="1080"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+              <source src="static/media/intro.mp4" type="video/mp4" />
+            </video>
+            <video
               id="film"
-              autoplay
+              class="film-video film-loop"
               muted
               loop
               playsinline
               preload="auto"
               poster="static/media/hero.jpg"
               width="1920"
-              height="730"
+              height="1080"
               aria-label="Office Building, Jacksonville (JAX_214)"
             >
               <source src="static/media/hero.mp4" type="video/mp4" />
             </video>
-            <button class="film-toggle" id="film-toggle" type="button">Pause</button>
-          </div>
+            <div class="film-scrim reveal" style="--i: 0" aria-hidden="true"></div>
 
-          <div class="wrap hero-body">
-            <div class="hero-main">
-              <h1>
-                <span class="name">Skyfall-GS</span>
-                <span class="subtitle"
-                  >Synthesizing Immersive 3D Urban Scenes from Satellite
-                  Imagery</span
-                >
-              </h1>
-              <p class="venue">ECCV 2026</p>
-              <p class="lede">
-                <strong>TL;DR:</strong> Skyfall-GS converts satellite images to
-                explorable 3D urban scenes using diffusion models, with
-                real-time rendering performance.
-              </p>
+            <!-- Captions for the intro, timed to it by site.js. Wording from the teaser video and the TL;DR. -->
+            <p class="film-caption" aria-hidden="true">
+              <span data-beat="1">From multi-view satellite imagery</span>
+              <span data-beat="2">to explorable 3D urban scenes</span>
+            </p>
+
+            <div class="film-content">
+              <div class="wrap">
+                <h1 class="reveal" style="--i: 0">
+                  <span class="name">Skyfall-GS</span>
+                  <span class="subtitle"
+                    >Synthesizing Immersive 3D Urban Scenes from Satellite
+                    Imagery</span
+                  >
+                </h1>
+                <p class="venue reveal" style="--i: 1">ECCV 2026</p>
+                <p style="--i: 2" class="reveal authors">
+                  <span><a href="https://jayinnn.dev/">Jie-Ying Lee</a><sup>1</sup></span>
+                  <span><a href="https://shigon255.github.io/">Yi-Ruei Liu</a><sup>2</sup></span>
+                  <span><a href="https://www.linkedin.com/in/shr-ruei-tsai">Shr-Ruei Tsai</a><sup>1</sup></span>
+                  <span><a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3">Wei-Cheng Chang</a><sup>1</sup></span>
+                  <span><a href="https://kkennethwu.github.io/">Chung-Ho Wu</a><sup>1</sup></span>
+                  <span><a href="https://jiewenchan.github.io/">Jiewen Chan</a><sup>1</sup></span>
+                  <span><a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a><sup>3</sup></span>
+                  <span><a href="https://hubert0527.github.io/">Chieh Hubert Lin</a><sup>4</sup></span>
+                  <span><a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>1</sup></span>
+                </p>
+                <p style="--i: 3" class="reveal affiliations">
+                  <span><sup>1</sup>National Yang Ming Chiao Tung University</span>
+                  <span><sup>2</sup>UIUC</span>
+                  <span><sup>3</sup>University of Zaragoza</span>
+                  <span><sup>4</sup>UC Merced</span>
+                </p>
+                <p style="--i: 4" class="reveal links">
+                  <a class="btn primary" href="https://arxiv.org/abs/2510.15869">arXiv</a>
+                  <a class="btn primary" href="https://github.com/jayin92/skyfall-gs">Code</a>
+                  <a class="btn" href="https://drive.google.com/file/d/19TCi8kP1YAyqxkBKe-h6m3qmMOPIagy7/view?usp=sharing">Poster</a>
+                  <a class="btn" href="https://www.youtube.com/watch?v=YRfih-lAmgU">Video</a>
+                  <a class="btn" href="https://www.youtube.com/watch?v=VWdmXlRpL84">Video (by Bilawal)</a>
+                </p>
+                <p style="--i: 5" class="reveal downloads">
+                  <a href="https://drive.google.com/drive/folders/1Uugwpf7n5fj7k4UJRBuKUyrmkYcDRScQ?usp=sharing">Datasets</a>
+                  <a href="https://drive.google.com/drive/folders/1zSzhY5N0A8RwOvwsP03-Z5Z24Mm1hY1H?usp=sharing">3DGS PLY Files</a>
+                  <a href="https://drive.google.com/drive/folders/1hSFe9yGOwJCLBK7ZLHB-49_x73Ebk_VV?usp=sharing">Evaluation Data</a>
+                </p>
+              </div>
             </div>
 
-            <figure class="input">
+            <figure class="input reveal" style="--i: 5">
               <img
                 src="static/media/stills/214-sat.webp"
                 alt="Satellite Input, JAX_214"
@@ -287,37 +343,18 @@
               <figcaption>Satellite Input</figcaption>
             </figure>
 
-            <div class="hero-main">
-              <p class="authors">
-                <span><a href="https://jayinnn.dev/">Jie-Ying Lee</a><sup>1</sup></span>
-                <span><a href="https://shigon255.github.io/">Yi-Ruei Liu</a><sup>2</sup></span>
-                <span><a href="https://www.linkedin.com/in/shr-ruei-tsai">Shr-Ruei Tsai</a><sup>1</sup></span>
-                <span><a href="https://openreview.net/profile?id=~Wei-Cheng_Chang3">Wei-Cheng Chang</a><sup>1</sup></span>
-                <span><a href="https://kkennethwu.github.io/">Chung-Ho Wu</a><sup>1</sup></span>
-                <span><a href="https://jiewenchan.github.io/">Jiewen Chan</a><sup>1</sup></span>
-                <span><a href="https://ericzzj1989.github.io/">Zhenjun Zhao</a><sup>3</sup></span>
-                <span><a href="https://hubert0527.github.io/">Chieh Hubert Lin</a><sup>4</sup></span>
-                <span><a href="https://yulunalexliu.github.io/">Yu-Lun Liu</a><sup>1</sup></span>
-              </p>
-              <p class="affiliations">
-                <span><sup>1</sup>National Yang Ming Chiao Tung University</span>
-                <span><sup>2</sup>UIUC</span>
-                <span><sup>3</sup>University of Zaragoza</span>
-                <span><sup>4</sup>UC Merced</span>
-              </p>
+            <div class="film-controls">
+              <button class="film-skip" id="film-skip" type="button">Skip</button>
+              <button class="film-replay reveal" id="film-replay" type="button" style="--i: 6">Replay</button>
+              <button class="film-toggle reveal" id="film-toggle" type="button" style="--i: 6">Pause</button>
             </div>
+          </div>
 
-            <p class="links">
-              <a class="btn primary" href="https://arxiv.org/abs/2510.15869">arXiv</a>
-              <a class="btn primary" href="https://github.com/jayin92/skyfall-gs">Code</a>
-              <a class="btn" href="https://drive.google.com/file/d/19TCi8kP1YAyqxkBKe-h6m3qmMOPIagy7/view?usp=sharing">Poster</a>
-              <a class="btn" href="https://www.youtube.com/watch?v=YRfih-lAmgU">Video</a>
-              <a class="btn" href="https://www.youtube.com/watch?v=VWdmXlRpL84">Video (by Bilawal)</a>
-            </p>
-            <p class="downloads">
-              <a href="https://drive.google.com/drive/folders/1Uugwpf7n5fj7k4UJRBuKUyrmkYcDRScQ?usp=sharing">Datasets</a>
-              <a href="https://drive.google.com/drive/folders/1zSzhY5N0A8RwOvwsP03-Z5Z24Mm1hY1H?usp=sharing">3DGS PLY Files</a>
-              <a href="https://drive.google.com/drive/folders/1hSFe9yGOwJCLBK7ZLHB-49_x73Ebk_VV?usp=sharing">Evaluation Data</a>
+          <div class="wrap hero-after">
+            <p class="lede">
+              <strong>TL;DR:</strong> Skyfall-GS converts satellite images to
+              explorable 3D urban scenes using diffusion models, with
+              real-time rendering performance.
             </p>
           </div>
         </section>
@@ -698,66 +735,149 @@
         </div>
       </section>
 
-      <!-- Method: figure and wording as on the original page -->
+      <!-- Method: the paper's pipeline as two tabs, built from the layers in methods_new.pptx.
+           Wording is the page's original method text and the figure's own labels. -->
       <section id="method">
         <div class="wrap method">
           <h2>Method</h2>
-          <div class="figure">
-            <video
-              id="method-video"
-              data-inview
-              muted
-              playsinline
-              controls
-              preload="none"
-              poster="static/media/method.jpg"
-              width="1920"
-              height="630"
-              aria-label="Overview of the proposed Skyfall-GS pipeline"
-            >
-              <source src="static/media/method.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div class="prose">
+          <div class="prose sf-intro">
             <p>
               Our method synthesizes immersive and free-flight navigable
               city-block scale 3D scenes solely from multi-view satellite
               imagery in two stages.
             </p>
           </div>
-          <div class="stages">
-            <div class="prose">
-              <p><strong>(a) Reconstruction Stage</strong></p>
-              <ul>
-                <li>
-                  First, we reconstruct the initial 3D scene using 3DGS,
-                  enhanced by pseudo-camera depth supervision to address limited
-                  parallax in satellite images.
-                </li>
-                <li>
-                  We then use an appearance modeling component to handle varying
-                  illumination conditions across multi-date satellite images.
-                </li>
-              </ul>
+
+          <div class="sf" id="pipeline" data-episode="ep1">
+            <div class="sf-tabs" role="tablist" aria-label="Overview of the proposed Skyfall-GS pipeline">
+              <button type="button" class="sf-tab" role="tab" id="sf-tab-a" aria-controls="sf-panel-a" aria-selected="true">
+                <img src="static/media/method/a-render.webp" alt="" width="784" height="480" loading="lazy" decoding="async" />
+                <span><b>(a) Reconstruction Stage</b><small>Reconstruction from Satellite Image</small></span>
+              </button>
+              <span class="sf-arrow" aria-hidden="true"></span>
+              <button type="button" class="sf-tab" role="tab" id="sf-tab-b" aria-controls="sf-panel-b" aria-selected="false" tabindex="-1">
+                <img src="static/media/method/b-ep3.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
+                <span><b>(b) Synthesis Stage</b><small>Curriculum-Based Iterative Dataset Update</small></span>
+              </button>
+              <button type="button" class="sf-play" id="sf-play" aria-pressed="false">
+                <span class="sf-play-icon" aria-hidden="true"></span><span class="sf-play-text">Play</span>
+              </button>
             </div>
-            <div class="prose">
-              <p><strong>(b) Synthesis Stage</strong></p>
-              <ul>
-                <li>
-                  Next, we introduce a curriculum-based
-                  <strong>Iterative Dataset Update (IDU)</strong> refinement
-                  technique.
-                </li>
-                <li>
-                  This technique leverages <strong>(c)</strong> a pre-trained
-                  T2I diffusion model with prompt-to-prompt editing.
-                </li>
-                <li>
-                  By iteratively updating training datasets with refined
-                  renders, our approach significantly reduces visual artifacts
-                  and improves geometric accuracy and texture realism.
-                </li>
-              </ul>
+
+            <!-- (a) -->
+            <div class="sf-panel" role="tabpanel" id="sf-panel-a" aria-labelledby="sf-tab-a">
+              <div class="sf-stage">
+                <div class="sf-visual sf-visual-a">
+                  <img class="sf-a-render" src="static/media/method/a-render.webp" alt="Initial 3DGS reconstructed from the satellite images" width="784" height="480" loading="lazy" decoding="async" />
+                  <img class="sf-cam" src="static/media/method/frustum-2.webp" alt="" loading="lazy" decoding="async" style="left:14.08%;top:7.17%;width:24.73%;height:36.14%;transform:rotate(101.311deg)" />
+                  <img class="sf-cam" src="static/media/method/frustum-1.webp" alt="" loading="lazy" decoding="async" style="left:73.31%;top:17.11%;width:17.11%;height:24.03%;transform:rotate(205.764deg)" />
+                  <div class="sf-sats" aria-hidden="true">
+                    <img src="static/media/method/sat-1.webp" alt="" width="186" height="186" loading="lazy" decoding="async" />
+                    <img src="static/media/method/sat-2.webp" alt="" width="186" height="186" loading="lazy" decoding="async" />
+                    <img src="static/media/method/sat-3.webp" alt="" width="186" height="186" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
+              <div class="sf-text">
+                <h3>Reconstruction from Satellite Image</h3>
+                <ul>
+                  <li>
+                    First, we reconstruct the initial 3D scene using 3DGS,
+                    enhanced by pseudo-camera depth supervision to address limited
+                    parallax in satellite images.
+                  </li>
+                  <li>
+                    We then use an appearance modeling component to handle varying
+                    illumination conditions across multi-date satellite images.
+                  </li>
+                </ul>
+                <ul class="sf-legend">
+                  <li><i class="sf-key sf-key-sat"></i>Input: Multi-View Satellite Images</li>
+                  <li><i class="sf-key sf-key-cam"></i>Pseudo Camera Depth Supervision</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- (b): one episode of the curriculum, in the order of the method video:
+                 the scene is rendered, (c) refines the render, and the refined view updates the scene. -->
+            <div class="sf-panel sf-panel-b" role="tabpanel" id="sf-panel-b" aria-labelledby="sf-tab-b">
+              <div class="sf-loop">
+                <div class="sf-episodes">
+                  <span class="sf-episodes-name" id="sf-episodes-name">Curriculum Learning</span>
+                  <div class="sf-episode-set" role="radiogroup" aria-labelledby="sf-episodes-name">
+                    <button type="button" role="radio" aria-checked="true" data-episode="ep1">Episode 1</button>
+                    <button type="button" role="radio" aria-checked="false" tabindex="-1" data-episode="ep2" aria-label="Episode 2">2</button>
+                    <span class="sf-episode-more" aria-hidden="true">⋯</span>
+                    <button type="button" role="radio" aria-checked="false" tabindex="-1" data-episode="ep3" aria-label="Episode N e"><span><i>N</i><sub>e</sub></span></button>
+                  </div>
+                </div>
+
+                <div class="sf-visual sf-visual-b">
+                  <div class="sf-scene">
+                    <img class="sf-scene-img sf-ep1" src="static/media/method/b-ep1.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
+                    <img class="sf-scene-img sf-ep2" src="static/media/method/b-ep2.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
+                    <img class="sf-scene-img sf-ep3" src="static/media/method/b-ep3.webp" alt="" width="891" height="661" loading="lazy" decoding="async" />
+                    <img class="sf-rings sf-rings-all" src="static/media/method/rings.webp" alt="" loading="lazy" decoding="async" />
+                    <img class="sf-rings sf-ring-1" src="static/media/method/ring-1.webp" alt="" loading="lazy" decoding="async" />
+                    <img class="sf-rings sf-ring-2" src="static/media/method/ring-2.webp" alt="" loading="lazy" decoding="async" />
+                    <img class="sf-rings sf-ring-3" src="static/media/method/ring-3.webp" alt="" loading="lazy" decoding="async" />
+                  </div>
+                </div>
+
+                <div class="sf-links" aria-hidden="true">
+                  <span class="sf-link sf-link-render"><span>Render</span></span>
+                  <span class="sf-link sf-link-update"><span>Update</span></span>
+                </div>
+
+                <div class="sf-visual sf-visual-c">
+                  <div class="sf-ba">
+                    <div class="sf-ba-layer sf-ba-current">
+                      <img class="sf-ba-img sf-ep1" src="static/media/method/c-ep1-current.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                      <img class="sf-ba-img sf-ep2" src="static/media/method/c-ep2-current.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                      <img class="sf-ba-img sf-ep3" src="static/media/method/c-ep3-current.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="sf-ba-layer sf-ba-refined">
+                      <img class="sf-ba-img sf-ep1" src="static/media/method/c-ep1-refined.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                      <img class="sf-ba-img sf-ep2" src="static/media/method/c-ep2-refined.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                      <img class="sf-ba-img sf-ep3" src="static/media/method/c-ep3-refined.webp" alt="" width="494" height="494" loading="lazy" decoding="async" />
+                    </div>
+                    <span class="sf-ba-tag sf-ba-tag-current">Current 3DGS Render</span>
+                    <span class="sf-ba-tag sf-ba-tag-refined">Refined Render</span>
+                    <span class="sf-ba-handle" aria-hidden="true"></span>
+                    <input class="sf-ba-range" type="range" min="0" max="100" value="50" aria-label="Current 3DGS Render to Refined Render" />
+                  </div>
+                </div>
+
+                <p class="sf-under-c">
+                  <span class="sf-model"><svg viewBox="0 0 96 96" aria-hidden="true" focusable="false"><path d="M76.7 62.3 72.2 59.7 75.7 58.8C76.8 58.5 77.4 57.4 77.1 56.4 76.8 55.4 75.7 54.7 74.7 55L67.3 57 64.4 55.3 73.4 52.9C74.5 52.6 75.1 51.5 74.8 50.5 74.5 49.5 73.4 48.8 72.4 49.1L59.5 52.5 55.7 50.3C55.9 49.6 56 48.9 56 48.2 56 47.5 55.9 46.7 55.7 46.1L59.5 43.9 72.4 47.3C72.6 47.3 72.7 47.4 72.9 47.4 73.8 47.4 74.6 46.8 74.8 45.9 75.1 44.8 74.5 43.7 73.4 43.5L64.4 41.1 67.3 39.4 74.7 41.4C74.9 41.4 75 41.5 75.2 41.5 76.1 41.5 76.9 40.9 77.1 40 77.4 38.9 76.8 37.8 75.7 37.6L72.2 36.7 76.7 34.1C77.7 33.5 78 32.3 77.4 31.4 76.8 30.4 75.6 30.1 74.7 30.7L70.2 33.3 71.1 29.8C71.4 28.7 70.8 27.6 69.7 27.4 68.6 27.1 67.5 27.7 67.3 28.8L65.3 36.2 62.4 37.9 64.8 28.9C65.1 27.8 64.5 26.7 63.4 26.5 62.3 26.2 61.2 26.8 61 27.9L57.6 40.8 53.8 43C52.8 42 51.5 41.2 50.1 40.9L50.1 36.5 59.5 27.1C60.3 26.3 60.3 25.1 59.5 24.3 58.7 23.5 57.5 23.5 56.7 24.3L50 30.2 50 26.9 55.4 21.5C56.2 20.7 56.2 19.5 55.4 18.7 54.6 17.9 53.4 17.9 52.6 18.7L50 21.2 50 16C50 14.9 49.1 14 48 14 46.9 14 46 14.9 46 16L46 21.2 43.4 18.6C42.6 17.8 41.4 17.8 40.6 18.6 39.8 19.4 39.8 20.6 40.6 21.4L46 26.8 46 30.1 39.4 23.5C38.6 22.7 37.4 22.7 36.6 23.5 35.8 24.3 35.8 25.5 36.6 26.3L46 35.7 46 40.1C44.6 40.5 43.3 41.2 42.3 42.2L38.5 40 35 27.3C34.7 26.2 33.6 25.6 32.6 25.9 31.5 26.2 30.9 27.3 31.2 28.3L33.6 37.3 30.7 35.6 28.7 28.2C28.4 27.1 27.3 26.5 26.3 26.8 25.2 27.1 24.6 28.2 24.9 29.2L25.8 32.7 21.3 30.1C20.3 29.5 19.1 29.9 18.6 30.8 18 31.8 18.4 33 19.3 33.5L23.8 36.1 20.3 37C19.2 37.3 18.6 38.4 18.9 39.4 19.1 40.3 19.9 40.9 20.8 40.9 21 40.9 21.1 40.9 21.3 40.8L28.7 38.8 31.6 40.5 22.6 42.9C21.5 43.2 20.9 44.3 21.2 45.3 21.4 46.2 22.2 46.8 23.1 46.8 23.3 46.8 23.4 46.8 23.6 46.7L36.5 43.3 40.3 45.5C40.1 46.5 40 47.3 40 48 40 48.7 40.1 49.5 40.3 50.1L36.5 52.3 23.6 48.9C22.5 48.6 21.4 49.2 21.2 50.3 21 51.4 21.5 52.5 22.6 52.7L31.6 55.1 28.7 56.8 21.3 54.8C20.2 54.5 19.1 55.1 18.9 56.2 18.7 57.3 19.2 58.4 20.3 58.6L23.8 59.5 19.3 62.1C18.3 62.7 18 63.9 18.6 64.8 19 65.4 19.6 65.8 20.3 65.8 20.6 65.8 21 65.7 21.3 65.5L25.8 62.9 24.9 66.4C24.6 67.5 25.2 68.6 26.3 68.8 26.5 68.8 26.6 68.9 26.8 68.9 27.7 68.9 28.5 68.3 28.7 67.4L30.7 60 33.6 58.3 31.2 67.3C30.9 68.4 31.5 69.5 32.6 69.7 32.8 69.7 32.9 69.8 33.1 69.8 34 69.8 34.8 69.2 35 68.3L38.4 55.4 42.2 53.2C43.2 54.2 44.5 55 45.9 55.3L45.9 59.7 36.5 69.1C35.7 69.9 35.7 71.1 36.5 71.9 37.3 72.7 38.5 72.7 39.3 71.9L45.9 65.3 45.9 68.6 40.5 74C39.7 74.8 39.7 76 40.5 76.8 41.3 77.6 42.5 77.6 43.3 76.8L45.9 74.2 45.9 80C45.9 81.1 46.8 82 47.9 82 49 82 49.9 81.1 49.9 80L49.9 74.8 52.5 77.4C53 77.8 53.5 78 54 78 54.5 78 55 77.8 55.4 77.4 56.2 76.6 56.2 75.4 55.4 74.6L50 69.2 50 65.9 56.6 72.5C57 72.8 57.5 73 58 73 58.5 73 59 72.8 59.4 72.4 60.2 71.6 60.2 70.4 59.4 69.6L50 60.2 50 55.8C51.4 55.4 52.7 54.7 53.7 53.7L57.5 55.9 61 68.7C61.2 69.6 62 70.2 62.9 70.2 63.1 70.2 63.2 70.2 63.4 70.1 64.5 69.8 65.1 68.7 64.8 67.7L62.4 58.7 65.3 60.4 67.3 67.8C67.5 68.7 68.3 69.3 69.2 69.3 69.4 69.3 69.5 69.3 69.7 69.2 70.8 68.9 71.4 67.8 71.1 66.8L70.2 63.3 74.7 65.9C75 66.1 75.4 66.2 75.7 66.2 76.4 66.2 77.1 65.8 77.4 65.2 78 64 77.7 62.8 76.7 62.3Z"/></svg>Text-to-Image Diffusion Model</span>
+                </p>
+
+                <div class="sf-text sf-text-b">
+                  <h3>Curriculum-Based Iterative Dataset Update</h3>
+                  <ul>
+                    <li>
+                      Next, we introduce a curriculum-based
+                      <strong>Iterative Dataset Update (IDU)</strong> refinement
+                      technique.
+                    </li>
+                    <li>
+                      By iteratively updating training datasets with refined
+                      renders, our approach significantly reduces visual artifacts
+                      and improves geometric accuracy and texture realism.
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="sf-text sf-text-c">
+                  <h3>(c) Render Refinement</h3>
+                  <ul>
+                    <li>
+                      This technique leverages <strong>(c)</strong> a pre-trained
+                      T2I diffusion model with prompt-to-prompt editing.
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
