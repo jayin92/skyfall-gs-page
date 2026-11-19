@@ -122,14 +122,10 @@
         return;
       }
       primed = true;
-      var thisRun = introRun;
-      film.currentTime = 0;
-      film.play().then(function () {
-        if (!orbiting && introRun === thisRun) {
-          film.pause();
-          film.currentTime = 0;
-        }
-      }, function () {});
+      // load it without playing: WebKit, told to pause a hidden video the moment it starts, keeps its player
+      // running underneath, and the loop then starts mid-orbit
+      film.preload = "auto";
+      film.load();
     };
 
     var introLoaded = function () {

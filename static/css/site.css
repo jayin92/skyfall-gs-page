@@ -254,6 +254,11 @@ h3 {
   object-fit: cover;
 }
 
+/* phones fade the film's edges into the page (see the narrow-screen rules) */
+.film-fade {
+  display: none;
+}
+
 /* without the intro (no script, reduced motion, already seen) the loop is all there is */
 .film-intro {
   display: none;
@@ -2082,20 +2087,30 @@ main > section.teaser {
     overflow: visible;
   }
 
-  .film-video {
+  .film-video,
+  .film-fade {
     bottom: auto;
     height: var(--film-h);
-    /* the film's edges melt into the page, during the intro too */
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 72%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 72%, transparent);
+  }
+
+  /* the film's edges melt into the page, during the intro too. The fade is painted over the video in the
+     page colour: a CSS mask on the video itself stops iOS Safari from showing the video's frames. */
+  .film-fade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, var(--stage), rgba(19, 23, 31, 0) 10%, rgba(19, 23, 31, 0) 72%, var(--stage));
+    pointer-events: none;
   }
 
   /* the intro plays in the middle of the screen; the film rises to the top as the title comes in */
-  html.intro.revealed .film-video {
+  html.intro.revealed .film-video,
+  html.intro.revealed .film-fade {
     transition: translate 1.6s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  html.intro:not(.revealed) .film-video {
+  html.intro:not(.revealed) .film-video,
+  html.intro:not(.revealed) .film-fade {
     translate: 0 var(--intro-drop);
   }
 
