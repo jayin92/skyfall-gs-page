@@ -1575,6 +1575,11 @@ main > section.teaser {
   color: var(--white);
   font-size: 13px;
   pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.sf-ba-tag.is-covered {
+  opacity: 0;
 }
 
 .sf-ba-tag-current {

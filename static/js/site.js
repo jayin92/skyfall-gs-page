@@ -372,8 +372,24 @@
     });
 
     // (c): drag anywhere on the picture, or use the arrow keys, to move the split.
+    // a tag stays only while its own picture is under it: once the split line passes a tag, it fades
+    var tagCurrent = before.querySelector(".sf-ba-tag-current");
+    var tagRefined = before.querySelector(".sf-ba-tag-refined");
+    function markTags(value) {
+      var width = before.offsetWidth;
+      if (!width) {
+        return;
+      }
+      var pos = (parseFloat(value) / 100) * width;
+      tagCurrent.classList.toggle("is-covered", pos < tagCurrent.offsetLeft + tagCurrent.offsetWidth);
+      tagRefined.classList.toggle("is-covered", pos > tagRefined.offsetLeft);
+    }
     beforeRange.addEventListener("input", function () {
       before.style.setProperty("--pos", beforeRange.value + "%");
+      markTags(beforeRange.value);
+    });
+    window.addEventListener("resize", function () {
+      markTags(beforeRange.value);
     });
 
     // Drags are handled here, not by the range, which on touch jumps to the finger as a vertical swipe
@@ -448,6 +464,7 @@
     function setSplit(value) {
       before.style.setProperty("--pos", value + "%");
       beforeRange.value = value;
+      markTags(value);
     }
 
     function enterSegment(index) {
