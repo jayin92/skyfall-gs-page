@@ -390,6 +390,7 @@
       }
       drag = { id: event.pointerId, x: event.clientX, y: event.clientY, on: event.pointerType === "mouse" };
       if (drag.on) {
+        event.preventDefault();   // no native drag of the picture (its translucent copy) and no text selection
         before.setPointerCapture(event.pointerId);
         dragTo(event);
       }
@@ -407,6 +408,9 @@
         before.setPointerCapture(event.pointerId);
       }
       dragTo(event);
+    });
+    before.addEventListener("dragstart", function (event) {
+      event.preventDefault();
     });
     ["pointerup", "pointercancel"].forEach(function (type) {
       before.addEventListener(type, function () {

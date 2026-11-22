@@ -1447,6 +1447,25 @@ main > section.teaser {
   color: var(--ink-soft);
 }
 
+.sf-ba img {
+  -webkit-user-drag: none;
+}
+
+.sf-episodes-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+/* wide enough for one row: the note ends at the row's right edge */
+@media (min-width: 1280px) {
+  .sf-episodes-note {
+    flex-basis: auto;
+    margin-left: auto;
+  }
+}
+
 .sf-episode-set {
   display: flex;
   align-items: center;
@@ -1515,6 +1534,9 @@ main > section.teaser {
   cursor: ew-resize;
   /* a vertical swipe over the picture scrolls the page; a sideways one moves the split */
   touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;   /* no image menu on a long press */
   top: 0;
   left: 50%;
   height: 100%;
@@ -1619,7 +1641,7 @@ main > section.teaser {
   display: grid;
   grid-template-columns: minmax(0, 1.347fr) minmax(0, 0.26fr) minmax(0, 1fr);
   grid-template-areas:
-    "episodes episodes ."
+    "episodes episodes episodes"
     "scene links c"
     "text-b text-b model"
     "text-b text-b text-c";
